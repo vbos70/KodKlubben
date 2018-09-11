@@ -34,6 +34,8 @@ Första gången ska vi
 
    1. Ladda ner '.zip' fil
 
+      Klicka "Clone or download" och välja "Download zip"
+
    1. Extrahere filen
 
    1. Öppna Python kod i Thonny Python IDE
