@@ -2,7 +2,7 @@
 
 Kod för Ingås kodare
 
-## 1. Vi börjar
+## Vi börjar
 
 Första gången ska vi
 
