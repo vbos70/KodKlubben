@@ -57,16 +57,16 @@ program som du kan spara i filer.
 
 ### "Shell" fönstret i Thonny
  
- Längst ner finns "Shell" fönstret. Här skrivar man enskilda Python
-meningar som Python räcknar ut efter du klicka `Enter`. Till exempel:
+Längst ner finns "Shell" fönstret som visar at "Python":
 
 ```
 Python 3.6.5 (/usr/bin/python3)
->>> %Run game1.py
+```
 
-  pygame 1.9.4
-  Hello from the pygame community. https://www.pygame.org/contribute.html
-	  
+Här skrivar man enskilda Python meningar som Python räcknar ut efter
+du klicka `Enter`. Till exempel:
+
+```
 >>> 1+3
 4
 
