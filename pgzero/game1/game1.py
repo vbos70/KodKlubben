@@ -1,3 +1,5 @@
+import pgzrun
+
 alien = Actor('alien')
 alien.topright = 0, 10
 
@@ -10,7 +12,7 @@ def draw():
 
 
 def update():
-    alien.left += 2
+    alien.left = alien.left +  2
     if alien.left > WIDTH:
         alien.right = 0
         alien.top += 40
@@ -24,5 +26,5 @@ def on_mouse_down(pos):
         alien.bottom += 20
     else:
         print('Ha ha, you missed!')
-        
     
+pgzrun.go()

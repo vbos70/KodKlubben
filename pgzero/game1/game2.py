@@ -1,3 +1,5 @@
+import pgzrun
+
 alien = Actor('alien')
 alien.topright = 0, 10
 
@@ -30,4 +32,4 @@ def set_alien_hurt():
 def set_alien_normal():
     alien.image = 'alien'
     
-    
+pgzrun.go()
