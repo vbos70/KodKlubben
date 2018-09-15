@@ -63,7 +63,7 @@ Längst ner finns "Shell" fönstret som visar "Python":
 Python 3.6.5 (/usr/bin/python3)
 ```
 
-Här skrivar man enskilda Python meningar som Python räcknar ut efter
+Här skriver man enskilda Python meningar som Python räcknar ut efter
 du klicka `Enter`. Till exempel:
 
 ```
