@@ -44,7 +44,7 @@ Första gången ska vi
    1. Köra Python kod
 
 
-## Andra gången
+## Andra gången: Python och Thonny
 
 ### Starta Thonny IDE
 
@@ -57,7 +57,7 @@ program som du kan spara i filer.
 
 ### "Shell" fönstret i Thonny
  
-Längst ner finns "Shell" fönstret som visar at "Python":
+Längst ner finns "Shell" fönstret som visar "Python":
 
 ```
 Python 3.6.5 (/usr/bin/python3)
@@ -81,7 +81,7 @@ Här finns flera Python "expressions" (meningar) som du kan försoka:
 Python kan också räckna med "strings" (bokstav listar):
 
   - `"Hej, vad heter du"`
-  - `"Hej, vad heter du" + "?"` 
+  - `'Hej, vad heter du' + "?"` 
   - `"Här kodar Ingå's kodklubben!"`
 
 Strings börjar och slutar med `"` eller `'`.
