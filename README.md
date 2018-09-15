@@ -60,18 +60,17 @@ program som du kan spara i filer.
  Längst ner finns "Shell" fönstret. Här skrivar man enskilda Python
 meningar som Python räcknar ut efter du klicka `Enter`. Till exempel:
 
-   ```
-   Python 3.6.5 (/usr/bin/python3)
-   >>> %Run game1.py
-	
-      pygame 1.9.4
-      Hello from the pygame community. https://www.pygame.org/contribute.html
-	  
-	>>> 1+3
-	4
+```
+Python 3.6.5 (/usr/bin/python3)
+>>> %Run game1.py
 
-	>>>
-	```
+  pygame 1.9.4
+  Hello from the pygame community. https://www.pygame.org/contribute.html
+	  
+>>> 1+3
+4
+
+```
 
 Här finns flera Python "expressions" (meningar) som du kan försoka:
 
