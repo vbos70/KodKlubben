@@ -82,7 +82,7 @@ Python kan också räckna med "strings" (bokstav listar):
 
   - `"Hej, vad heter du"`
   - `'Hej, vad heter du' + "?"` 
-  - `"Här kodar Ingå's kodklubben!"`
+  - `"Här kodar Ingås kodklubben!"`
 
 Strings börjar och slutar med `"` eller `'`.
   
