@@ -52,17 +52,22 @@ Leta fram och klicka Thonny IDE på meny.
 
 ![Raspbian meny](images/rpimenu.jpg)
 
-### Edit fönstret i Thonny
+När Thonny har startas up, ser du en fönster som den här:
 
-Edit fönstret är den största fönstret. Här skrivar man Python kod /
-program som du kan spara i filer.
+![Thonny IDE](images/thonny.jpg)
 
-### "Shell" fönstret i Thonny
+#### Edit fönstret i Thonny
+
+Edit fönstret är fönstret i mitten. Här skrivar man Python kod /
+program som du kan spara i filer. Filnamnet visas övanpå fönstret. 
+Här på bilden heter denn '<untitled>' (namnlös).
+
+#### "Shell" fönstret i Thonny
  
 Längst ner finns "Shell" fönstret som visar "Python":
 
 ```
-Python 3.6.5 (/usr/bin/python3)
+Python 3.5.3 (/usr/bin/python3)
 ```
 
 Här skriver man enskilda Python meningar som Python beräknar efter
