@@ -50,6 +50,8 @@ Första gången ska vi
 
 Leta fram och klicka Thonny IDE på meny.
 
+![Raspbian meny](images/rpimenu.jpg)
+
 ### Edit fönstret i Thonny
 
 Edit fönstret är den största fönstret. Här skrivar man Python kod /
