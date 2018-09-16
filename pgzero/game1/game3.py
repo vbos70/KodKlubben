@@ -6,12 +6,13 @@ HEIGHT = 300
 
 # the main character
 alien = Actor('alien')   # refers to images/alien.png
-alien.topright = 0, 70   #
-alien.score = 0
-alien.speed = 2
+alien.topright = 0, 70   # refers to tp right corner of the alien image
+
+alien.score = 0          # the number of times the alien is clicked
+alien.speed = 2          # The horizontal speed of the alien
 
 def draw():
-    screen.fill((128, 128, 200))
+    screen.fill((128, 128, 222))
     alien.draw()
     screen.draw.text(
         str(alien.score),
@@ -49,3 +50,6 @@ pgzrun.go()
 
 
 # 1. How to increase the speed only if the alien was hit at least once?
+# 2. How to change the alien's direction when it reaches the right side of the screen?
+
+
