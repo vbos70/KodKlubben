@@ -65,7 +65,7 @@ Längst ner finns "Shell" fönstret som visar "Python":
 Python 3.6.5 (/usr/bin/python3)
 ```
 
-Här skriver man enskilda Python meningar som Python räcknar ut efter
+Här skriver man enskilda Python meningar som Python beräknar efter
 du klicka `Enter`. Till exempel:
 
 ```
@@ -80,7 +80,7 @@ Här finns flera Python "expressions" (meningar) som du kan försoka:
   - `(10 + 2) * 3`
   - `1.5 - 0.32`
   
-Python kan också räckna med "strings" (bokstav listar):
+Python kan också räkna med "strings" (listor av bokstävar):
 
   - `"Hej, vad heter du"`
   - `'Hej, vad heter du' + "?"` 
