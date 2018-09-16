@@ -58,9 +58,9 @@ När Thonny har startas up, ser du en fönster som den här:
 
 #### Edit fönstret i Thonny
 
-Edit fönstret är fönstret i mitten. Här skrivar man Python kod /
+Edit fönstret är just under knapparna. Här skrivar man Python kod /
 program som du kan spara i filer. Filnamnet visas övanpå fönstret. 
-Här på bilden heter denn '<untitled>' (namnlös).
+Här på bilden heter denn `<untitled>` (namnlös).
 
 #### "Shell" fönstret i Thonny
  
