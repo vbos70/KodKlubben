@@ -94,3 +94,48 @@ Python kan också räkna med "strings" (listor av bokstävar):
 
 Strings börjar och slutar med `"` eller `'`.
   
+##  26-09-2018: Turtle Graphics
+
+Den här gången fortsätta vi med Python kod, men nu ska vi rita.
+
+### Inan vi börjar
+
+1. Tömma `Downloads` mappen
+
+1. Ladda ner .zip filen från https://github.com/vbos70/KodKlubben
+
+1. Extrahera .zip filen i `Downloads` mappen
+
+
+### Starta Thonny IDE
+
+1. Öppna filen
+
+   `Downloads/KodKlubben-master/turtle/drawing1.py`
+
+1. Kör (klicka gröna pil knappen)
+
+![Turtle](images/turtle.jpg)
+
+
+### Kan du ändra koden så att ...
+
+1. den ritar flera cirkel?
+
+1. den ritar röda cirkel?
+
+
+### Mera turtle "commands"
+
+Här ar flera turtle "commands". Testa vad dom gör i din kod.
+
+- `forward(10)`
+- `backward(10)`
+- `left(90)`
+- `right(90)`
+- `stamp()`
+- `speed()`
+
+Och det finns änu flera commands på https://docs.python.org/3/library/turtle.html
+
+
