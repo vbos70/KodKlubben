@@ -120,9 +120,9 @@ Den här gången fortsätta vi med Python kod, men nu ska vi rita.
 
 ### Kan du ändra koden så att ...
 
-1. den ritar flera cirkel?
+1. den ritar flera cirklar?
 
-1. den ritar röda cirkel?
+1. den ritar röda cirklar?
 
 
 ### Mera turtle "commands"
