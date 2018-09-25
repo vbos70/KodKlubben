@@ -137,6 +137,7 @@ Här ar flera turtle "commands". Testa vad dom gör i din kod.
 - `speed(1)`
 - `speed(10)`
 
-Och det finns änu flera commands på https://docs.python.org/3/library/turtle.html
+Och det finns ännu flera commands på
+https://docs.python.org/3/library/turtle.html
 
 
