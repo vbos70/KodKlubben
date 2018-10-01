@@ -2,6 +2,8 @@
 
 Kod för Ingås kodare
 
+## https://github.com/vbos70/KodKlubben/blob/master/Steps/KodKlubben_RPi_Intro.html
+
 ## Vi börjar
 
 Första gången ska vi
