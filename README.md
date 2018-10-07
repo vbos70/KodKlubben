@@ -138,9 +138,9 @@ Här ar flera turtle "commands". Testa vad dom gör i din kod.
 - `speed(10)`
 
 Och det finns ännu flera commands på
-https://docs.python.org/3/library/turtle.html
+[Python Turtle Graphics](https://docs.python.org/3/library/turtle.html)
 
 
 # Minecraft
 
-file://usr/share/doc/minecraft-pi/CONTROLS.TXT
+[Minecraft Python](file://usr/share/doc/minecraft-pi/CONTROLS.TXT)
