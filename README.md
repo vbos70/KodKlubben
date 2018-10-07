@@ -141,3 +141,6 @@ Och det finns ännu flera commands på
 https://docs.python.org/3/library/turtle.html
 
 
+# Minecraft
+
+file://usr/share/doc/minecraft-pi/CONTROLS.TXT
