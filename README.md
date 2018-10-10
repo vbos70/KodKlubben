@@ -155,7 +155,8 @@ Och det finns ännu flera commands på
 
 ## Här ar några exempel:
 
-Kopiera exempel en åt gången i Thonny Python IDE, spara filen, och kör din kod.
+Kopiera den här exempel i Thonny Python IDE, spara filen (varje
+exempel i en ny fil), och kör din kod.
 
 
 ### Posta till Minecraft chatten:
