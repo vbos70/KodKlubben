@@ -154,6 +154,8 @@ Och det finns ännu flera commands på
 
 [[MagPi Minecraft Maker Guide]](https://www.raspberrypi.org/magpi-issues/MagPi58.pdf): Tidning om Raspberry Pi och Minecraft.
 
-[[https://github.com/brooksc/mcpipy]](mcpipy): GitHub sidan med Python code för att programmera Minecraft.
+[[mcpipy]](https://github.com/brooksc/mcpipy): GitHub sidan med Python code för att programmera Minecraft.
 
 [[Minecraft control keys]](https://arghbox.files.wordpress.com/2013/07/minecraft-pi-controls.png): Hur du använder tangentbordet och mus i Minecraft.
+
+
