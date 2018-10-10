@@ -155,7 +155,10 @@ Och det finns ännu flera commands på
 
 ## Här ar några exempel:
 
-1. Posta till Minecraft chatten:
+Kopiera exempel en åt gången i Thonny Python IDE, spara filen, och kör din kod.
+
+
+### Posta till Minecraft chatten:
 
 
 ```
@@ -166,7 +169,7 @@ msg = "Hello Minecraft World from 101 Computing"
 mc.postToChat(msg)
 ```
 
-1. Hoppa i lyften
+###  Hoppa i lyften
 
 ```
 from mcpi import minecraft, block
@@ -185,7 +188,7 @@ def jump(distance):
 jump(100)
 ```
 
-1. Bygga med blockar
+### Bygga med blockar
 
 ```
 from mcpi import minecraft, block
