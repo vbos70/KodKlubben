@@ -166,7 +166,7 @@ exempel i en ny fil), och kör din kod.
 from mcpi import minecraft, block
  
 mc = minecraft.Minecraft.create()
-msg = "Hello Minecraft World from 101 Computing"
+msg = "Hej! Jag kodar Minecraft."
 mc.postToChat(msg)
 ```
 
