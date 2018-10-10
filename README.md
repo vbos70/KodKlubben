@@ -144,13 +144,13 @@ Och det finns ännu flera commands på
 # Programmera Minecraft
 
 
-1. Starta minecraft och skapa en new värld.
+1. Starta Minecraft och skapa en new värld.
 
-1. Lämna Minecraft i bakgrunden och öppna Thonny Python IDE.
+1. Lämna Minecraft fönstret i bakgrunden (`TAB`) och öppna Thonny Python IDE.
 
-1. Koda i Python
+1. Koda i Python, se exempel.
 
-1. Kör din kod
+1. Kör din kod och kolla vad händer i Minecraft fönstret.
 
 
 ## Här ar några exempel:
