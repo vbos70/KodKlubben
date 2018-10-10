@@ -141,10 +141,85 @@ Och det finns ännu flera commands på
 [Python Turtle Graphics](https://docs.python.org/3/library/turtle.html)
 
 
-# Minecraft
+# Programmera Minecraft
 
-[Minecraft Python](file://usr/share/doc/minecraft-pi/CONTROLS.TXT)
 
+1. Starta minecraft och skapa en new värld.
+
+1. Lämna Minecraft i bakgrunden och öppna Thonny Python IDE.
+
+1. Koda i Python
+
+1. Kör din kod
+
+
+## Här ar några exempel:
+
+1. Posta till Minecraft chatten:
+
+
+```
+from mcpi import minecraft, block
+ 
+mc = minecraft.Minecraft.create()
+msg = "Hello Minecraft World from 101 Computing"
+mc.postToChat(msg)
+```
+
+1. Hoppa i lyften
+
+```
+from mcpi import minecraft, block
+import time
+ 
+def jump(distance):
+    #Let's wait 1 second
+    time.sleep(1)
+    
+    #Retrieve the X,Y,Z coordinates of the player
+    pos=mc.player.getPos()
+    #Change the Y coordinate of the player to position it up in the sky    
+    mc.player.setPos(pos.x, pos.y + distance, pos.z)
+ 
+#Main Program Starts Here:
+jump(100)
+```
+
+1. Bygga med blockar
+
+```
+from mcpi import minecraft, block
+import time
+ 
+def createTower():
+    #Let's wait 1 second
+    time.sleep(1)
+    
+    #Retrieve the X,Y,Z coordinates of the player
+    pos=mc.player.getPos()
+ 
+    #Create a 10-block high tower, 5 blocks away from the player
+    mc.setBlock(pos.x + 5, pos.y, pos.z, block.STONE)
+    mc.setBlock(pos.x + 5, pos.y+1, pos.z, block.STONE)
+    mc.setBlock(pos.x + 5, pos.y+2, pos.z, block.STONE)
+    mc.setBlock(pos.x + 5, pos.y+3, pos.z, block.STONE)
+    mc.setBlock(pos.x + 5, pos.y+4, pos.z, block.STONE)
+    mc.setBlock(pos.x + 5, pos.y+5, pos.z, block.STONE)
+    mc.setBlock(pos.x + 5, pos.y+6, pos.z, block.STONE)
+    mc.setBlock(pos.x + 5, pos.y+7, pos.z, block.STONE)
+    mc.setBlock(pos.x + 5, pos.y+8, pos.z, block.STONE)
+    mc.setBlock(pos.x + 5, pos.y+9, pos.z, block.STONE)
+    mc.setBlock(pos.x + 5, pos.y+10, pos.z, block.STONE)
+ 
+#Main Program Starts Here:
+createTower()
+```
+
+## Links till Minecraft sidor
+
+
+
+[[Minecraft control keys]](https://arghbox.files.wordpress.com/2013/07/minecraft-pi-controls.png): Hur du använder tangentbordet och mus i Minecraft.
 
 [[Minecraft Python Challenges]](https://www.101computing.net/minecraft-python-challenges/): Enkla exempel som visar hur du programmerar Minecraft.
 
@@ -156,6 +231,5 @@ Och det finns ännu flera commands på
 
 [[mcpipy]](https://github.com/brooksc/mcpipy): GitHub sidan med Python code för att programmera Minecraft.
 
-[[Minecraft control keys]](https://arghbox.files.wordpress.com/2013/07/minecraft-pi-controls.png): Hur du använder tangentbordet och mus i Minecraft.
 
 
