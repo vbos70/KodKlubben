@@ -184,6 +184,10 @@ def jump(distance):
     pos=mc.player.getPos()
     #Change the Y coordinate of the player to position it up in the sky    
     mc.player.setPos(pos.x, pos.y + distance, pos.z)
+
+# Connect to Minecraft 
+mc = minecraft.Minecraft.create()
+
  
 #Main Program Starts Here:
 jump(100)
@@ -215,6 +219,9 @@ def createTower():
     mc.setBlock(pos.x + 5, pos.y+9, pos.z, block.STONE)
     mc.setBlock(pos.x + 5, pos.y+10, pos.z, block.STONE)
  
+# Connect to Minecraft 
+mc = minecraft.Minecraft.create()
+
 #Main Program Starts Here:
 createTower()
 ```
