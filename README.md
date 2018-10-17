@@ -193,7 +193,7 @@ mc = minecraft.Minecraft.create()
 jump(100)
 ```
 
-### Bygga med blockar
+### Bygga med block
 
 ```
 from mcpi import minecraft, block
