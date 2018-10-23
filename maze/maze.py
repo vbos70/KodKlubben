@@ -89,6 +89,26 @@ def draw_maze(mz):
    turtle.pendown()
    turtle.setheading(0)
    turtle.forward(scale * sz)
+
+def print_trail(mz, distance, c):
+   sz, cells, doors = mz
+
+   while distance[c] < sz*sz:
+      print(c)
+
+      # check if we have reached the start point
+      if distance[c] == 0:
+         break
+
+      # find a neighbours at 1 step away
+      for n in neighbours(mz,c):
+         if door_exists(mz, c, n) and distance[n] + 1 == distance[c]:
+            # note that the door_exists() check is redundant: if the
+            # distance between c and n is 1, then there is a door
+            # between c and n.
+            c = n
+            break
+      # no check needed for case with no neighbours.
    
 def print_distance(mz, distance):
    sz, cells, doors = mz
@@ -183,11 +203,15 @@ if __name__ == '__main__':
          else:
             run = True
             d = find_path(mz, (x0, y0), (x1, y1))
+            print_distance(mz, d)
+            
             if d == sz * sz:
                print('There is no path between these cells.')
             else:
                print('Distance between (x0,y0) and (x1, y1) is: ', d[(x1,y1)])
-            print_distance(mz, d)
+               print('Trail:')
+               print_trail(mz, d, (x1, y1))
+
    else:
       print('Maze size should be greater than 0')
       
