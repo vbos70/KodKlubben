@@ -296,5 +296,4 @@ mc.player.setPos(x, PYRAMID_SIZE+1, PYRAMID_SIZE+OFFSET)
 
 1. Om du fixade programmet rätt, så visas den en rut genom labyrinten.
 
-
-
+![Maze](images/maze-example.jpg)
