@@ -145,23 +145,32 @@ def print_trail(mz, distance, c):
             break
       # no check needed for case with no neighbours.
 
+
 def draw_trail(mz, distance, c):
+   # This function is not correct, can you fix it (read the comments)?
    sz, cells, doors = mz
 
    turtle.speed(speed = 6)
 
    while distance[c] < sz*sz:
 
-      x, y = cell_center(mz, c)
+      # get center coordinates of cell c (the next line has to be fixed!)
+      x, y = 0, 0
+
+      # move turtle to this point (these lines are ok)
       turtle.penup()
       turtle.goto(x, y)
-      draw_footprint(draw_scale())
 
+      # draw a footprint at the right size (the next line has to be fixed!)
+      draw_footprint(2)
+
+      # the rest of this function is ok
+      
       # check if we have reached the start point
       if distance[c] == 0:
          break
 
-      # find a neighbours at 1 step away
+      # find a neighbour at 1 step away
       for n in neighbours(mz,c):
          if door_exists(mz, c, n) and distance[n] + 1 == distance[c]:
             # note that the door_exists() check is redundant: if the
@@ -270,10 +279,6 @@ if __name__ == '__main__':
       turtle.reset()
       draw_maze(mz)
 
-      ts = turtle.getscreen()
-
-      ts.getcanvas().postscript(file="round_%d_%d.eps" % (round, maze_size))
-      
       sz, cells, doors = mz
    
       print()
@@ -305,7 +310,9 @@ if __name__ == '__main__':
             print('Distance between (x0,y0) and (x1, y1) is: ', d[(x1,y1)])
             print('Trail:')
             print_trail(mz, d, (x1, y1))
-            draw_trail(mz, d, (x1, y1))
+
+            # uncomment following line after fixing draw_trail function.
+            #draw_trail(mz, d, (x1, y1))
 
       c = input('Again? ([Y]/N)').strip()
       if not(c == '' or c == 'y' or c == 'Y'):
