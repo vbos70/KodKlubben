@@ -279,3 +279,16 @@ mc.player.setPos(x, PYRAMID_SIZE+1, PYRAMID_SIZE+OFFSET)
 
 
 
+# Labyrint
+
+1. Ladda ner .zip filen, extrahera den, och öppa programmet `maze.py` i Thonny IDE.
+
+1. Kör programmet några gånger
+
+
+1. Fixa "function" `draw_trail` och kör programmet igen.
+
+1. Om du fixade programmet rätt, så visas den an rut genom labyrinten.
+
+
+
