@@ -288,7 +288,7 @@ mc.player.setPos(x, PYRAMID_SIZE+1, PYRAMID_SIZE+OFFSET)
 
 1. Fixa "function" `draw_trail` och kör programmet igen.
 
-1. Om du fixade programmet rätt, så visas den an rut genom labyrinten.
+1. Om du fixade programmet rätt, så visas den en rut genom labyrinten.
 
 
 
