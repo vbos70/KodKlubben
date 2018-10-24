@@ -244,11 +244,17 @@ PYRAMID_BLOCK1 = block.STONE
 PYRAMID_BLOCK2 = block.GLOWSTONE_BLOCK
 OFFSET = 5
 
+# Create empy space to build the pyramid
+mc.setBlocks(x-PYRAMID_SIZE-2, y, z+OFFSET,
+             x+PYRAMID_SIZE+2, y+PYRAMID_SIZE+2, + z+2*PYRAMID_SIZE+2,
+             block.AIR.id)
+
+
 d = 0
 s = PYRAMID_BLOCK1
 
 for layer in range(PYRAMID_SIZE):
-    mc.setBlocks(x-PYRAMID_SIZE+d, y+layer,       z+OFFSET+d,
+    mc.setBlocks(x-PYRAMID_SIZE+d, y+layer, z+OFFSET+d,
                  x+PYRAMID_SIZE-d, y+layer, z+OFFSET+(2*PYRAMID_SIZE - d),
                  s.id)
     d += 1
