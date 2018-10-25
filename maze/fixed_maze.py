@@ -186,7 +186,7 @@ def print_distance(mz, distance):
    for r in range(sz):
       l = []
       for c in range(sz):
-         l.append(str(distance[(r,c)]))
+         l.append(str(distance[(c,r)]))
       print(', '.join(l))
 
 def draw_distance(mz, distance):
