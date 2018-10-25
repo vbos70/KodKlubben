@@ -14,7 +14,7 @@ Hur hittar man kortaste vägen mellan 2 rutor i labyrinten?
 
 Vi letar efter en väg som har det minsta antalet dörrar. Det är
 möjligt att det finns flera av dessa kortaste vägar. Det är också
-möjligt att det inte finns en väg allts.
+möjligt att det inte finns en väg alls.
 
 ## Kortaste väg - algoritm
 
