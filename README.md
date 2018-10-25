@@ -16,40 +16,42 @@ Vi letar efter en väg som har det minsta antalet dörrar. Det är
 möjligt att det finns flera av dessa kortaste vägar. Det är också
 möjligt att det inte finns en väg allts.
 
-## Kortaste väg algoritm
+## Kortaste väg - algoritm
 
 En *algoritm* kan man utföra för att komma från en startpunkt till ett
-svar. En algoritm är några steg. För att kallas en algoritm, ska stegarna
-vara så exakt att svaret är samma oberoende av vem eller vad kör
-algoritmen. Om man börjar från samma startpunkt, så ger algoritmen
-altid samma svaret.
+svar. En algoritm är som en recept som man följer steg för steg. För
+att kallas en algoritm, ska stegen vara så exakta att svaret är samma
+oberoende av vem eller vad som kör algoritmen. Om man börjar från
+samma startpunkt och följer stegen, så ger algoritmen altid samma
+svar.
 
 Här är en algoritm som hittar kortaste vägen i an labyrint:
 
-1. Först ska man välja en ruta som är borjan och en ruta som är slut.
+1. Först väljar man en ruta som är start och en ruta som är slut.
 
-1. Skriv numret 0 i rutan som är början.
+1. Skriv numret 0 i startrutan.
 
-1. Hitta alla rutor som har ingen nummer än men som har en dörr till
-   en ruta som har redan en nummer och gör så:
+1. Hitta alla rutor som inte har något nummer än men som har en dörr till
+   en ruta som redan har ett nummer och gör såhär:
    
    - om en grannruta med dörr har numret x, räkna ut vad x+1 är och
-     skriv svaret i alla hittade rutor som har inget nummer än.
+     skriv svaret i alla hittade rutor som inte har ett nummer än.
 	 
-	 Till exempel, om grannrutan har numret 0, skriver du numret 1 i
-     alla hittade rutor utan nummer.
+	 Till exempel, om grannrutan har numret 0, så skriver du numret 1
+     i alla hittade rutor utan nummer.
 
-   Obs. det är viktig att hitta alla rutor inan du fortsätter!
+   Obs. det är viktig att hitta alla grannrutor med dörr innan du
+   fortsätter!
    
 1. Gör föregående steg igen tills alla rutor som man hittar har ett
    nummer.
 
 1. Kolla om slutrutan har ett nummer
 
-   - om den har ett nummer, så är numret det minsta antal dörrar man måste
-     går genom från början till slut.
+   - om den har ett nummer, så är numret det minsta antal dörrar på
+     vägen från start till slut.
    
-   - om den inte har ett nummer, så finns ingen väg från början till
+   - om den inte har ett nummer, så finns det ingen väg från start till
      slut.
 
 
