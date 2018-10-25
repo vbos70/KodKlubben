@@ -10,29 +10,36 @@ dörrar som man kan gå genom. Här är en labyrint:
 
 ![Maze](images/maze-example1.jpg)
 
-Hur hittar man kortaste vägen mellan 2 rutor i labyrintin?
+Hur hittar man kortaste vägen mellan 2 rutor i labyrinten?
 
-Vi kom tillsammans till en /algoritme/ som räknar vägens dörrar:
+Vi kom tillsammans till en *algoritme* som räknar vägens dörrar. Här
+är algoritmens steg:
 
 1. Först ska man välja en ruta som är borjan och en ruta som är slut.
 
-1. Skriv 0 i rutan som är början.
+1. Skriv numret 0 i rutan som är början.
 
 1. Hitta alla rutor som har ingen nummer än men som har en dörr till
-   en ruta som har redan en nummer och gör så med alla dessa rutor:
+   en ruta som har redan en nummer och gör så:
    
-   - om grannruta med dörr har numret x, skriv numret 1+x i rutan som
-     har inget nummer än.
+   - om en grannruta med dörr har numret x, räkna ut vad x+1 är och
+     skriv svaret i alla hittade rutor som har inget nummer än.
+	 
+	 Till exempel, om grannrutan har numret 0, skriver du numret 1 i
+     alla hittade rutor utan nummer.
 
-1. Gör föregående steg igen tills alla rutor som man hittar har en
+   Obs. det är viktig att hitta alla rutor inan du fortsätter!
+   
+1. Gör föregående steg igen tills alla rutor som man hittar har ett
    nummer.
 
 1. Kolla om slutrutan har ett nummer
 
-   - om den har en nummer, så är det den kortaste vägen från borjan.
+   - om den har ett nummer, så är numret det minsta antal dörrar man måste
+     går genom från början till slut.
    
-   - om den inte har en nummer, så finns ingen väg från början till
-     slutrutan.
+   - om den inte har ett nummer, så finns ingen väg från början till
+     slut.
 
 
 Algoritmen är kodat i filen [[maze/maze.py]](maze/maze.py).
