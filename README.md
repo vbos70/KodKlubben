@@ -22,7 +22,7 @@ En *algoritm* kan man utföra för att komma från en startpunkt till ett
 svar. En algoritm är som en recept som man följer steg för steg. För
 att kallas en algoritm, ska stegen vara så exakta att svaret är samma
 oberoende av vem eller vad som kör algoritmen. Om man börjar från
-samma startpunkt och följer stegen, så ger algoritmen altid samma
+samma startpunkt och följer stegen, så ger algoritmen alltid samma
 svar.
 
 Här är en algoritm som hittar kortaste vägen i an labyrint:
