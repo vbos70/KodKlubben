@@ -25,7 +25,7 @@ oberoende av vem eller vad som kör algoritmen. Om man börjar från
 samma startpunkt och följer stegen, så ger algoritmen alltid samma
 svar.
 
-Här är en algoritm som hittar kortaste vägen i an labyrint:
+Här är en algoritm som hittar kortaste vägen i en labyrint:
 
 1. Först väljar man en ruta som är start och en ruta som är slut.
 
