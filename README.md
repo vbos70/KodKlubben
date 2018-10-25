@@ -44,9 +44,10 @@ Vi kom tillsammans till en *algoritme* som räknar vägens dörrar. Här
 
 Algoritmen är kodat i filen [[maze/maze.py]](maze/maze.py).
 
-1. Ladda ner .zip filen, extrahera den, och öppa programmet `maze.py` i Thonny IDE.
+1. Ladda ner filen [[maze/maze.py]](maze/maze.py) och
+   öppa med Thonny IDE.
 
-1. Kör programmet några gånger
+1. Kör programmet några gånger och pröva olika labyrinter.
 
 1. Fixa "function" `draw_trail` och function `__main__` och kör
    programmet igen.
@@ -54,8 +55,9 @@ Algoritmen är kodat i filen [[maze/maze.py]](maze/maze.py).
 1. Om du fixade programmet rätt, så visas den en rut genom labyrinten.
 
 
-Det finns också en fil [[maze/maze.py]](maze/fixed_maze.py). I den
-filen är alla 'bugs' redan fixat. Kör den ock kolla att den visar
+Det finns också en fil [[maze/fixed_maze.py]](maze/fixed_maze.py). I
+den filen är alla 'bugs' redan fixat. Ladda ner och kör
+[[maze/fixed_maze.py]](maze/fixed_maze.py) och kolla att den visar
 vägen genom labyrinten:
 
 ![Maze](images/maze-example.jpg)
