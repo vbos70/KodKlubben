@@ -5,20 +5,26 @@ Kod för Ingås kodare.
 # 24.10.2018: Labyrint
 
 
-Labyrinten har rutor. Mellan rutorna fins väggar. Några väggar har
+Labyrinten har rutor. Mellan rutorna finns väggar. Några väggar har
 dörrar som man kan gå genom. Här är en labyrint:
 
 ![Maze](images/maze-example1.jpg)
 
 Hur hittar man kortaste vägen mellan 2 rutor i labyrinten?
 
-Vi kom tillsammans till en *algoritme* som räknar vägens dörrar. Den
-väg med det minsta antal dörrar är den kortaste väg. Det är möjligt
-att det finns flera kortaste vägar.
+Vi letar efter en väg som har det minsta antalet dörrar. Det är
+möjligt att det finns flera av dessa kortaste vägar. Det är också
+möjligt att det inte finns en väg allts.
 
-## Kortaste väg algoritme
+## Kortaste väg algoritm
 
-Här är algoritmens steg:
+En *algoritm* kan man utföra för att komma från en startpunkt till ett
+svar. En algoritm är några steg. För att kallas en algoritm, ska stegarna
+vara så exakt att svaret är samma oberoende av vem eller vad kör
+algoritmen. Om man börjar från samma startpunkt, så ger algoritmen
+altid samma svaret.
+
+Här är en algoritm som hittar kortaste vägen i an labyrint:
 
 1. Först ska man välja en ruta som är borjan och en ruta som är slut.
 
