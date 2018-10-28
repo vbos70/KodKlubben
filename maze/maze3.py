@@ -68,7 +68,10 @@ def draw_footprint(scale):
    x, y = turtle.pos()
    turtle.goto(x, y - scale/2)
    turtle.pendown()
-   turtle.circle(scale / 2)
+
+   turtle.circle(0.9 * scale / 2, steps = 8)
+   # steps == 4, so this draws a 8-sided polygon 
+
    turtle.penup()
    turtle.goto(x, y + scale/2)
    
