@@ -2,6 +2,75 @@
 
 Kod för Ingås kodare.
 
+# 31.10.2018: Text input/output
+
+Många program frågar användaren att mata in text *input* och sen
+genererar programmet text *output*.  Programmet
+[[maze/maze.py]](maze/maze.py), som vi körde förra gång, frågar
+användaren att mata in labyrintens storlek som text och sen ritar den
+en labyrint och skriver något text. 
+
+Hur skrivar man kod som läser in text input och genererar text output?
+
+## Strings
+
+I en dator er text rader av symboler. Denna rader kallas
+*strings*. För att skriva kod för strings, måste man skilja program
+kod text från string text. I Python använder man `'` och `"` för att
+includera strings i kod. Här är några exempel av strings i Python:
+
+- `'Hej!'`
+- `'Kodklubben'`
+- `"Hello world!"`
+- `'Här är en exempel: "Hello world!"'`
+
+Obs. i varje exempel är den första och sista `'` eller `"` inte del av
+den string. Symbolerna `'` och `"` bara används för att starta och
+avsluta en string. Dvs, string `'Hej!'` har 4 symboler: `H`, `e`, `j`,
+och `!`. En string ska börjas och avslutas med samma symbol. Om man
+vill ha en string med en `'` symbol kan man ta `"` som start och
+avslutning. Sista exempeln har `'` som start och avslutningssymbol och
+innehåller 2 `"` symboler.
+
+### Pröva i Thonny IDE
+
+Öppna Thonny IDE och skriva några strings i *Shell* fönstret:
+
+![StringExempel](images/thonny_string_examples.jpg)
+
+## Text input
+
+I Python finns en function `input` som läser in en string från
+tangentbordet. `input` sparar alla symboler och avsluter när *Enter*
+knappen blir intryckt. Sedan returnerar `input` alla sparade symboler
+som en string.
+
+### Pröva i Thonny IDE
+
+Skriv följande rad i Thonnys *Shell* fönstret:
+
+```
+>>> s = input()
+```
+
+Efter du trycker på *Enter* knappen, kör `input` function, men du ser
+ingenting. Nu kan du skriva något och avsluta det med *Enter* knappen:
+
+```
+42
+```
+
+Det ser inte ut att något har hänt. Men eftersom du tryckte på *Enter*
+har `input` function avslutad och returnerad en string. Och eftersom
+du skrev `s = input()`, sparade under namnet `s`. Nu kan du skriva `s`
+och sen visas den string som du skrev när `input`function körde:
+
+```
+>>> s
+'42'
+```
+
+
 # 24.10.2018: Labyrint
 
 
