@@ -281,16 +281,17 @@ if __name__ == '__main__':
    round = 0
    x0 = 0
    y0 = 0
-   x1 = None
-   y1 = None
+   x1 = 0
+   y1 = 0
    while run:
       maze_size = int_input('Size [%d]: ' % maze_size, maze_size)
       if maze_size < 1 or maze_size > 100:
          print('Maze size should be from 1 to 100.')
          maze_size = 4
          continue
-      
-      if x1 is None or y1 is None or x1 >= maze_size or y1 >= maze_size:
+
+      # check and set default (x1,y1) to valid point.
+      if x1 <= 0 or x1 >= maze_size or y1 <= 0 or y1 >= maze_size:
          x1 = maze_size - 1
          y1 = maze_size - 1
       
