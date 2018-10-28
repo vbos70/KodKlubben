@@ -64,9 +64,14 @@ def draw_door(scale):
    turtle.forward(scale / 4)
 
 def draw_footprint(scale):
+   turtle.penup()
+   x, y = turtle.pos()
+   turtle.goto(x, y - scale/2)
    turtle.pendown()
-   turtle.dot(scale / 2, 'green')
-
+   turtle.circle(scale / 2)
+   turtle.penup()
+   turtle.goto(x, y + scale/2)
+   
 def draw_maze(mz):
    sz, cells, doors = mz
    scale = draw_scale()
