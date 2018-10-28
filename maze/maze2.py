@@ -290,7 +290,7 @@ if __name__ == '__main__':
          maze_size = 4
          continue
       
-      if x1 is None or y1 is None:
+      if x1 is None or y1 is None or x1 >= maze_size or y1 >= maze_size:
          x1 = maze_size - 1
          y1 = maze_size - 1
       
