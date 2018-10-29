@@ -38,37 +38,135 @@ innehåller 2 `"` symboler.
 
 ![StringExempel](images/thonny_string_examples.jpg)
 
-## Text input
+## Input och output i Python
 
-I Python finns en function `input` som läser in en string från
-tangentbordet. `input` sparar alla symboler och avsluter när *Enter*
-knappen blir intryckt. Sedan returnerar `input` alla sparade symboler
-som en string.
-
-### Pröva i Thonny IDE
-
-Skriv följande rad i Thonnys *Shell* fönstret:
+Öppna en ny fil i Thonny och skriv föjande programmet:
 
 ```
->>> s = input()
+s = input('Vad heter du?')
+print(s)
 ```
 
-Efter du trycker på *Enter* knappen, kör `input` function, men du ser
-ingenting. Nu kan du skriva något och avsluta det med *Enter* knappen:
+Det här programmet kör Pythons `input` 'function'. `input` läser in
+från tangentbordet tills *Enter* och ger tillbaka den inlästa string.
+
+När du kör programmet i Thonny ser det ut som här:
+![InputOutputExample](images/input_example.jpg)
+
+1. Hur kan du ändra programmet för att få mellanslag mellan frågan
+   'Vad heter du?' och svaret?
+   
+2. Strings kan klistras ihop med *plus*: `'första' + ' andra'` blir
+   `'första andra'`.  Kan du ändra programmet så att den skrivar först
+   *Hej* och sen svaret på frågan *Vad heter du?*:
+   
+```
+Vad heter du? Victor
+Hej Victor
+```
+
+3. För att skriva varenda symbol i an string på en rad, kan man
+skriva en 'for loop' (Pröva i Thonny): 
+
+``` 
+s = input('Vad heter du? ')
+for c in s: 
+    print(c) 
+``` 
+
+Obs. akta 'indentation' på början av `print`-raden (dvs 4 mellanslag).
+
+
+4. Med en 'for loop' kan man också räkna ut längden av en string:
 
 ```
-42
+s = input('Vad heter du? ')
+l = 0
+for c in s:
+    l = l + 1
+print('Ditt namn har', l, 'bokstäver.')
 ```
 
-Det ser inte ut att något har hänt. Men eftersom du tryckte på *Enter*
-har `input` function avslutad och returnerad en string. Och eftersom
-du skrev `s = input()`, sparade under namnet `s`. Nu kan du skriva `s`
-och sen visas den string som du skrev när `input`function körde:
+5. Man kan också läsa in ett nummer:
 
 ```
->>> s
-'42'
+n = input('Nummer: ')
+print(n)
 ```
+
+Men vet programmet faktiskt att det är ett nummer?
+
+6. Försök läsa in och addera 2 nummror:
+
+```
+n1 = input('Nummer 1: ')
+n2 = input('Nummer 2: ')
+
+print(n1 + n2)
+```
+   Kör programmet i Thonny. Vad händer?
+   
+   Programmet har klistrat ihop 2 strings!
+   
+7. Som sagt, `input` ger bara strings. Om du vill läsa in ett nummer,
+   börjar du med att läsa in e string och sen omvandlas du denn i ett
+   nummer med `int`:
+```
+nstr = input('Nummer: ')
+n = int(nstr)
+print(n)
+```
+   Obs. om du kör det här programmet, ska du ge bara siffror som input.
+
+   Kan du ändra programmet i uppgift 6 så att den adderar 2 nummror
+   istället för att klistra ihop 2 strings?
+
+8. Innan du använder `int` ska du vara säker på att det finns bara
+   siffror i den string som du vill konvertera i ett nummer. `int`
+   kraschar om det finns icke siffror i stringen:
+```
+>>> int('12ab')
+Traceback (most recent call last):
+  File "<pyshell>", line 1, in <module>
+ValueError: invalid literal for int() with base 10: '12ab'
+```
+
+Pröva `int` i Thonnys 'Shell' fönstret och kolla vad händer med olika
+'inputs'.
+
+9. Du kan använda en `for loop` för att kolla om det finns bara
+   nummror i stringen innan du omvandlar denn i en nummer:
+   
+```
+nstr = input('Nummer: ')
+for c in nstr:
+    if c not in ['0','1','2','3','4','5','6','7','8','9']:
+        print('Det finns icke-siffror i', nstr)
+		exit()
+print('Nummret är:', int(nstr))
+```
+
+Kör programmet med olika input.
+
+Obs. Programmet använder `exit` 'function' för att avsluta när en
+icke-siffra har hittats.
+
+10. En programm som omvandlar många nummer, ska ha en namn for den
+    omvandlingskod. I Python skrivar man en 'function' for att ge en
+    namn till kod:
+	
+```
+def string_to_int(s):
+    for c in s:
+	    if c not in ['0','1','2','3','4','5','6','7','8','9']:
+		    print('Det finns icke-siffror i', s)
+		    return 0
+	return int(s)
+nstr = input('Nummer: ')
+print('Nummret är:', string_to_int(nstr))
+```
+
+Kör programmet med olika input.
 
 
 # 24.10.2018: Labyrint
