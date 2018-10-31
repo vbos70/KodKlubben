@@ -109,7 +109,7 @@ print(n1 + n2)
    Programmet har klistrat ihop 2 strings!
    
 7. Som sagt, `input` ger bara strings. Om du vill läsa in ett nummer,
-   börjar du med att läsa in e string och sen omvandlas du denn i ett
+   börjar du med att läsa in en string och sen omvandlas du den i ett
    nummer med `int`:
 ```
 nstr = input('Nummer: ')
@@ -135,7 +135,7 @@ Pröva `int` i Thonnys 'Shell' fönstret och kolla vad händer med olika
 'inputs'.
 
 9. Du kan använda en `for loop` för att kolla om det finns bara
-   nummror i stringen innan du omvandlar denn i en nummer:
+   nummror i stringen innan du omvandlar den i en nummer:
    
 ```
 nstr = input('Nummer: ')
@@ -471,7 +471,7 @@ När Thonny har startas up, ser du en fönster som den här:
 
 Edit fönstret är just under knapparna. Här skrivar man Python kod /
 program som du kan spara i filer. Filnamnet visas övanpå fönstret. 
-Här på bilden heter denn `<untitled>` (namnlös).
+Här på bilden heter den `<untitled>` (namnlös).
 
 #### "Shell" fönstret i Thonny
  
