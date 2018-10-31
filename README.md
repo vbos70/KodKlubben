@@ -10,26 +10,26 @@ genererar programmet text *output*.  Programmet
 användaren att mata in labyrintens storlek som text och sen ritar den
 en labyrint och skriver något text. 
 
-Hur skrivar man kod som läser in text input och genererar text output?
+Hur skriver man kod som läser in text input och genererar text output?
 
 ## Strings
 
 I en dator er text rader av symboler. Denna rader kallas
 *strings*. För att skriva kod för strings, måste man skilja program
 kod text från string text. I Python använder man `'` och `"` för att
-includera strings i kod. Här är några exempel av strings i Python:
+inkludera strings i kod. Här är några exempel av strings i Python:
 
 - `'Hej!'`
-- `'Kodklubben'`
+- `'KodKlubben'`
 - `"Hello world!"`
 - `'Här är en exempel: "Hello world!"'`
 
 Obs. i varje exempel är den första och sista `'` eller `"` inte del av
 den string. Symbolerna `'` och `"` bara används för att starta och
-avsluta en string. Dvs, string `'Hej!'` har 4 symboler: `H`, `e`, `j`,
+avsluta en string. Dvs., string `'Hej!'` har 4 symboler: `H`, `e`, `j`,
 och `!`. En string ska börjas och avslutas med samma symbol. Om man
 vill ha en string med en `'` symbol kan man ta `"` som start och
-avslutning. Sista exempeln har `'` som start och avslutningssymbol och
+avslutning. Sista exempel har `'` som start och avslutningssymbol och
 innehåller 2 `"` symboler.
 
 ### Pröva i Thonny IDE
@@ -40,7 +40,7 @@ innehåller 2 `"` symboler.
 
 ## Input och output i Python
 
-Öppna en ny fil i Thonny och skriv föjande programmet:
+Öppna en ny fil i Thonny och skriv följande programmet:
 
 ```
 s = input('Vad heter du?')
@@ -57,7 +57,7 @@ När du kör programmet i Thonny ser det ut som här:
    'Vad heter du?' och svaret?
    
 2. Strings kan klistras ihop med *plus*: `'första' + ' andra'` blir
-   `'första andra'`.  Kan du ändra programmet så att den skrivar först
+   `'första andra'`.  Kan du ändra programmet så att den skriver först
    *Hej* och sen svaret på frågan *Vad heter du?*:
    
 ```
@@ -74,7 +74,7 @@ for c in s:
     print(c) 
 ``` 
 
-Obs. akta 'indentation' på början av `print`-raden (dvs 4 mellanslag).
+Obs. akta 'indentation' på början av `print`-raden (dvs. 4 mellanslag).
 
 
 4. Med en 'for loop' kan man också räkna ut längden av en string:
@@ -96,7 +96,7 @@ print(n)
 
 Men vet programmet faktiskt att det är ett nummer?
 
-6. Försök läsa in och addera 2 nummror:
+6. Försök läsa in och addera 2 nummer:
 
 ```
 n1 = input('Nummer 1: ')
@@ -118,7 +118,7 @@ print(n)
 ```
    Obs. om du kör det här programmet, ska du ge bara siffror som input.
 
-   Kan du ändra programmet i uppgift 6 så att den adderar 2 nummror
+   Kan du ändra programmet i uppgift 6 så att den adderar 2 nummer
    istället för att klistra ihop 2 strings?
 
 8. Innan du använder `int` ska du vara säker på att det finns bara
@@ -135,7 +135,7 @@ Pröva `int` i Thonnys 'Shell' fönstret och kolla vad händer med olika
 'inputs'.
 
 9. Du kan använda en `for loop` för att kolla om det finns bara
-   nummror i stringen innan du omvandlar den i en nummer:
+   nummer i stringen innan du omvandlar den i en nummer:
    
 ```
 nstr = input('Nummer: ')
@@ -143,7 +143,7 @@ for c in nstr:
     if c not in ['0','1','2','3','4','5','6','7','8','9']:
         print('Det finns icke-siffror i', nstr)
 		exit()
-print('Nummret är:', int(nstr))
+print('Numret är:', int(nstr))
 ```
 
 Kör programmet med olika input.
@@ -151,8 +151,8 @@ Kör programmet med olika input.
 Obs. Programmet använder `exit` 'function' för att avsluta när en
 icke-siffra har hittats.
 
-10. En programm som omvandlar många nummer, ska ha en namn for den
-    omvandlingskod. I Python skrivar man en 'function' for att ge en
+10. En program som omvandlar många nummer, ska ha en namn for den
+    omvandlingstryck I Python skriver man en 'function' for att ge en
     namn till kod:
 	
 ```
@@ -163,7 +163,7 @@ def string_to_int(s):
 		    return 0
 	return int(s)
 nstr = input('Nummer: ')
-print('Nummret är:', string_to_int(nstr))
+print('Numret är:', string_to_int(nstr))
 ```
 
 Kör programmet med olika input.
@@ -174,7 +174,7 @@ Kör programmet med olika input.
 
 Här är labyrint program:
 
-1. [[maze/maze.py]](maze/maze.py): har 3 'bugs' some vo försökta fixa
+1. [[maze/maze.py]](maze/maze.py): har 3 'bugs' som vi försökte fixa
    förra gången.
    
 1. [[maze/fixed_maze.py]](maze/fixed_maze.py): har fixat den 3 bugs men kan
@@ -184,7 +184,7 @@ Här är labyrint program:
 
 1. [[maze/maze3.py]](maze/maze3.py): har lite mindre bugs och mera output.
 
-Ladda ner och köra dessa maze program. Förskök att krascha dom.
+Ladda ner och köra dessa maze program. Försök att krascha dom.
 
 
 # 24.10.2018: Labyrint
@@ -212,7 +212,7 @@ svar.
 
 Här är en algoritm som hittar kortaste vägen i en labyrint:
 
-1. Först väljar man en ruta som är start och en ruta som är slut.
+1. Först väljer man en ruta som är start och en ruta som är slut.
 
 1. Skriv numret 0 i startrutan.
 
@@ -240,19 +240,19 @@ Här är en algoritm som hittar kortaste vägen i en labyrint:
      slut.
 
 
-## Kod for kortaste väg algoritme
+## Kod for kortaste väg algoritm
 
 Algoritmen är kodat i filen [[maze/maze.py]](maze/maze.py).
 
 1. Ladda ner filen [[maze/maze.py]](maze/maze.py) och
-   öppa med Thonny IDE.
+   öppna med Thonny IDE.
 
 1. Kör programmet några gånger och pröva olika labyrinter.
 
 1. Fixa "function" `draw_trail` och function `__main__` och kör
    programmet igen.
 
-1. Om du fixade programmet rätt, så visas den en rut genom labyrinten.
+1. Om du fixade programmet rätt, så visas den en ruta genom labyrinten.
 
 
 Det finns också en fil [[maze/fixed_maze.py]](maze/fixed_maze.py). I
@@ -265,12 +265,12 @@ vägen genom labyrinten:
 
 # 17.10.2018: höstlov
 
-Ingen kodklubb.
+Ingen KodKlubben
 
 # 10.10.2018 och 3.10.2018: Programmera Minecraft, spela Minecraft
 
 
-1. Starta Minecraft och skapa en new värld.
+1. Starta Minecraft och skapa en ny värld.
 
 1. Lämna Minecraft fönstret i bakgrunden (`TAB`) och öppna Thonny Python IDE.
 
@@ -413,7 +413,7 @@ mc.player.setPos(x, PYRAMID_SIZE+1, PYRAMID_SIZE+OFFSET)
 
 Den här gången fortsätta vi med Python kod, men nu ska vi rita.
 
-### Inan vi börjar
+### Innan vi börjar
 
 1. Tömma `Downloads` mappen
 
@@ -469,8 +469,8 @@ När Thonny har startas up, ser du en fönster som den här:
 
 #### Edit fönstret i Thonny
 
-Edit fönstret är just under knapparna. Här skrivar man Python kod /
-program som du kan spara i filer. Filnamnet visas övanpå fönstret. 
+Edit fönstret är just under knapparna. Här skriver man Python kod /
+program som du kan spara i filer. Filnamnet visas ovanpå fönstret. 
 Här på bilden heter den `<untitled>` (namnlös).
 
 #### "Shell" fönstret i Thonny
@@ -490,13 +490,13 @@ du klicka `Enter`. Till exempel:
 
 ```
 
-Här finns flera Python "expressions" (meningar) som du kan försoka:
+Här finns flera Python "expressions" (meningar) som du kan försöka
 
   - `10 + 2 * 3`
   - `(10 + 2) * 3`
   - `1.5 - 0.32`
   
-Python kan också räkna med "strings" (listor av bokstävar):
+Python kan också räkna med "strings" (listor av bokstäver):
 
   - `"Hej, vad heter du"`
   - `'Hej, vad heter du' + "?"` 
