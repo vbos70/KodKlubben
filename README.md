@@ -6,9 +6,9 @@ Kod för Ingås kodare.
 
 Många program frågar användaren att mata in text *input* och sen
 genererar programmet text *output*.  Programmet
-[[maze/maze.py]](maze/maze.py), som vi körde förra gång, frågar
-användaren att mata in labyrintens storlek som text och sen ritar den
-en labyrint och skriver något text. 
+[[maze/maze.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/maze/maze.py),
+som vi körde förra gång, frågar användaren att mata in labyrintens
+storlek som text och sen ritar den en labyrint och skriver något text.
 
 Hur skriver man kod som läser in text input och genererar text output?
 
