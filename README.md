@@ -169,6 +169,24 @@ print('Nummret är:', string_to_int(nstr))
 Kör programmet med olika input.
 
 
+
+## Mera labyrint program
+
+Här är labyrint program:
+
+1. [[maze/maze.py]](maze/maze.py): har 3 'bugs' some vo försökta fixa
+   förra gången.
+   
+1. [[maze/fixed_maze.py]](maze/fixed_maze.py): har fixat den 3 bugs men kan
+   krascha på några inputs.
+
+1. [[maze/maze2.py]](maze/maze2.py): har lite mindre bugs.
+
+1. [[maze/maze3.py]](maze/maze3.py): har lite mindre bugs och mera output.
+
+Ladda ner och köra dessa maze program. Förskök att krascha dom.
+
+
 # 24.10.2018: Labyrint
 
 
