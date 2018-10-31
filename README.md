@@ -174,15 +174,15 @@ Kör programmet med olika input.
 
 Här är labyrint program:
 
-1. [[maze/maze.py]](maze/maze.py): har 3 'bugs' som vi försökte fixa
+1. [[maze/maze.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/maze/maze.py): har 3 'bugs' som vi försökte fixa
    förra gången.
    
-1. [[maze/fixed_maze.py]](maze/fixed_maze.py): har fixat den 3 bugs men kan
+1. [[maze/fixed_maze.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/maze/fixed_maze.py): har fixat den 3 bugs men kan
    krascha på några inputs.
 
-1. [[maze/maze2.py]](maze/maze2.py): har lite mindre bugs.
+1. [[maze/maze2.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/maze/maze2.py): har lite mindre bugs.
 
-1. [[maze/maze3.py]](maze/maze3.py): har lite mindre bugs och mera output.
+1. [[maze/maze3.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/maze/maze3.py): har lite mindre bugs och mera output.
 
 Ladda ner och köra dessa maze program. Försök att krascha dom.
 
