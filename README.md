@@ -152,7 +152,7 @@ Obs. Programmet använder `exit` 'function' för att avsluta när en
 icke-siffra har hittats.
 
 10. En program som omvandlar många nummer, ska ha en namn for den
-    omvandlingstryck I Python skriver man en 'function' for att ge en
+    omvandlingskod I Python skriver man en 'function' for att ge en
     namn till kod:
 	
 ```
