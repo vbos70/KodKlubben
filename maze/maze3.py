@@ -56,25 +56,39 @@ def ur_maze(mz):
    
 
 def draw_maze(mz):
+
+   color = {
+      'background' : 'LightGrey',
+      'walls' : 'DarkBlue',
+   }
+   
    sz, cells, doors = mz
    scale = image_scale()
 
+   cv = turtle.getcanvas()
+
+   ll = ll_maze(mz)
+   ur = ur_maze(mz)
+   cv.create_rectangle(xcoord(ll), ycoord(ll),
+                       xcoord(ur), ycoord(ur),
+                       outline = color['walls'],
+                       fill = color['background'],
+                       width = 5)
+   
    for cx in range(sz):
       write_centered(mz, str(cx), (cx, -1))
       write_centered(mz, str(cx), (-1, cx))
-      
-   cv = turtle.getcanvas()
 
    for i in range(1, sz):
       cv.create_line(
          draw_offset(mz) + i * scale, draw_offset(mz),
          draw_offset(mz) + i * scale, -draw_offset(mz),         
-         fill = 'DarkBlue',
+         fill = color['walls'],
          width = 5)
       cv.create_line(
          draw_offset(mz), draw_offset(mz) + i * scale,
          -draw_offset(mz), draw_offset(mz) + i * scale,         
-         fill = 'DarkBlue',
+         fill = color['walls'],
          width = 5)
 
    for d in doors:
@@ -87,20 +101,16 @@ def draw_maze(mz):
 
          cv.create_rectangle(mx-scale//6, my-scale//6,
                              mx+scale//6, my+scale//6,
-                             fill='white', outline='white')
+                             fill=color['background'],
+                             outline=color['background'])
 
    for c in cells:
       if not has_doors(mz, c):
          cx, cy = cell_center(mz, c)
          cv.create_rectangle(cx-image_scale()/2, cy-image_scale()/2,
                              cx+image_scale()/2, cy+image_scale()/2,
-                             fill='DarkBlue', outline='DarkBlue')
-   ll = ll_maze(mz)
-   ur = ur_maze(mz)
-   cv.create_rectangle(xcoord(ll), ycoord(ll),
-                       xcoord(ur), ycoord(ur),
-                       outline = 'DarkBlue',
-                       width = 5)
+                             fill=color['walls'],
+                             outline=color['walls'])
 
    
    
@@ -124,7 +134,7 @@ def draw_trail(mz, distance, c):
 
       turtle.getcanvas().create_oval(x-image_scale()/4, y-image_scale()/4,
                                      x+image_scale()/4, y+image_scale()/4,
-                                     fill='green', outline='red')
+                                     fill='green', outline='DarkGreen')
       
       # check if we have reached the start point
       if distance[c] == 0:
