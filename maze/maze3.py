@@ -28,17 +28,17 @@ def door_exists(mz, c0, c1):
 
 def cell_center(mz, cell):
    #sz, cells, doors = mz
-   scale = draw_scale()
+   scale = image_scale()
    m = scale / 2
    return (xcoord(cell) * scale + m + draw_offset(mz),
            (ycoord(cell) * scale + m + draw_offset(mz)))
 
-def draw_scale():
+def image_scale():
    return 40
 
 def draw_offset(mz):
    sz, cells, doors = mz
-   return -1 * draw_scale() * sz / 2
+   return -1 * image_scale() * sz / 2
 
 def ll_maze(mz):
    return (draw_offset(mz), draw_offset(mz))
@@ -61,7 +61,7 @@ def draw_footprint(scale):
    
 def draw_maze(mz):
    sz, cells, doors = mz
-   scale = draw_scale()
+   scale = image_scale()
    turtle.hideturtle()
 
    for cx in range(sz):
@@ -126,13 +126,10 @@ def draw_trail(mz, distance, c):
       # get center coordinates of cell c (the next line has to be fixed!)
       x, y = cell_center(mz, c)
 
-      # move turtle to this point (these lines are ok)
-      turtle.penup()
-      turtle.goto(x, -y)
-
-      # draw a footprint at the right size (the next line has to be fixed!)
-      draw_footprint(draw_scale())
-
+      turtle.getcanvas().create_oval(x-image_scale()/4, y-image_scale()/4,
+                                     x+image_scale()/4, y+image_scale()/4,
+                                     fill='green', outline='red')
+      
       # the rest of this function is ok
       
       # check if we have reached the start point
