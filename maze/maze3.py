@@ -47,18 +47,6 @@ def ur_maze(mz):
    return (-draw_offset(mz), -draw_offset(mz))
    
 
-def draw_footprint0(scale):
-   turtle.penup()
-   x, y = turtle.pos()
-   turtle.goto(x, y - scale/2)
-   turtle.pendown()
-
-   turtle.circle(0.9 * scale / 2, steps = 8)
-   # steps == 4, so this draws a 8-sided polygon 
-
-   turtle.penup()
-   turtle.goto(x, y + scale/2)
-   
 def draw_maze(mz):
    sz, cells, doors = mz
    scale = image_scale()
@@ -115,7 +103,6 @@ def write_centered(mz, s, c):
 
    
 def draw_trail(mz, distance, c):
-   # This function is not correct, can you fix it (read the comments)?
    sz, cells, doors = mz
 
    turtle.speed(speed = 6)
@@ -129,8 +116,6 @@ def draw_trail(mz, distance, c):
       turtle.getcanvas().create_oval(x-image_scale()/4, y-image_scale()/4,
                                      x+image_scale()/4, y+image_scale()/4,
                                      fill='green', outline='red')
-      
-      # the rest of this function is ok
       
       # check if we have reached the start point
       if distance[c] == 0:
@@ -147,14 +132,6 @@ def draw_trail(mz, distance, c):
       # no check needed for case with no neighbours.
 
    
-def print_distance(mz, distance):
-   sz, cells, doors = mz
-   for r in range(sz):
-      l = []
-      for c in range(sz):
-         l.append(str(distance[(c,r)]))
-      print(', '.join(l))
-
 def draw_distance(mz, distance):
    sz, cells, doors = mz
    for r in range(sz):
@@ -282,7 +259,6 @@ if __name__ == '__main__':
       
       run = True
       d = find_path(mz, (x0, y0), (x1, y1))
-      print_distance(mz, d)
       draw_distance(mz, d)
          
       if d[(x1,y1)] == sz * sz:
