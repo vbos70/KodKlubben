@@ -26,6 +26,14 @@ def door_exists(mz, c0, c1):
       return doors[(c1,c0)]
    return False
 
+
+def has_doors(mz, c):
+   sz, cells, doors = mz
+   for d in doors:
+      if doors[d] and (c in d):
+         return True
+   return False
+   
 def cell_center(mz, cell):
    #sz, cells, doors = mz
    scale = image_scale()
@@ -50,7 +58,6 @@ def ur_maze(mz):
 def draw_maze(mz):
    sz, cells, doors = mz
    scale = image_scale()
-   turtle.hideturtle()
 
    for cx in range(sz):
       write_centered(mz, str(cx), (cx, -1))
@@ -62,13 +69,13 @@ def draw_maze(mz):
       cv.create_line(
          draw_offset(mz) + i * scale, draw_offset(mz),
          draw_offset(mz) + i * scale, -draw_offset(mz),         
-         fill = 'blue',
-         width = 3)
+         fill = 'DarkBlue',
+         width = 5)
       cv.create_line(
          draw_offset(mz), draw_offset(mz) + i * scale,
          -draw_offset(mz), draw_offset(mz) + i * scale,         
-         fill = 'blue',
-         width = 3)
+         fill = 'DarkBlue',
+         width = 5)
 
    for d in doors:
       if doors[d]:
@@ -78,16 +85,22 @@ def draw_maze(mz):
          mx = (xcoord(cc0) + xcoord(cc1)) / 2
          my = (ycoord(cc0) + ycoord(cc1)) / 2
 
-         cv.create_oval(mx-scale/4, my-scale/4,
-                        mx+scale/4, my+scale/4,
-                        fill='white', outline='white')
+         cv.create_rectangle(mx-scale//6, my-scale//6,
+                             mx+scale//6, my+scale//6,
+                             fill='white', outline='white')
 
+   for c in cells:
+      if not has_doors(mz, c):
+         cx, cy = cell_center(mz, c)
+         cv.create_rectangle(cx-image_scale()/2, cy-image_scale()/2,
+                             cx+image_scale()/2, cy+image_scale()/2,
+                             fill='DarkBlue', outline='DarkBlue')
    ll = ll_maze(mz)
    ur = ur_maze(mz)
    cv.create_rectangle(xcoord(ll), ycoord(ll),
                        xcoord(ur), ycoord(ur),
-                       outline = 'blue',
-                       width = 3)
+                       outline = 'DarkBlue',
+                       width = 5)
 
    
    
@@ -104,8 +117,6 @@ def write_centered(mz, s, c):
    
 def draw_trail(mz, distance, c):
    sz, cells, doors = mz
-
-   turtle.speed(speed = 6)
 
    while distance[c] < sz*sz:
       print(c)
@@ -137,7 +148,8 @@ def draw_distance(mz, distance):
    for r in range(sz):
       l = []
       for c in range(sz):
-         write_centered(mz, str(distance.get((c,r),'')), (c,r))
+         if distance.get((c,r),sz*sz) < sz*sz:
+            write_centered(mz, str(distance.get((c,r),'')), (c,r))
 
 def neighbours(mz, c):
    sz, cells, doors = mz
@@ -202,6 +214,8 @@ def coordinate_input(msg, default):
 
 if __name__ == '__main__':
 
+   turtle.hideturtle()
+
    print (len(sys.argv))
    if len(sys.argv) == 3:
       num = int(sys.argv[1])
@@ -210,7 +224,6 @@ if __name__ == '__main__':
          random.seed(round)
       
          mz = generate_maze(sz)
-         turtle.reset()
          turtle.getcanvas().delete(tkinter.ALL)
          draw_maze(mz)
 
@@ -272,5 +285,4 @@ if __name__ == '__main__':
          print('Bye!')
          break
       else:
-         turtle.reset()
          turtle.getcanvas().delete(tkinter.ALL)
