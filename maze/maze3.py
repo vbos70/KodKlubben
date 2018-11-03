@@ -47,7 +47,7 @@ def ur_maze(mz):
    return (-draw_offset(mz), -draw_offset(mz))
    
 
-def draw_footprint(scale):
+def draw_footprint0(scale):
    turtle.penup()
    x, y = turtle.pos()
    turtle.goto(x, y - scale/2)
@@ -106,7 +106,7 @@ def draw_maze(mz):
 def write_centered(mz, s, c):
    sz, cells, doors = mz
    x, y = cell_center(mz, c)
-   fontsz = 12
+   fontsz = image_scale()//3
    turtle.getcanvas().create_text(
       x, y,
       font=("Arial", fontsz, "normal"),
