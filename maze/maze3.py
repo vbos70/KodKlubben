@@ -42,7 +42,7 @@ def cell_center(mz, cell):
            (ycoord(cell) * scale + m + draw_offset(mz)))
 
 def image_scale():
-   return 40
+   return 30
 
 def draw_offset(mz):
    sz, cells, doors = mz
