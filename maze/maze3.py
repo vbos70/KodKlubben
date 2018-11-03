@@ -1,13 +1,21 @@
 import random
 import sys
 import turtle
+import tkinter
+
+def xcoord(c):
+   return c[0]
+
+def ycoord(c):
+   return c[1]
 
 def generate_maze(sz):
    cells = [(x,y) for x in range(sz) for y in range(sz)]
    doors = {(c1, c2) : random.choice([True, True, False])
-         for c1 in cells
-         for c2 in cells
-         if c1 < c2}
+            for c1 in cells
+            if xcoord(c1) < sz - 1 and ycoord(c1) < sz - 1
+            for c2 in [(xcoord(c1)+1, ycoord(c1)),
+                       (xcoord(c1), ycoord(c1)+1)]}
    return (sz, cells, doors)
 
 def door_exists(mz, c0, c1):
@@ -18,50 +26,26 @@ def door_exists(mz, c0, c1):
       return doors[(c1,c0)]
    return False
 
-def print_maze(mz):
-   sz, cells, doors = mz
-   for r in range(sz):
-      l = ''
-      for c in range(sz):
-         if r == 0 or not door_exists(mz, (c, r-1), (c, r)):
-            l = l + ('+-')
-         else:
-            l = l + ('+ ')
-      print(l + '+')
-      l = ''
-      for c in range(sz):
-         if c == 0 or not door_exists(mz, (c-1, r), (c,r)):
-            l = l + ('| ')
-         else:
-            l = l + ('  ')
-      print(l + '|')
-   print(('+-' * sz) + '+')         
-
 def cell_center(mz, cell):
    #sz, cells, doors = mz
-   cx, cy = cell
    scale = draw_scale()
    m = scale / 2
-   return (cx * scale + m - draw_offset(mz),
-           -(cy * scale + m - draw_offset(mz)))
-
+   return (xcoord(cell) * scale + m + draw_offset(mz),
+           (ycoord(cell) * scale + m + draw_offset(mz)))
 
 def draw_scale():
    return 40
 
 def draw_offset(mz):
    sz, cells, doors = mz
-   return draw_scale() * sz / 2
+   return -1 * draw_scale() * sz / 2
 
-def draw_wall(scale):
-   turtle.forward(scale)
+def ll_maze(mz):
+   return (draw_offset(mz), draw_offset(mz))
 
-def draw_door(scale):
-   turtle.forward(scale / 4)
-   turtle.penup()
-   turtle.forward(scale / 2)
-   turtle.pendown()
-   turtle.forward(scale / 4)
+def ur_maze(mz):
+   return (-draw_offset(mz), -draw_offset(mz))
+   
 
 def draw_footprint(scale):
    turtle.penup()
@@ -78,84 +62,58 @@ def draw_footprint(scale):
 def draw_maze(mz):
    sz, cells, doors = mz
    scale = draw_scale()
-   
-   turtle.speed(speed = 0)
-   turtle.showturtle()
-
-   turtle.penup()
-   turtle.setheading(0)
-   turtle.backward(draw_offset(mz))
-   turtle.setheading(270)
-   turtle.backward(draw_offset(mz))
-   
-   
-   for r in range(sz):
-      for c in range(sz):
-         turtle.setheading(270)
-         turtle.pendown()
-         if c == 0 or not door_exists(mz, (c-1, r), (c, r)):
-            draw_wall(scale)
-         else:
-            draw_door(scale)
-
-
-         turtle.penup()
-         turtle.setheading(90)
-         turtle.forward(scale)
-
-         turtle.setheading(0)
-         turtle.pendown()
-         if r == 0 or not door_exists(mz, (c, r-1), (c,r)):
-            draw_wall(scale)
-         else:
-            draw_door(scale)
-
-      turtle.setheading(270)
-      turtle.forward(scale)
-      turtle.penup()
-      turtle.setheading(180)
-      turtle.forward(scale * sz)
-   
-   turtle.pendown()
-   turtle.setheading(0)
-   turtle.forward(scale * sz)
+   turtle.hideturtle()
 
    for cx in range(sz):
       write_centered(mz, str(cx), (cx, -1))
       write_centered(mz, str(cx), (-1, cx))
       
-   turtle.hideturtle()
+   cv = turtle.getcanvas()
 
-def write_centered(mz, s, c):
-   sz, cells, doors = mz
-   turtle.penup()
-   x, y = cell_center(mz, c)
-   fontsz = 12
-   turtle.goto(x, y - fontsz)
-   turtle.write(s, align='center', font=("Arial", fontsz, "normal"))
+   for i in range(1, sz):
+      cv.create_line(
+         draw_offset(mz) + i * scale, draw_offset(mz),
+         draw_offset(mz) + i * scale, -draw_offset(mz),         
+         fill = 'blue',
+         width = 3)
+      cv.create_line(
+         draw_offset(mz), draw_offset(mz) + i * scale,
+         -draw_offset(mz), draw_offset(mz) + i * scale,         
+         fill = 'blue',
+         width = 3)
+
+   for d in doors:
+      if doors[d]:
+         c0, c1 = d
+         cc0 = cell_center(mz, c0)
+         cc1 = cell_center(mz, c1)
+         mx = (xcoord(cc0) + xcoord(cc1)) / 2
+         my = (ycoord(cc0) + ycoord(cc1)) / 2
+
+         cv.create_oval(mx-scale/4, my-scale/4,
+                        mx+scale/4, my+scale/4,
+                        fill='white', outline='white')
+
+   ll = ll_maze(mz)
+   ur = ur_maze(mz)
+   cv.create_rectangle(xcoord(ll), ycoord(ll),
+                       xcoord(ur), ycoord(ur),
+                       outline = 'blue',
+                       width = 3)
 
    
-def print_trail(mz, distance, c):
+   
+def write_centered(mz, s, c):
    sz, cells, doors = mz
+   x, y = cell_center(mz, c)
+   fontsz = 12
+   turtle.getcanvas().create_text(
+      x, y,
+      font=("Arial", fontsz, "normal"),
+      text=s
+      )
 
-   while distance[c] < sz*sz:
-      print(c)
-
-      # check if we have reached the start point
-      if distance[c] == 0:
-         break
-
-      # find a neighbours at 1 step away
-      for n in neighbours(mz,c):
-         if door_exists(mz, c, n) and distance[n] + 1 == distance[c]:
-            # note that the door_exists() check is redundant: if the
-            # distance between c and n is 1, then there is a door
-            # between c and n.
-            c = n
-            break
-      # no check needed for case with no neighbours.
-
-
+   
 def draw_trail(mz, distance, c):
    # This function is not correct, can you fix it (read the comments)?
    sz, cells, doors = mz
@@ -163,13 +121,14 @@ def draw_trail(mz, distance, c):
    turtle.speed(speed = 6)
 
    while distance[c] < sz*sz:
-
+      print(c)
+      
       # get center coordinates of cell c (the next line has to be fixed!)
       x, y = cell_center(mz, c)
 
       # move turtle to this point (these lines are ok)
       turtle.penup()
-      turtle.goto(x, y)
+      turtle.goto(x, -y)
 
       # draw a footprint at the right size (the next line has to be fixed!)
       draw_footprint(draw_scale())
@@ -278,6 +237,7 @@ if __name__ == '__main__':
       
          mz = generate_maze(sz)
          turtle.reset()
+         turtle.getcanvas().delete(tkinter.ALL)
          draw_maze(mz)
 
          ts = turtle.getscreen()
@@ -313,8 +273,6 @@ if __name__ == '__main__':
       random.seed(round)
       
       mz = generate_maze(maze_size)
-      print_maze(mz)
-      turtle.reset()
       draw_maze(mz)
 
       sz, cells, doors = mz
@@ -334,13 +292,12 @@ if __name__ == '__main__':
          print('There is no path between these cells.')
       else:
          print('Distance between (x0,y0) and (x1, y1) is: ', d[(x1,y1)])
-         print('Trail:')
-         print_trail(mz, d, (x1, y1))
-
-         # uncomment following line after fixing draw_trail function.
          draw_trail(mz, d, (x1, y1))
 
       c = input('Again? ([Y]/N)').strip()
       if not(c == '' or c == 'y' or c == 'Y'):
          print('Bye!')
          break
+      else:
+         turtle.reset()
+         turtle.getcanvas().delete(tkinter.ALL)
