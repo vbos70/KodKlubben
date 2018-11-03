@@ -119,8 +119,6 @@ def draw_trail(mz, distance, c):
    sz, cells, doors = mz
 
    while distance[c] < sz*sz:
-      print(c)
-      
       # get center coordinates of cell c (the next line has to be fixed!)
       x, y = cell_center(mz, c)
 
@@ -238,17 +236,20 @@ if __name__ == '__main__':
       
    run = True
    maze_size = 4
+   mz = None
    round = 0
    x0 = 0
    y0 = 0
    x1 = 0
    y1 = 0
    while run:
-      maze_size = int_input('Size [%d]: ' % maze_size, maze_size)
-      if maze_size < 1 or maze_size > 100:
-         print('Maze size should be from 1 to 100.')
-         maze_size = 4
-         continue
+      if mz is None:
+         maze_size = int_input('Size [%d]: ' % maze_size, maze_size)
+         if maze_size < 1 or maze_size > 100:
+            print('Maze size should be from 1 to 100.')
+            maze_size = 4
+            continue
+         mz = generate_maze(maze_size)
 
       # check and set default (x1,y1) to valid point.
       if x1 <= 0 or x1 >= maze_size or y1 <= 0 or y1 >= maze_size:
@@ -259,7 +260,6 @@ if __name__ == '__main__':
       print ('Round ', round)
       random.seed(round)
       
-      mz = generate_maze(maze_size)
       draw_maze(mz)
 
       sz, cells, doors = mz
@@ -280,9 +280,17 @@ if __name__ == '__main__':
          print('Distance between (x0,y0) and (x1, y1) is: ', d[(x1,y1)])
          draw_trail(mz, d, (x1, y1))
 
-      c = input('Again? ([Y]/N)').strip()
-      if not(c == '' or c == 'y' or c == 'Y'):
+      c = input('Same maze/new maze/quit? ([S]/N/Q)').strip()
+      if len(c) == 0:
+         c = 'S'
+         
+      if c == 'N' or c == 'n':
+         mz = None
+      elif c == 'S' or c == 's':
+         pass
+      elif c == 'Q' or c == 'q':
          print('Bye!')
-         break
-      else:
-         turtle.getcanvas().delete(tkinter.ALL)
+         run = False
+         
+      turtle.getcanvas().delete(tkinter.ALL)
+         
