@@ -135,14 +135,14 @@ Pröva `int` i Thonnys 'Shell' fönstret och kolla vad händer med olika
 'inputs'.
 
 9. Du kan använda en `for loop` för att kolla om det finns bara
-   nummer i stringen innan du omvandlar den i en nummer:
+   nummer i stringen innan du omvandlar den i ett nummer:
    
 ```
 nstr = input('Nummer: ')
 for c in nstr:
     if c not in ['0','1','2','3','4','5','6','7','8','9']:
         print('Det finns icke-siffror i', nstr)
-		exit()
+	exit()
 print('Numret är:', int(nstr))
 ```
 
