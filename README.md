@@ -2,6 +2,97 @@
 
 Kod för Ingås kodare.
 
+# 7.11.2018: Mera labyrinter
+
+## Ladda ner och pröva `maze3.py`
+
+1. Right-click på `maze3.py` och välja 'Save link as' (spara link som).
+
+  [[maze/maze.3py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/maze/maze3.py)
+
+   Spara filen i `Downloads` mappen.
+   
+1. Öppna en terminal och ge följande kommandot för att köra programmet:
+
+```
+cd Downloads
+python3 maze3.py
+```
+
+1. Testa programmer med olika inputs.
+
+## Öppna programmet i Thonny Python IDE
+
+1. Öppna Thonny Python IDE
+
+1. Välja `File` - `Open` från menyn och letar fram `maze3.p` i mappen
+  `Downloads`
+
+## Rutor i en labyrint
+
+En labyrint av storlek 4 har 4x4 'cells' (rutor). En ruta är 2 nummer:
+(x,y). Till exempel (0,0), (1,0), (0,1), och (3,3).
+
+Den första nummer kallas *x-koordinaten* och den andra
+*y-koordinaten*. X-koordinaten ger rutans plats (i labyrinten) från
+vänster till höger. Y-koordinaten ger rutans plats från toppen till
+botten.
+
+Koordinater börjar med 0 och är maximalt 1 mindre än labyrintens
+storlek. Dvs, i en labyrint med storlek 4 finns koordinater 0, 1, 2
+och 3.
+
+1. Leta fram den Python funktioner (functions) som ger
+x-koordinaten och y-koordinaten för en cell. Vad heter dessa functioner?
+
+## Färger
+
+Leta fram funktionen `draw_maze` som ritar labyrinten. Här kan du
+ändra färgerna på labyrinten:
+
+```
+   color = {
+      'background' : 'LightGrey',
+      'walls' : 'DarkBlue',
+   }
+   
+```
+
+`'background'` (bakgrund) är färgen för labyrintens
+bakgrund. `'walls'` är färgen på labyrintens väggar. I koden är
+bakgrunden definierat som `'LightGrey'` och väggarna som `'DarkBlue'`.
+
+I filen [[rgb.txt]](file:/usr/share/X11/rgb.txt) hittar du namn på många
+färgen.
+
+1. Ändra färg på labyrintens bakgrund och väggarna.
+
+## Storlek av rutor
+
+När du ritar en labyrint med storlek 30 eller mera, passar denn inte i
+fönstret. Men om det är ok med små rutor, så kan vi rita lite större
+labyrinter.
+
+Leta fram funktionen `image_scale` i `maze3.py`:
+
+```
+def image_scale():
+   return 30
+```
+
+Den här funktionen definierar att 1 koordinat kommer överens med 30
+pixlar på skärmen. Alltså, 1 rut blir ritat som en kvadrat / fyrkant
+med varje sida 30 pixlar lång.
+
+För att ändra storleken av en ruta (och labyrinten), ändrar du nummret
+`30`. Tar  du `20`, så  blir labyrinten mindre.  Tar du `40`,  så blir
+labyrinten större.
+
+
+
+
+
+
 # 31.10.2018: Text input/output
 
 Många program frågar användaren att mata in text *input* och sen
