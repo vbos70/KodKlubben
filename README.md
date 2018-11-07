@@ -19,13 +19,13 @@ cd Downloads
 python3 maze3.py
 ```
 
-1. Testa programmer med olika inputs.
+1. Testa programmet med olika inputs.
 
 ## Öppna programmet i Thonny Python IDE
 
 1. Öppna Thonny Python IDE
 
-1. Välja `File` - `Open` från menyn och letar fram `maze3.p` i mappen
+1. Välja `File` - `Open` från menyn och letar fram `maze3.py` i mappen
   `Downloads`
 
 ## Rutor i en labyrint
@@ -62,8 +62,8 @@ Leta fram funktionen `draw_maze` som ritar labyrinten. Här kan du
 bakgrund. `'walls'` är färgen på labyrintens väggar. I koden är
 bakgrunden definierat som `'LightGrey'` och väggarna som `'DarkBlue'`.
 
-I filen [[rgb.txt]](file:/usr/share/X11/rgb.txt) hittar du namn på många
-färgen.
+I filen `/usr/share/X11/rgb.txt` på Raspberry Pi hittar du namn på
+många färgen. Öppna den fil i Thonny.
 
 1. Ändra färg på labyrintens bakgrund och väggarna.
 
@@ -81,16 +81,12 @@ def image_scale():
 ```
 
 Den här funktionen definierar att 1 koordinat kommer överens med 30
-pixlar på skärmen. Alltså, 1 rut blir ritat som en kvadrat / fyrkant
+pixlar på skärmen. Alltså, 1 ruta blir ritat som en kvadrat / fyrkant
 med varje sida 30 pixlar lång.
 
 För att ändra storleken av en ruta (och labyrinten), ändrar du nummret
 `30`. Tar  du `20`, så  blir labyrinten mindre.  Tar du `40`,  så blir
 labyrinten större.
-
-
-
-
 
 
 # 31.10.2018: Text input/output
