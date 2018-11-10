@@ -10,7 +10,7 @@ def sleep(seconds):
    time.sleep(seconds)
    
 def rnd_size():
-   return random.randint(4,15)
+   return random.randint(4,30)
 
 def rnd_coord(mz):
    sz, cells, doors = mz
