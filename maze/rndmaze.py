@@ -137,23 +137,26 @@ def write_centered(mz, s, c):
       text=s
       )
 
+
+def draw_circle(mz, c, fg, bg):
+   x, y = cell_center(mz, c)
+   turtle.getcanvas().create_oval(x-image_scale()/4, y-image_scale()/4,
+                                  x+image_scale()/4, y+image_scale()/4,
+                                  fill=fg, outline=bg)
    
+
 def draw_trail(mz, distance, c):
    sz, cells, doors = mz
 
    while distance[c] < sz*sz:
-      # get center coordinates of cell c (the next line has to be fixed!)
-      x, y = cell_center(mz, c)
-
-      turtle.getcanvas().create_oval(x-image_scale()/4, y-image_scale()/4,
-                                     x+image_scale()/4, y+image_scale()/4,
-                                     fill='green', outline='DarkGreen')
-      sleep(1)
-      
       # check if we have reached the start point
       if distance[c] == 0:
          break
 
+      # draw a 'footprint'
+      draw_circle(mz, c, 'green', 'DarkGreen')
+      sleep(1)
+      
       # find a neighbour at 1 step away
       for n in neighbours(mz,c):
          if door_exists(mz, c, n) and distance[n] + 1 == distance[c]:
@@ -271,7 +274,6 @@ if __name__ == '__main__':
          maze_size = rnd_size()
          mz = generate_maze(maze_size)
 
-      print('size:', maze_size)
       draw_maze(mz)
       sleep(3)
 
@@ -282,9 +284,11 @@ if __name__ == '__main__':
       x1 = rnd_coord(mz)
       y1 = rnd_coord(mz)
 
-      run = True
       d = find_path(mz, (x0, y0), (x1, y1))
       draw_distance(mz, d)
+      draw_circle(mz, (x0, y0), 'yellow', 'red')
+      sleep(1)
+      draw_circle(mz, (x1, y1), 'green', 'DarkGreen')
       sleep(3)
          
       if d[(x1,y1)] == sz * sz:
