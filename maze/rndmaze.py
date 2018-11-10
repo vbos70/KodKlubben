@@ -4,6 +4,14 @@ import turtle
 import tkinter
 import time
 
+
+color = {
+   'background' : 'LightGrey',
+   'walls' : 'DarkBlue',
+   'door' : 'blue'
+}
+   
+
 def sleep(seconds):
    cv = turtle.getcanvas()
    cv.update_idletasks()
@@ -66,15 +74,42 @@ def ll_maze(mz):
 
 def ur_maze(mz):
    return (-draw_offset(mz), -draw_offset(mz))
+
+def door_center_coords(mz, c0, c1):
+   cc0 = cell_center(mz, c0)
+   cc1 = cell_center(mz, c1)
+   mx = (xcoord(cc0) + xcoord(cc1)) / 2
+   my = (ycoord(cc0) + ycoord(cc1)) / 2
+   return (mx, my)
+
+
+def draw_door(mz, d):
+   sz, cells, doors = mz
+   c0, c1 = d
+   mx, my = door_center_coords(mz, c0, c1)
+   scale = image_scale()
+   cv = turtle.getcanvas()
+
+   if xcoord(c0) == xcoord(c1):
+      # horizontal door
+      x0 = mx - scale // 6
+      x1 = mx + scale // 6
+      y0 = my - (5) // 2
+      y1 = my + (5) // 2
+   else:
+      # vertictal door
+      x0 = mx - (5) // 2
+      x1 = mx + (5) // 2
+      y0 = my - scale // 6
+      y1 = my + scale // 6
+      
+   cv.create_rectangle(x0, y0, x1, y1,
+                       fill=color['door'],
+                       outline='red',
+                       width=0)
    
 
 def draw_maze(mz):
-
-   color = {
-      'background' : 'LightGrey',
-      'walls' : 'DarkBlue',
-   }
-   
    sz, cells, doors = mz
    scale = image_scale()
 
@@ -106,17 +141,8 @@ def draw_maze(mz):
 
    for d in doors:
       if doors[d]:
-         c0, c1 = d
-         cc0 = cell_center(mz, c0)
-         cc1 = cell_center(mz, c1)
-         mx = (xcoord(cc0) + xcoord(cc1)) / 2
-         my = (ycoord(cc0) + ycoord(cc1)) / 2
-
-         cv.create_rectangle(mx-scale//6, my-scale//6,
-                             mx+scale//6, my+scale//6,
-                             fill=color['background'],
-                             outline=color['background'])
-
+         draw_door(mz, d)
+         
    for c in cells:
       if not has_doors(mz, c):
          cx, cy = cell_center(mz, c)
@@ -140,8 +166,8 @@ def write_centered(mz, s, c):
 
 def draw_circle(mz, c, fg, bg):
    x, y = cell_center(mz, c)
-   turtle.getcanvas().create_oval(x-image_scale()/4, y-image_scale()/4,
-                                  x+image_scale()/4, y+image_scale()/4,
+   turtle.getcanvas().create_oval(x-image_scale()//4, y-image_scale()//4,
+                                  x+image_scale()//4, y+image_scale()//4,
                                   fill=fg, outline=bg)
    
 
@@ -260,7 +286,7 @@ if __name__ == '__main__':
       print('Illegal usage')
       sys.exit()
       
-   random.seed(4)
+   #random.seed(4)
    run = True
    maze_size = 4
    mz = None
