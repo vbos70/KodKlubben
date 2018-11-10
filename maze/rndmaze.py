@@ -6,9 +6,12 @@ import time
 
 
 color = {
-   'background' : 'LightGrey',
-   'walls' : 'DarkBlue',
-   'door' : 'blue'
+   'background' : 'AntiqueWhite1',
+   'walls' : 'blue4',
+   'door' : 'AntiqueWhite1',
+   'trail' : 'orange',
+   'start' : 'yellow',
+   'end' : 'DarkGreen',
 }
    
 
@@ -78,8 +81,8 @@ def ur_maze(mz):
 def door_center_coords(mz, c0, c1):
    cc0 = cell_center(mz, c0)
    cc1 = cell_center(mz, c1)
-   mx = (xcoord(cc0) + xcoord(cc1)) / 2
-   my = (ycoord(cc0) + ycoord(cc1)) / 2
+   mx = (xcoord(cc0) + xcoord(cc1)) // 2
+   my = (ycoord(cc0) + ycoord(cc1)) // 2
    return (mx, my)
 
 
@@ -105,8 +108,8 @@ def draw_door(mz, d):
       
    cv.create_rectangle(x0, y0, x1, y1,
                        fill=color['door'],
-                       outline='red',
-                       width=0)
+                       outline=color['door'],
+                       width=1)
    
 
 def draw_maze(mz):
@@ -132,12 +135,12 @@ def draw_maze(mz):
          draw_offset(mz) + i * scale, draw_offset(mz),
          draw_offset(mz) + i * scale, -draw_offset(mz),         
          fill = color['walls'],
-         width = 5)
+         width = 3)
       cv.create_line(
          draw_offset(mz), draw_offset(mz) + i * scale,
          -draw_offset(mz), draw_offset(mz) + i * scale,         
          fill = color['walls'],
-         width = 5)
+         width = 3)
 
    for d in doors:
       if doors[d]:
@@ -164,32 +167,42 @@ def write_centered(mz, s, c):
       )
 
 
-def draw_circle(mz, c, fg, bg):
-   x, y = cell_center(mz, c)
-   turtle.getcanvas().create_oval(x-image_scale()//4, y-image_scale()//4,
-                                  x+image_scale()//4, y+image_scale()//4,
-                                  fill=fg, outline=bg)
+def draw_circle(x, y, rad, fill, outline):
+   turtle.getcanvas().create_oval(x-rad, y-rad,
+                                  x+rad, y+rad,
+                                  fill=fill,
+                                  outline=outline)
    
 
 def draw_trail(mz, distance, c):
    sz, cells, doors = mz
-
-   while distance[c] < sz*sz:
+   fill = color['trail']
+   outline = color['trail']
+   r = image_scale() // 6
+   cur = c
+   
+   while distance[cur] < sz*sz:
       # check if we have reached the start point
-      if distance[c] == 0:
+      if distance[cur] == 0:
          break
 
-      # draw a 'footprint'
-      draw_circle(mz, c, 'green', 'DarkGreen')
-      sleep(1)
+      if c != cur:
+         # draw a 'footprint'
+         x0, y0 = cell_center(mz, cur)
+         draw_circle(x0, y0, r, fill, outline) 
+         sleep(0.5)
       
       # find a neighbour at 1 step away
-      for n in neighbours(mz,c):
-         if door_exists(mz, c, n) and distance[n] + 1 == distance[c]:
+      for n in neighbours(mz,cur):
+         if door_exists(mz, cur, n) and distance[n] + 1 == distance[cur]:
             # note that the door_exists() check is redundant: if the
-            # distance between c and n is 1, then there is a door
-            # between c and n.
-            c = n
+            # distance between cur and n is 1, then there is a door
+            # between cur and n.
+
+            x0, y0 = door_center_coords(mz, cur, n)
+            draw_circle(x0, y0, r, fill, outline)
+            sleep(0.5)
+            cur = n
             break
       # no check needed for case with no neighbours.
 
@@ -265,6 +278,8 @@ def coordinate_input(msg, default):
 
 if __name__ == '__main__':
 
+   turtle.setup(width=0.75, height=0.9)
+   turtle.bgcolor(color['background'])
    turtle.hideturtle()
 
    if len(sys.argv) == 3:
@@ -285,6 +300,8 @@ if __name__ == '__main__':
    elif len(sys.argv) != 1:
       print('Illegal usage')
       sys.exit()
+
+      
       
    #random.seed(4)
    run = True
@@ -295,6 +312,8 @@ if __name__ == '__main__':
    y0 = 0
    x1 = 0
    y1 = 0
+
+
    while run:
       if mz is None:
          maze_size = rnd_size()
@@ -311,10 +330,14 @@ if __name__ == '__main__':
       y1 = rnd_coord(mz)
 
       d = find_path(mz, (x0, y0), (x1, y1))
-      draw_distance(mz, d)
-      draw_circle(mz, (x0, y0), 'yellow', 'red')
+      #draw_distance(mz, d)
+
+      xc, yc = cell_center(mz, (x0, y0))
+      r = image_scale() // 4
+      draw_circle(xc, yc, r,  color['start'], color['start'])
       sleep(1)
-      draw_circle(mz, (x1, y1), 'green', 'DarkGreen')
+      xc, yc = cell_center(mz, (x1, y1))
+      draw_circle(xc, yc, r, color['end'], color['end'])
       sleep(3)
          
       if d[(x1,y1)] == sz * sz:
@@ -323,7 +346,7 @@ if __name__ == '__main__':
          draw_trail(mz, d, (x1, y1))
       sleep(3)
 
-      c = random.choice(['s','n'])
+      c = random.choice((['s'] * 5) + (['n'] * 1) )
          
       if c == 'N' or c == 'n':
          mz = None
