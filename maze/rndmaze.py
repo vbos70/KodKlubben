@@ -10,7 +10,7 @@ color = {
    'walls' : 'blue4',
    'door' : 'AntiqueWhite1',
    'trail' : 'orange',
-   'start' : 'yellow',
+   'start' : 'VioletRed',
    'end' : 'DarkGreen',
 }
    
@@ -21,7 +21,7 @@ def sleep(seconds):
    time.sleep(seconds)
    
 def rnd_size():
-   return random.randint(4,30)
+   return random.randint(6,30)
 
 def rnd_coord(mz):
    sz, cells, doors = mz
@@ -346,7 +346,7 @@ if __name__ == '__main__':
          draw_trail(mz, d, (x1, y1))
       sleep(3)
 
-      c = random.choice((['s'] * 5) + (['n'] * 1) )
+      c = random.choice((['s'] * maze_size) + (['n'] * 1) )
          
       if c == 'N' or c == 'n':
          mz = None
