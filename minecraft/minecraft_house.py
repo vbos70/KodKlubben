@@ -14,7 +14,7 @@ depth = 6
 
 # Create a hollow shell made of bricks.
 mc.setBlocks(x, y, z+3, x+width, y+height, z+3+depth, block.WOOD.id)
-mc.setBlocks(x+1, y, z+4, x+width-1, y+height-1, z+2+depth, block.TNT.id, 1)
+mc.setBlocks(x+1, y, z+4, x+width-1, y+height-1, z+2+depth, block.AIR.id, 1)
 
 # Set the floor.
 mc.setBlocks(x-1, y-1, z+2, x+1+width, y-1, z+4+depth, block.COBBLESTONE.id)
