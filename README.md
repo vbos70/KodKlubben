@@ -2,6 +2,41 @@
 
 Kod för Ingås kodare.
 
+# 14.11.2018: Minecraft
+
+## Ladda ner filer
+
+  [[minecraft/minecraft_bunker.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/minecraft/minecraft_bunker.py)
+  [[minecraft_house.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/minecraft/minecraft_house.py)
+
+
+Spara filerna i Downloads mappen.
+
+1. Starta minecraft (new game)
+
+1. I en terminal, kör
+
+```
+cd Downloads
+```
+
+1. Bygga en hus:
+```
+python3 minecraft_house.py
+```
+
+1. Bygga en bunker:
+
+```
+python3 -i minecraft_bunker.py
+>>> clear_bunker_grid(4)
+>>> build_bunker_in_grid(1,1)
+>>> build_bunker_in_grid(3,2)
+>>> build_bunker_in_grid(0,0)
+```
+
+
+
 # 7.11.2018: Mera labyrinter
 
 ## Ladda ner och pröva `maze3.py`
