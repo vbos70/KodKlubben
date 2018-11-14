@@ -6,26 +6,26 @@ Kod för Ingås kodare.
 
 ## Ladda ner filer
 
-  [[minecraft/minecraft_bunker.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/minecraft/minecraft_bunker.py)
-  [[minecraft_house.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/minecraft/minecraft_house.py)
+  1. [[minecraft/minecraft_bunker.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/minecraft/minecraft_bunker.py)
+  1. [[minecraft_house.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/minecraft/minecraft_house.py)
 
 
 Spara filerna i Downloads mappen.
 
-1. Starta minecraft (new game)
+"" Starta minecraft (new game)
 
-1. I en terminal, kör
+## I en terminal, kör
 
 ```
 cd Downloads
 ```
 
-1. Bygga en hus:
+## Bygga en hus:
 ```
 python3 minecraft_house.py
 ```
 
-1. Bygga en bunker:
+## Bygga en bunker:
 
 ```
 python3 -i minecraft_bunker.py
