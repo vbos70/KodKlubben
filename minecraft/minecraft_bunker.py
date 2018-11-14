@@ -89,3 +89,8 @@ def clear_bunker_grid(n):
 def build_bunker_in_grid(ix, iz):
     x, y, z = bunker_pos()
     build_bunker(x + bunker_width() * int(ix), y, z + bunker_depth() * int(iz))
+
+def build_all_bunkers(n):
+    for ix in range(n):
+        for iy in range(n):
+            build_bunker_in_grid(ix, iy)
