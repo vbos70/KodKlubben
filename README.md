@@ -12,7 +12,8 @@ Kod för Ingås kodare.
 
 Spara filerna i Downloads mappen.
 
-"" Starta minecraft (new game)
+## Starta minecraft (new game)
+
 
 ## I en terminal, kör
 
