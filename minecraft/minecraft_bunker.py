@@ -12,8 +12,8 @@ x,y,z = mc.player.getTilePos()
 
 bunker_cfg = {
     'width' : 5,
-    'height' : 3,
-    'depth' : 5,
+    'height' : 4,
+    'depth' : 6,
     'X' : x - 5 // 2,
     'Y' : y,
     'Z' : z - 5 // 2
@@ -51,22 +51,29 @@ def bunker_space(x, y, z):
 
 def clear_bunker_space(x, y, z):
     # make air space for bunker
-    bs = bunker_space(x, y, z)
-    mc.setBlocks(bs[0],
-                 bs[1],
-                 bs[2],
-                 bs[3],
-                 bs[4],
-                 bs[5],
+    mc.setBlocks(x-1, y-1, z-1,
+                 x + bunker_width() + 1,
+                 y + 3 * bunker_height(),
+                 z + bunker_depth() + 1,
                  block.AIR.id)
 
+    # Layer of bedrock to build bunkers  
+    mc.setBlocks(x-1, y-1, z-1,
+                 x + bunker_width() + 1,
+                 y - 1,
+                 z + bunker_depth() + 1,
+                 block.BEDROCK.id)
+    
 def build_bunker(x, y, z):
     # Create a hollow shell made of bricks.
     mc.setBlocks(x, y-1, z, x+bunker_width(), y+bunker_height(), z+bunker_depth(), block.STONE.id)
     mc.setBlocks(x+1, y, z+1, x+bunker_width()-1, y+bunker_height()-1, z+bunker_depth()-1, block.AIR.id)
 
-    # Add a Door.
+    # Add doors.
     mc.setBlocks(x+2, y, z, x+2, y+1, z, block.AIR.id)
+    mc.setBlocks(x+2, y, z+bunker_depth(), x+2, y+1, z+bunker_depth(), block.AIR.id)
+    mc.setBlocks(x, y, z+2, x, y+1, z+2, block.AIR.id)
+    mc.setBlocks(x+bunker_width(), y, z+2, x+bunker_width(), y+1, z+2, block.AIR.id)
 
     # Add a roof window
     mc.setBlock(x+2,y+bunker_height(),z+2, block.GLASS.id)
