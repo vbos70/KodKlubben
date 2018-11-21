@@ -2,6 +2,35 @@
 
 Kod för Ingås kodare.
 
+# 21.11.2018: Bygga i Minecraft med text
+
+## Ladda ner filer
+
+Lada ner den här filerna i Downloads mappen:
+
+  1. [[minecraft/mcblocks.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/minecraft/mcblocks.py)
+  1. [[minecraft/mcbuild.py]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/minecraft/mcbuild.py)
+  1. [[minecraft/house.mcb]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/minecraft/house.mcb)
+
+
+## Kor `mcbuild.py` i en terminal
+
+```
+$ cd Downloads
+$ python3 mcbuild house.mcb
+
+```
+
+## Redigera `house.mbc`
+
+Öppna `house.mbc` i Thonny IDE och ändra husets ritning.
+
+1. Använt andra blovk
+1. Ändra husets storlek
+1. Ändra rumindelning
+1. ...
+
+
 # 14.11.2018: Minecraft
 
 ## Ladda ner filer
