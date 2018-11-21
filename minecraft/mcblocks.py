@@ -153,5 +153,7 @@ mc_blocks = [
 
 
 mc_blockmap = { n: b for n, b in zip(mc_blocknames, mc_blocks) }
-for n in mc_blocknames:
-    print(n, ':', mc_blockmap[n].id)
+
+if __name__ == '__main__':
+    for n in mc_blocknames:
+        print(n, ':', mc_blockmap[n].id)
