@@ -13,25 +13,31 @@ Lada ner den här filerna i Downloads mappen:
   1. [[minecraft/house.mcb]](https://raw.githubusercontent.com/vbos70/KodKlubben/master/minecraft/house.mcb)
 
 
+## Starta Minecraft
+
+Starta Minecraft och börja en spel.
+
 ## Kor `mcbuild.py` i en terminal
 
 ```
 $ cd Downloads
-$ python3 mcbuild house.mcb
+$ python3 mcbuild.py house.mcb
 
 ```
 
 ## Redigera `house.mbc`
 
-Öppna `house.mbc` i Thonny IDE och ändra husets ritning.
+Öppna `house.mbc` i Thonny IDE och ändra husets ritning:
 
 1. Använt andra blovk
 1. Ändra husets storlek
 1. Ändra rumindelning
 1. ...
 
+Obs. Efter varje ändring ska du spara filen och köra mcbuild.py igen.
 
 # 14.11.2018: Minecraft
+
 
 ## Ladda ner filer
 
