@@ -38,6 +38,10 @@ def on_mouse_down(pos):
         ship.score += 1
         set_ship_hurt()
 
+def on_key_down(key, mod, unicode):
+    if key == keys.SPACE:
+        sounds.sfx_shielddown.play()
+    
 def set_ship_hurt():
     ship.image = 'playership1_orange'
     ship.bottom += 20
