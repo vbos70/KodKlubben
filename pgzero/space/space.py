@@ -1,4 +1,5 @@
 import pgzrun
+import random
 
 # game screen size
 WIDTH = 800
@@ -21,6 +22,17 @@ class Game: pass
 game = Game()
 game.score = 0
 game.missiles = []
+game.meteors = [
+    Actor('meteorbrown_big1'),
+    Actor('meteorbrown_big2'),
+    Actor('meteorbrown_med1'),
+    Actor('meteorbrown_small2'),
+    Actor('meteorgrey_big1'),
+    Actor('meteorgrey_big2'),
+    Actor('meteorgrey_med1'),
+    Actor('meteorgrey_small2'),
+]
+game.active_meteors = []
 
 def increase_speed():
     ship.speed += DELTA_SPEED
@@ -36,9 +48,13 @@ def draw():
     screen.blit('space1_background.png', (0,0))
     #screen.fill((128, 128, 222))
     ship.draw()
-    for m in game.missiles:
+
+    for m in game.active_meteors:
         m.draw()
         
+    for m in game.missiles:
+        m.draw()
+    
     screen.draw.text(
         str(game.score),
         color='white',
@@ -48,6 +64,35 @@ def draw():
     )
 
 def update():
+
+    # check if a new meteor should be added.
+    if random.random() > 0.995:
+        if len(game.meteors) > 0:
+            m = random.choice(game.meteors)
+            m.midleft = (WIDTH, random.randrange(100,400))
+            m.speed_x = random.choice([-2,-3,-4])
+            m.speed_y = 0
+            m.rotation_speed = random.choice(range(-5,5))
+            game.meteors.remove(m)
+            game.active_meteors.append(m)
+
+    # move active meteors and change their speed
+    for m in game.active_meteors:
+        m.x += m.speed_x
+        r = random.random()
+        if m.speed_y < 3 and r < 0.1:
+            m.speed_y += 1
+        elif m.speed_y > -3 and r > 0.9:
+            m.speed_y -= 1
+        
+        m.y += m.speed_y
+        m.angle += m.rotation_speed
+
+        if m.right < 0:
+            game.meteors.append(m)
+            game.active_meteors.remove(m)
+
+    # move the ship
     ship.x += ship.speed
 
     if ship.left > WIDTH:
@@ -55,6 +100,7 @@ def update():
     elif ship.right < 0:
         ship.left = WIDTH
 
+    # move the fired missiles
     for m in game.missiles:
         m.y -= 5
         if m.top < 15:
