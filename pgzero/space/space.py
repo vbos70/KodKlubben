@@ -32,8 +32,34 @@ game.meteors = [
     Actor('meteorgrey_med1'),
     Actor('meteorgrey_small2'),
 ]
+
 game.active_meteors = []
 
+# explosion image series
+expl6s = [ 'expl_06_{:04d}.png'.format(d) for d in range(0,25) ]
+
+for m in game.meteors:
+    m.points = 1
+    if 'small' in m.image:
+        m.points = 4
+    elif 'med' in m.image:
+        m.points = 2
+
+# explosions in the game
+game.explosions = []
+
+def next_explosion_image():
+    for e in game.explosions:
+        e.image_idx += 1
+        if e.image_idx < len(expl6s):
+            e.image = expl6s[e.image_idx]
+            e.speed_x = int(e.speed_x / 1.1)
+            e.speed_y = int(e.speed_y / 1.1)
+            
+            clock.schedule(next_explosion_image, 0.05)
+        else:
+            game.explosions.remove(e)
+            
 def increase_speed():
     ship.speed += DELTA_SPEED
     if ship.speed > MAX_SPEED:
@@ -43,7 +69,22 @@ def decrease_speed():
     ship.speed -= DELTA_SPEED
     if ship.speed < -MAX_SPEED:
         ship.speed = -MAX_SPEED
-        
+
+def detect_hits():
+    for missile in game.missiles:
+        for meteor in game.active_meteors:
+            if meteor.collidepoint(missile.pos):
+                game.score += meteor.points
+                game.missiles.remove(missile)
+                game.meteors.append(meteor)
+                game.active_meteors.remove(meteor)
+                e = Actor(expl6s[0])
+                e.pos = missile.pos
+                e.speed_x = meteor.speed_x
+                e.speed_y = meteor.speed_y
+                e.image_idx = 0
+                game.explosions.append(e)
+                clock.schedule(next_explosion_image, 0.05)                
 def draw():
     screen.blit('space1_background.png', (0,0))
     #screen.fill((128, 128, 222))
@@ -54,6 +95,11 @@ def draw():
         
     for m in game.missiles:
         m.draw()
+
+    for e in game.explosions:
+        e.draw()
+        
+    detect_hits()
     
     screen.draw.text(
         str(game.score),
@@ -92,6 +138,11 @@ def update():
             game.meteors.append(m)
             game.active_meteors.remove(m)
 
+    # move explosions
+    for e in game.explosions:
+        e.x += e.speed_x
+        e.y += e.speed_y
+        
     # move the ship
     ship.x += ship.speed
 
