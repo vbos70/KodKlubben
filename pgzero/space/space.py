@@ -74,7 +74,7 @@ def detect_hits():
     for missile in game.missiles:
         for meteor in game.active_meteors:
             if meteor.collidepoint(missile.pos):
-                sounds.explode.play()
+                sounds.explosion1.play()
                 game.score += meteor.points
                 game.missiles.remove(missile)
                 game.meteors.append(meteor)
