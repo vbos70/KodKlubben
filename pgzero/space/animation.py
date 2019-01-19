@@ -1,9 +1,11 @@
+import pgzero.clock
+
 class Animation:
 
-    def __init__(self, actors, pos, clock, period, speed_x=0, speed_y=0, repeat=False):
+    def __init__(self, actors, pos, period, speed_x=0, speed_y=0, repeat=False):
         self.actors = actors
         self.pos = pos
-        self.clock = clock
+        self.clock = pgzero.clock
         self.period = period
         self.speed_x = speed_x
         self.speed_y = speed_y
@@ -16,14 +18,12 @@ class Animation:
             self.actors[self._idx].draw()
             
     def update(self):
-        if self.running():
-            self.pos = (self.pos[0]+self.speed_x, self.pos[1]+self.speed_y)
+        pass
             
     def next(self):
         if self.running():
+            self.pos = (self.pos[0]+self.speed_x, self.pos[1]+self.speed_y)
             self._idx += 1
-            self.speed_x = int(self.speed_x / 2)
-            self.speed_y = int(self.speed_y / 2)
             if self._idx  >= len(self.actors):
                 if self.repeat:
                     self.idx = 0
