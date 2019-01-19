@@ -1,21 +1,10 @@
 import pgzrun
 import random
+import animation
 
 # game screen size
 WIDTH = 800
 HEIGHT = 600
-
-# the main character
-ship = Actor('playership1_blue', midbottom = (400,550))
-
-ship.speed = 0
-DELTA_SPEED = 1
-MAX_SPEED = 5
-
-def fire_missile():
-    x, y = ship.midtop
-    m = Actor('laserred01.png', midbottom = (x, y+2))
-    return m
 
 # create a class and instance to track game properties
 class Game: pass
@@ -32,11 +21,27 @@ game.meteors = [
     Actor('meteorgrey_med1'),
     Actor('meteorgrey_small2'),
 ]
+game.background = [Actor('space1_background.png'),
+                   Actor('space1_background.png')]
 
-game.active_meteors = []
+# the main character
+game.ship = Actor('playership1_blue', midbottom = (400,550))
+
+game.ship.speed = 0
+DELTA_SPEED = 1
+MAX_SPEED = 5
+
+# a flag to indicate if the ship is hit
+game.ship.is_hurt = False
+
+def fire_missile():
+    x, y = game.ship.midtop
+    m = Actor('laserred01.png', midbottom = (x, y+2))
+    return m
+
 
 # explosion image series
-expl6s = [ 'expl_06_{:04d}.png'.format(d) for d in range(0,25) ]
+expl6s = [ Actor('expl_06_{:04d}.png'.format(d)) for d in range(0,25) ]
 
 for m in game.meteors:
     m.points = 1
@@ -44,55 +49,61 @@ for m in game.meteors:
         m.points = 4
     elif 'med' in m.image:
         m.points = 2
-
+    m.active = False
+    
 # explosions in the game
 game.explosions = []
 
-def next_explosion_image():
-    for e in game.explosions:
-        e.image_idx += 1
-        if e.image_idx < len(expl6s):
-            e.image = expl6s[e.image_idx]
-            e.speed_x = int(e.speed_x / 1.1)
-            e.speed_y = int(e.speed_y / 1.1)
-            
-            clock.schedule(next_explosion_image, 0.05)
-        else:
-            game.explosions.remove(e)
-            
 def increase_speed():
-    ship.speed += DELTA_SPEED
-    if ship.speed > MAX_SPEED:
-        ship.speed = MAX_SPEED
+    game.ship.speed += DELTA_SPEED
+    if game.ship.speed > MAX_SPEED:
+        game.ship.speed = MAX_SPEED
         
 def decrease_speed():
-    ship.speed -= DELTA_SPEED
-    if ship.speed < -MAX_SPEED:
-        ship.speed = -MAX_SPEED
+    game.ship.speed -= DELTA_SPEED
+    if game.ship.speed < -MAX_SPEED:
+        game.ship.speed = -MAX_SPEED
+
+def make_meteor_active(m):
+    m.active = True
+    
+def make_meteor_inactive(m):
+    m.active = False
+    
+def new_explosion(pos, speed_x=0, speed_y=0):
+    sounds.explosion1.play()
+    e = animation.Animation(expl6s, pos, 0.05, speed_x, speed_y)
+    e.start()
+    game.explosions.append(e)
+    return e
 
 def detect_hits():
-    for missile in game.missiles:
-        for meteor in game.active_meteors:
-            if meteor.collidepoint(missile.pos):
-                sounds.explosion1.play()
-                game.score += meteor.points
-                game.missiles.remove(missile)
-                game.meteors.append(meteor)
-                game.active_meteors.remove(meteor)
-                e = Actor(expl6s[0])
-                e.pos = missile.pos
-                e.speed_x = meteor.speed_x
-                e.speed_y = meteor.speed_y
-                e.image_idx = 0
-                game.explosions.append(e)
-                clock.schedule(next_explosion_image, 0.05)                
-def draw():
-    screen.blit('space1_background.png', (0,0))
-    #screen.fill((128, 128, 222))
-    ship.draw()
+    for meteor in game.meteors:
+        if meteor.active:
+            for missile in game.missiles:
+                if missile.colliderect(meteor):
+                    game.explosions.append(
+                        new_explosion(
+                            missile.pos,
+                            speed_x = meteor.speed_x,
+                            speed_y = meteor.speed_y))
+                    game.score += meteor.points
+                    game.missiles.remove(missile)
+                    make_meteor_inactive(meteor)
 
-    for m in game.active_meteors:
-        m.draw()
+            if game.ship.colliderect(meteor):
+                set_ship_hurt()
+                game.score -= meteor.points
+                make_meteor_inactive(meteor)
+            
+def draw():
+    game.background[0].draw()
+    
+    game.ship.draw()
+
+    for m in game.meteors:
+        if m.active:
+            m.draw()
         
     for m in game.missiles:
         m.draw()
@@ -100,8 +111,6 @@ def draw():
     for e in game.explosions:
         e.draw()
         
-    detect_hits()
-    
     screen.draw.text(
         str(game.score),
         color='white',
@@ -112,58 +121,57 @@ def draw():
 
 def update():
 
+    detect_hits()
+
+    game.background[0].topleft = (0,0)
+    
     # check if a new meteor should be added.
     if random.random() > 0.995:
-        if len(game.meteors) > 0:
-            m = random.choice(game.meteors)
+        inactive_meteors = [m for m in game.meteors if not m.active ]
+        if len(inactive_meteors) > 0:
+            m = random.choice(inactive_meteors)
             m.midleft = (WIDTH, random.randrange(100,400))
             m.speed_x = random.choice([-2,-3,-4])
             m.speed_y = 0
             m.rotation_speed = random.choice(range(-5,5))
-            game.meteors.remove(m)
-            game.active_meteors.append(m)
+            m.active = True
 
     # move active meteors and change their speed
-    for m in game.active_meteors:
-        m.x += m.speed_x
-        r = random.random()
-        if m.speed_y < 3 and r < 0.1:
-            m.speed_y += 1
-        elif m.speed_y > -3 and r > 0.9:
-            m.speed_y -= 1
+    for m in game.meteors:
+        if m.active:
+            r = random.random()
+            if m.speed_y < 3 and r < 0.1:
+                m.speed_y += 1
+            elif m.speed_y > -3 and r > 0.9:
+                m.speed_y -= 1
         
-        m.y += m.speed_y
-        m.angle += m.rotation_speed
+            m.x += m.speed_x
+            m.y += m.speed_y
+            m.angle += m.rotation_speed
 
-        if m.right < 0:
-            game.meteors.append(m)
-            game.active_meteors.remove(m)
+            if m.right < 0:
+                m.active = False
 
-    # move explosions
-    for e in game.explosions:
-        e.x += e.speed_x
-        e.y += e.speed_y
-        
     # move the ship
-    ship.x += ship.speed
+    game.ship.x += game.ship.speed
 
-    if ship.left > WIDTH:
-        ship.right = 0
-    elif ship.right < 0:
-        ship.left = WIDTH
+    if game.ship.left > WIDTH:
+        game.ship.right = 0
+    elif game.ship.right < 0:
+        game.ship.left = WIDTH
 
     # move the fired missiles
     for m in game.missiles:
         m.y -= 5
         if m.top < 15:
             game.missiles.remove(m)
-            
-def on_mouse_down(pos):
-    sounds.sfx_laser1.play()
-    if ship.collidepoint(pos):
-        game.score += 1
-        set_ship_hurt()
 
+    # filter live (running) explosions
+    game.explosions = [ e for e in game.explosions if e.running() ]
+    # update explosions
+    for e in game.explosions:
+        e.update()
+        
 def on_key_down(key, mod, unicode):
     if key == keys.SPACE:
         sounds.sfx_shielddown.play()
@@ -176,17 +184,17 @@ def on_key_down(key, mod, unicode):
     
 def set_ship_hurt():
     sounds.sfx_shielddown.play()
-    ship.image = 'playership1_orange'
-    ship.bottom = 570
-    if ship.speed < 0.0:
+    game.ship.image = 'playership1_orange'
+    game.ship.bottom = 570
+    if game.ship.speed < 0.0:
         increase_speed()
-    elif ship.speed > 0.0:
+    elif game.ship.speed > 0.0:
         decrease_speed()
     clock.schedule_unique(set_ship_normal, 2.0)
     
 def set_ship_normal():
-    ship.image = 'playership1_blue'
-    ship.bottom = 550
+    game.ship.image = 'playership1_blue'
+    game.ship.bottom = 550
     sounds.sfx_shieldup.play()
     
 pgzrun.go()
