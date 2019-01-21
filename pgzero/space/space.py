@@ -11,6 +11,8 @@ class Game: pass
 game = Game()
 game.score = 0
 game.missiles = []
+
+# create some meteors (see images/ folder for more!)
 game.meteors = [
     Actor('meteorbrown_big1'),
     Actor('meteorbrown_big2'),
@@ -21,24 +23,29 @@ game.meteors = [
     Actor('meteorgrey_med1'),
     Actor('meteorgrey_small2'),
 ]
-game.background = [Actor('space1_background.png'),
-                   Actor('space1_background.png')]
 
-# the main character
+# set the background
+game.background = Actor('space1_background.png')
+print(game.background.bottomright)
+#game.background.topleft = (0,0)
+
+# create a space ship (see images/ folder for other ships)
 game.ship = Actor('playership1_blue', midbottom = (400,550))
-
 game.ship.speed = 0
-DELTA_SPEED = 1
-MAX_SPEED = 5
+game.ship.missile_loaded = True
 
 # a flag to indicate if the ship is hit
 game.ship.is_hurt = False
 
+def load_missile():
+    game.ship.missile_loaded = True
+    
 def fire_missile():
     x, y = game.ship.midtop
     m = Actor('laserred01.png', midbottom = (x, y+2))
+    game.ship.missile_loaded = False
+    clock.schedule(load_missile, 0.1)
     return m
-
 
 # explosion image series
 expl6s = [ Actor('expl_06_{:04d}.png'.format(d)) for d in range(0,25) ]
@@ -53,16 +60,6 @@ for m in game.meteors:
     
 # explosions in the game
 game.explosions = []
-
-def increase_speed():
-    game.ship.speed += DELTA_SPEED
-    if game.ship.speed > MAX_SPEED:
-        game.ship.speed = MAX_SPEED
-        
-def decrease_speed():
-    game.ship.speed -= DELTA_SPEED
-    if game.ship.speed < -MAX_SPEED:
-        game.ship.speed = -MAX_SPEED
 
 def make_meteor_active(m):
     m.active = True
@@ -92,12 +89,17 @@ def detect_hits():
                     make_meteor_inactive(meteor)
 
             if game.ship.colliderect(meteor):
+                game.explosions.append(
+                    new_explosion(
+                        meteor.pos,
+                        speed_x = meteor.speed_x,
+                        speed_y = meteor.speed_y))
                 set_ship_hurt()
                 game.score -= meteor.points
                 make_meteor_inactive(meteor)
             
 def draw():
-    game.background[0].draw()
+    game.background.draw()
     
     game.ship.draw()
 
@@ -120,11 +122,19 @@ def draw():
     )
 
 def update():
+    if keyboard.a:
+        game.ship.speed = -2
+    elif keyboard.d:
+        game.ship.speed = 2
+    else:
+        game.ship.speed = 0
 
+    if game.ship.missile_loaded and keyboard.space:
+        sounds.sfx_shielddown.play()
+        game.missiles.append(fire_missile())
+        
     detect_hits()
 
-    game.background[0].topleft = (0,0)
-    
     # check if a new meteor should be added.
     if random.random() > 0.995:
         inactive_meteors = [m for m in game.meteors if not m.active ]
@@ -155,15 +165,15 @@ def update():
     # move the ship
     game.ship.x += game.ship.speed
 
-    if game.ship.left > WIDTH:
-        game.ship.right = 0
-    elif game.ship.right < 0:
-        game.ship.left = WIDTH
+    if game.ship.left < 0:
+        game.ship.left = 0
+    elif game.ship.right > WIDTH-1:
+        game.ship.right = WIDTH-1
 
     # move the fired missiles
     for m in game.missiles:
         m.y -= 5
-        if m.top < 15:
+        if m.top < 0:
             game.missiles.remove(m)
 
     # filter live (running) explosions
@@ -172,33 +182,17 @@ def update():
     for e in game.explosions:
         e.update()
         
-def on_key_down(key, mod, unicode):
-    if key == keys.SPACE:
-        sounds.sfx_shielddown.play()
-        game.missiles.append(fire_missile())
-        
-    elif key == keys.A:
-        decrease_speed()
-    elif key == keys.D:
-        increase_speed()
-    
 def set_ship_hurt():
     sounds.sfx_shielddown.play()
     game.ship.image = 'playership1_orange'
     game.ship.bottom = 570
-    if game.ship.speed < 0.0:
-        increase_speed()
-    elif game.ship.speed > 0.0:
-        decrease_speed()
+    game.ship.missile_loaded = False
     clock.schedule_unique(set_ship_normal, 2.0)
     
 def set_ship_normal():
     game.ship.image = 'playership1_blue'
     game.ship.bottom = 550
     sounds.sfx_shieldup.play()
+    game.ship.missile_loaded = True
     
 pgzrun.go()
-
-
-
-
