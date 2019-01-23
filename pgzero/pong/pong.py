@@ -41,7 +41,7 @@ H = (player1.bottom - player1.top) // 4
 ball = Actor('ball_orange.png')
 ball.pos = (WIDTH // 2, HEIGHT // 2)
 ball.stopped = True
-ball.speed_x = 2
+ball.speed_x = -2
 ball.speed_y = 0
 
 def draw():    
@@ -79,10 +79,12 @@ def update():
         
         if keyboard.i:
             # 'i' means UP
-            player2.speed_y = -SPEED
+            # remove 'pass' and write the code here
+            pass
         elif keyboard.m:
             # 'm' means DOWN
-            player2.speed_y = SPEED
+            # remove 'pass' and write the code here
+            pass
         else:
             # otherwise no movement
             player2.speed_y = 0
@@ -147,23 +149,9 @@ def update():
 
         elif player2.colliderect(ball):
             # Player2 hits the ball!
+            # remove 'pass' and write the code here
+            pass
             
-            # reverse horizontal speed
-            ball.speed_x *= -1
-
-            # separate ball and player2            
-            ball.right = player2.left - 1
-
-            # if player2 hits with upper / lower end, change vertical speed            
-            if ball.y > player2.y + H:
-                # ball hits lower end of player 2
-                # so increase vertical ball speed (downwards)
-                ball.speed_y += 1
-            elif ball.y < player2.y - H:
-                # ball hits upper end of player 2
-                # so decrease vertical ball speed (upwards)
-                ball.speed_y -= 1
-                
         # keep vertical speed within limits [-2,2]
         if ball.speed_y < -2:
             ball.speed_y = -2
