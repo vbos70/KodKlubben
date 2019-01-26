@@ -12,8 +12,8 @@ Välkommen till Kodklubben's dokumentation
 
 
 
-Innhehåll
-=========
+Innehehåll
+==========
 
 * :ref:`genindex`
 * :ref:`search`
@@ -29,7 +29,8 @@ Spelet startas i terminalen med kommandot::
 
   $ pgzrun pong.py
 
-Obs: kommandot funkar om du är i mappen 'pgzero/pong' (man kommer dit med kommandot ``cd pgzero/pong``).
+Obs: kommandot funkar om du är i mappen 'pgzero/pong' (man kommer dit
+med kommandot ``cd pgzero/pong``).
 
 *Pong* ser ut som här:
 
@@ -38,12 +39,13 @@ Obs: kommandot funkar om du är i mappen 'pgzero/pong' (man kommer dit med komma
 Efter 3 sekunder börjar bollen röra sig mot vänster spelaren. Vänster
 spelaren kann flyttas upp med ``w``-knappen och ner med ``z``-knappen.
 
-När bollens vänstra sida rör (vänstra) spelarens högra sida, blir
-bollen slagen tillbaka och börjar den röra sig mot högra spelaren.
+När bollens vänstra sidan rör (vänstra) spelarens högra sidan, blir
+bollen slagen tillbaka till högra spelaren.
 
-Högra spelaren kann inte röra sig och bollen rör rakt genom hen!
-Meningen är att du redigerar programmet *pong.py* för att fixa denna
-´bugs'.
+Om du väntar tills bollen kommer nära den högra spelaren, märker du
+att högra spelaren kann inte röra sig och att bollen går rakt igenom
+den! Det är inte bra. Programmet *pong.py* har fel ('bugs').  Kan du
+fixa denna ´bugs'?
 
 Röra högra spelaren
 -------------------
