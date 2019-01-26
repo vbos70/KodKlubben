@@ -71,7 +71,7 @@ def update():
             # 'w' means UP
             player1.speed_y = -SPEED
         elif keyboard.z:
-            # 'a' means DOWN
+            # 'z' means DOWN
             player1.speed_y = SPEED
         else:
             # otherwise no movement
