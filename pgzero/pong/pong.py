@@ -77,6 +77,7 @@ def update():
             # otherwise no movement
             player1.speed_y = 0
         
+        # Player2
         if keyboard.i:
             # 'i' means UP
             # remove 'pass' and write the code here
