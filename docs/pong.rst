@@ -49,7 +49,7 @@ största koordinaterna.
  
 Om skärmens storlek är 800x600 *pixlar*, har den 800 horisontala
 pixlar och 600 vertikala pixlar. Koordinater börjar räknas
-från 0. Därför, en skärm med storlek 800x600 har X-koordinater fron
+från 0. Därför, en skärm med storlek 800x600 har X-koordinater från
 0..799 och Y-koordinater från 0..599. Obs., X-koordinaten 800 finns
 inte på skärmen och Y-koordinaten 600 inte heller. Skärmens högra
 botten hörna har koordinater (799, 599).
