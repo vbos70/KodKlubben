@@ -1,6 +1,24 @@
 Pong
 ====
 
+*Pong* är en gammaldags datorspel som jag spelada först i 1978 eller
+till och med tidigare. Spelet har två rektanglar som spelarna och en
+cirkel som bollen. Varje spelare försöker att slå bollen utanför
+fältet längs den andra spelare.
+
+Vår *Pong* spel ser ut som här:
+
+.. image:: images/pong0.png
+
+Spelarna är på var sin sida av fältet och dom kan flytta upp och ner
+men inte till vänster eller höger. Bollen rör sig mellan spelarna. En
+spelare slår bollen tillbaka genom att placera hans rektangel framför
+bollen. Om en spelara slår bollen med övre delen av hans rektangel, så
+går bollen lite mera uppåt. Om spelaren däremot slår bollen med nedre
+delen av hans rekangle, så går bollen lite mera neråt.
+
+Kod för Pong
+------------
 
 Spelet *Pong*'s kod finns i mappen *./pgzero/pong* i Kodklubbens
 repository (för att ladda ner eller klona den, ser `Kodklubben
@@ -12,23 +30,19 @@ Spelet startas i terminalen med kommandot::
 
   $ pgzrun pong.py
 
-Obs: kommandot funkar om du är i mappen 'pgzero/pong' (man kommer dit
-med kommandot ``cd pgzero/pong``).
+Obs: kommandot funkar om du är i mappen 'pgzero/pong'. Man kommer dit
+med kommandot ``cd pgzero/pong``. Se :doc:pong för mera kommandon.
 
-Vår *Pong* spel ser ut som här:
-
-.. image:: images/pong0.png
-
-Efter 3 sekunder börjar bollen röra sig mot vänster spelaren. Vänster
+Efter 3 sekunder börjar bollen röra sig mot den vänstra spelaren. Vänstra
 spelaren kann flyttas upp med ``w``-knappen och ner med ``z``-knappen.
 
 När bollens vänstra sidan rör (vänstra) spelarens högra sidan, blir
-bollen slagen tillbaka till högra spelaren.
+bollen slagen tillbaka till den högra spelaren.
 
-Om du väntar tills bollen kommer nära den högra spelaren, märker du
-att högra spelaren kann inte röra sig och att bollen går rakt igenom
-den! Det är inte bra. Programmet *pong.py* har fel ('bugs').  Kan du
-fixa denna ´bugs'?
+Om du väntar nu tills bollen kommer nära den högra spelaren, märker du
+att den kann inte röra sig och att bollen går till och med rakt igenom
+den högra spelaren! Det är inte bra. Programmet *pong.py* har fel
+('bugs').  Kan du fixa denna 'bugs'?
 
 Koordinater
 -----------
@@ -61,6 +75,61 @@ Nästa bild visar det här koordinat systemet för en skärm med storlek
 .. image:: images/pong_coords.png
 	   
 
+Spelets aktörer
+---------------
+
+*Pong* har 3 *aktörer*:
+
+1. Vänstra spelaren;
+
+2. Högra spelaren;
+
+3. Bollen.
+
+Aktörernas position och hastighet
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Aktörerna har an position som vi indikerar med en X och Y-koordinater,
+t.ex. (0,0) och (50, 211). Aktörerna har också en
+*hastighet*. Hastigheten ändrar en aktörs position från ett ögonblick
+till ett annat. I *Pong* har hastigheten en *X-riktning* och en
+*Y-riktning*. X-riktningen ändrar en aktörs X-koordinat och
+Y-riktningen ändrar en aktörs Y-koordinat. När hastighetens X-riktning
+(eller Y-riktning) är 0, ändrar aktörens X-koordinat (eller
+Y-koordinat) inte.
+  
+Spelarna går bara upp och ner. När en spelare går uppåt, blir hans
+Y-koordinat mindre: hans hastighet är *negativ*. När en spelare går
+neråt, blir hans Y-koordinat större: hans hastighet är positiv.
+
+Programmets 'main loop'
+-----------------------
+
+Datorspel har ett visst antal steg som körs om och om och om tills
+spelet är slut. Denna steg ar spelets 'main loop'. En 'main loop'
+beräknar först hur spelets aktörerna påverka varandra och vad deras
+nya positioner är. Sedan uppdaterar 'main loop'-en skärmen enligt
+denna nya positioner. Till slut, kållar 'main loop'-en om spelet är
+slut eller om dessa steg ska utföras på nytt.
+
+*Pong* programmet gör följande steg mycket snabbt (minst 20 gånger per
+ sekund!):
+ 
+1. Ändrar spelarnas hastighet beroende på tangenterna som trycks in.
+
+2. Ändrar spelarnas position beroende på deras hastighet.
+   
+3. Ändrar bollens position beroende på denns hastighet (båda i X och Y-riktning).
+
+4. Om en spelare slår bollen, ändrar bollens hastighet.
+
+5. Om bollen rör på toppen av fältet, ändrar dess Y-riktning neråt.
+
+6. Om bollen rör på botten av fältet, ändrar dess Y-riktning uppåt.
+
+7. Om bollen går av fältet, placera den i mitten och väntar 3 sekunder.
+   
+   
 Röra högra spelaren
 -------------------
 

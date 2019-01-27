@@ -14,15 +14,14 @@ Välkommen till Kodklubben's dokumentation
    pong
 
 
-
-Terminal, shell, och kommandot
+Terminal, shell, och kommandon
 ------------------------------
 
 :doc:`terminal`
      
-Här berättas var och hur man ger skriven kommando till datorn. Ofta är
-det lättare att skriva kommandon istället för att mus-klicka genom
-olika fönstrar och menyer.
+Lär dig var och hur du ger datorn skriven kommandon. Det är ofta
+lättare att skriva kommandon istället för att mus-klicka igenom olika
+fönstrar och menyer.
    
 Pong
 ----
@@ -30,9 +29,7 @@ Pong
 :doc:`pong`
 
 Spelet *Pong* är urgammal och kanska tråkigt. Men det funkar bra för
-att lära programmera.  Spelet *Pong*'s kod finns i mappen
-*./pgzero/pong* i Kodklubbens repository (för att ladda ner eller
-klona den, ser `Kodklubben GitHub`_).
-
+att lära programmera. Spelet är 2-dimensional och räknar med X och
+Y-koordinater för att kontrollera bollen och spelarna.
 
 .. _Kodklubben GitHub: https://github.com/vbos70/KodKlubben/

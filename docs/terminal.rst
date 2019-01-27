@@ -1,5 +1,5 @@
-Terminal, shell, och kommando
-=============================
+Terminal, shell, och kommandon
+==============================
 
 
 Terminal
