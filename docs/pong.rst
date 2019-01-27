@@ -30,6 +30,37 @@ att högra spelaren kann inte röra sig och att bollen går rakt igenom
 den! Det är inte bra. Programmet *pong.py* har fel ('bugs').  Kan du
 fixa denna ´bugs'?
 
+Koordinater
+-----------
+
+*Pong* är en 2-dimensional spel. Vi har alltså horisontala koordinater
+och vertikala koordinater. Horisontala koordinater kallas också för
+*X-koordinater* och vertikala koordinater kallas för
+*Y-koordinater*. En punkt på skärmen har en X-koordinat och en
+Y-koordinat. Vi skriver punktens koordinater som *(X, Y)*.
+
+På en dator skärm börjar X och Y-koordinater vanligtvis i vänstra topp
+hörnan. Dvs, punkten med koordinater (0,0) är skärmens vänstra topp
+hörnan.
+
+När man gär till höger blir X-koordinaten större. När man går ner blir
+Y-koordinaten större. Därfor har skärmens högra botten hörnan
+största koordinaterna.
+ 
+Om skärmens storlek är 800x600 *pixlar*, har den 800 horisontala
+pixlar och 600 vertikala pixlar. Koordinater börjar räknas
+från 0. Därför, en skärm med storlek 800x600 har X-koordinater fron
+0..799 och Y-koordinater från 0..599. Obs., X-koordinaten 800 finns
+inte på skärmen och Y-koordinaten 600 inte heller. Skärmens högra
+botten hörna har koordinater (799, 599).
+
+Nästa bild visar det här koordinat systemet för en skärm med storlek
+*WxH*. Du ser (och förstår?!) att högra botten hörna har koordinater
+(W-1, H-1) och inte (W, H).
+
+.. image:: images/pong_coords.png
+	   
+
 Röra högra spelaren
 -------------------
 
