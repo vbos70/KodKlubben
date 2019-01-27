@@ -24,7 +24,7 @@ Shell
 'Shell'-et har en prompt och en markör som anger var du skrivar din
 nästa kommandot. Vanligtvis är prompten symbolen ``$`` och markören en
 fylld rektangel (på bilden övanpå är markören ihålig, men det beror på
-att terminalens fönster var inaktiverat när bilden tog).
+att terminalens fönster var inaktiverat när bilden togs).
 
 'Shell'-et vet vad din *nuvarande mapp* är och utför dina kommandot
 altid i den nuvarande mapp. Det finns en mycket använt kommando för
