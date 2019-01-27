@@ -1,40 +1,41 @@
-Terminal, shell, och kommandot
-==============================
+Terminal, shell, och kommando
+=============================
 
 
-Terminal och shell
-------------------
+Terminal
+--------
 
 Terminalen är en fönster som kör en 'shell' och 'shell'-et läser in
-kommandot du skriver och, om du har skrivit rätt, utför den. Det finns
-många olika terminal-program och alla ser inte exakt likada
-ut. Terminalen jag använder ser ut som här:
+kommandon du skriver och (om du har skrivit rätt) utför den. Det finns
+många olika terminalen och dom kan ser olika ut. Terminalen jag
+använder heter *Konsole* och ser ut som här:
 
 .. image:: images/terminal.png
 
-Terminalen visar ``victor : bash`` under det stora textfälltet. Det
-betyder att terminalens 'shell' heter 'bash' och användarens 'user
-name' är victor.
+Den här terminalen visar ``victor : bash`` under det stora
+textfälltet. Det betyder att terminalens 'shell' heter 'bash' och
+användarens 'user name' är victor.
 
-Textfälltet är var 'shell'-et körs. Det är här man skrivar kommandot.
+Du ger/skrivar kommandon i textfälltet och 'shell'-et ger kommandons
+resultat och andra meddelanden också i textfälltet. 
 
 Shell
 -----
 
-'Shell'-et har en prompt och en markör som anger var du skrivar din
+'Shell'-et har en prompt och en markör som anger var du skrivar dit
 nästa kommandot. Vanligtvis är prompten symbolen ``$`` och markören en
 fylld rektangel (på bilden övanpå är markören ihålig, men det beror på
 att terminalens fönster var inaktiverat när bilden togs).
 
-'Shell'-et vet vad din *nuvarande mapp* är och utför dina kommandot
-altid i den nuvarande mapp. Det finns en mycket använt kommando för
+'Shell'-et vet vad din *nuvarande mapp* är och utför dina kommando
+alltid i den nuvarande mapp. Det finns ett mycket använt kommando för
 att ändra nuvarande mappen tills en annan mapp: ``cd``, se nedan.
 
 
-Kommandot
+Kommandon
 ---------
 
-Här är några kommandot du kann skriva i terminalen:
+Här är några kommandon du kann skriva i terminalen:
 
 ``cd``
 
