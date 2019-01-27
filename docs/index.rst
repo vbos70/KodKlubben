@@ -8,22 +8,24 @@ Välkommen till Kodklubben's dokumentation
 
 .. toctree::
    :maxdepth: 2
-   :caption: Innehål:
+   :caption: Kort innehål:
 
    terminal
    pong
 
+
+
 Terminal, shell, och kommandot
-==============================
+------------------------------
 
 :doc:`terminal`
      
-Här berättas var och hur man ger skriven kommandos till datorn. Ofta
-är det lättare att skriva ett kommando istället för att mus-klicka
-genom olika fönstrar och menyer.
+Här berättas var och hur man ger skriven kommando till datorn. Ofta är
+det lättare att skriva kommandon istället för att mus-klicka genom
+olika fönstrar och menyer.
    
 Pong
-====
+----
 
 :doc:`pong`
 
