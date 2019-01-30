@@ -2,6 +2,10 @@
 
 Kod för Ingås kodare.
 
+På [[Kodklubben
+Dokumentation]](https://kodklubben.readthedocs.io/sv/latest/) finns
+mera information.
+
 # 21.11.2018: Bygga i Minecraft med text
 
 ## Ladda ner filer
