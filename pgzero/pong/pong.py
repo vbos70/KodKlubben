@@ -135,9 +135,6 @@ def update():
             # reverse horizontal speed
             ball.speed_x *= -1
 
-            # separate ball and player1
-            ball.left = player1.right + 1
-
             # if player1 hits with upper / lower end, change vertical speed
             if ball.y > player1.y + H:
                 # ball hits lower end of player 1
