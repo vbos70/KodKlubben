@@ -156,9 +156,22 @@ I *Pong* har 'main loop'-en den följande steg:
 
 2. Ändrar spelarnas position beroende på deras hastighet.
    
-3. Ändrar bollens position beroende på denns hastighet (båda i X och Y-riktning).
+3. Ändrar bollens position beroende på denns hastighet (båda i X och
+   Y-riktning).
 
 4. Om en spelare slår bollen, ändrar bollens hastighet.
+
+   1. Bollens X-hastighet omvänds. Om den var positiv, blir den
+      negativ och om den var negativ, blir den positiv.
+
+   2. Om bollen träffar spelarens topp, minskar bollens Y-hastighet
+      (bollen går mera uppåt).
+
+   3. Om bollen träffar spelarens botten, höjer bollens Y-hastighet
+      (bollen går mera neråt).
+
+   4. Om bollen träffar spelaren i mitten, behåller bollen sin
+      Y-hastigheten.
 
 5. Om bollen rör på toppen av fältet, ändrar dess Y-riktning neråt.
 
@@ -211,11 +224,121 @@ Röra högra spelaren
 
 3. Läs kodlinjerna. Det finns instruktioner var du ska ändra dom och
    genom att kolla linjerna for vänstra spelaren (``player1``) kan du
-   skriva kodlinjer som får högra spelaren att röra sig upp med
-   ``i``-knappen och ner med ``m`` knappen.
+   skriva kodlinjer som får högra spelaren (``player2``) att röra sig
+   upp med ``i``-knappen och ner med ``m`` knappen.
 
    Kodlinjerna som ska ändras har nu ordet ``pass``.
 
+Vänstra spelaren slår bollen
+----------------------------
 
+Kod som får vänstra spelaren att slår bollen ser ut som här (du hittar
+raderna i funktionen ``update``)::
 
+          if player1.colliderect(ball):
+            # Player1 hits the ball!
+            
+            # reverse horizontal speed
+            ball.speed_x *= -1
 
+            # if player1 hits with upper / lower end, change vertical speed
+            if ball.y > player1.y + H:
+                # ball hits lower end of player 1
+                # so increase vertical ball speed (downwards)
+                ball.speed_y += 1
+            elif ball.y < player1.y - H:
+                # ball hits upper end of player 1
+                # so decrease vertical ball speed (upwards)
+                ball.speed_y -= 1
+
+Först kollar den om ``player1`` (vänstra spelaren) har krockat med
+``ball`` (bollen). Om dom har krockat, omvänds bollens X-hastighet med
+följande rad::
+
+            ball.speed_x *= -1
+
+Symbolen ``*=`` mutliplicerar variablen på vänstra sidan med den värde
+på högra sida. Resultatet sparas i variabelen på vänstra sidan. Dvs.,
+vi tar variabelen ``ball.speed_x``, multiplicerar denns värde med -1,
+och spara resultatet i variabelen ``ball.speed_x`` igen.  Istället för
+att den rad, kann vi också skriva::
+
+            ball.speed_x = ball.speed_x * -1
+
+Efter X-hastighetens uppdatering, måste vi uppdatera Y-hastigheten av
+bollen. Men *Pong*'s reglar for ändring av bollens Y-hastighet är lite
+svårare::
+  
+   2. Om bollen träffar spelarens topp, minskar bollens Y-hastighet
+      (bollen går mera uppåt).
+
+   3. Om bollen träffar spelarens botten, höjer bollens Y-hastighet
+      (bollen går mera neråt).
+
+   4. Om bollen träffar spelaren i mitten, behåller bollen sin
+      Y-hastigheten.
+
+Vi måste alltså dela upp en spelare i toppen, mitten, och botten. Vi
+tar högsta 1/4 del av spelaren som toppen och lägsta 1/4 del som
+botten. Allt som finns emellan toppen och botten (1/2 del) är mitten.
+
+Obs. Det finns olika sätt att dela upp rektanglarna. Det är bra att
+experimentera med olika varianter.
+
+I koden finns en variabele ``H`` som har värde::
+
+  H = (player1.bottom - player1.top) // 4
+  
+``H`` är därför 1/4 del av spelarens höjd. Vi använder ``H`` för at
+räkna ut om bollen träffar spelaren på toppen, mitten, eller botten::
+
+            # if player1 hits with upper / lower end, change vertical speed
+            if ball.y > player1.y + H:
+                # ball hits lower end of player 1
+                # so increase vertical ball speed (downwards)
+                ball.speed_y += 1
+            elif ball.y < player1.y - H:
+                # ball hits upper end of player 1
+                # so decrease vertical ball speed (upwards)
+                ball.speed_y -= 1
+
+Först kollar vi om bollens Y-koordinat ar högre än spelarens
+Y-koordinat + ``H``. Det betyder att bollen har träffats spelarens
+botten och vi därför höjar bollens Y-hastighed med 1 (``ball.speed_y
++= 1``).
+
+Om det är inte så (``elif``), så kollar vi om bollens Y-koordinat är
+mindre än spelarens Y-koordinat - ``H``. Det betyder att bollen har
+träffats spelarens top och vi därför minskar bollens Y-hastighed med 1
+(``ball.speed_y -= 1``)
+
+Högra spelaren slår bollen
+--------------------------
+
+Just efter kodraderna som fick vänstra spelaren att slår bollen, finns
+följande rader::
+
+        if player2.colliderect(ball):
+            # Player2 hits the ball!
+            # remove 'pass' and write the code here
+            pass
+  
+Här ska du tar bort dom sista 2 rader och sen skriva kod som får den
+högra spelara att slår bollen. Den kod är nästan samma som för vänstra
+spelaren, men du ska skriva ``player2`` istället för ``player1``::
+  
+        if player2.colliderect(ball):
+          # Player2 hits the ball!
+          
+          # reverse horizontal speed
+          ball.speed_x *= -1
+
+          # if player2 hits with upper / lower end, change vertical speed
+          if ball.y > player2.y + H:
+              # ball hits lower end of player 2
+              # so increase vertical ball speed (downwards)
+              ball.speed_y += 1
+          elif ball.y < player2.y - H:
+              # ball hits upper end of player 2
+              # so decrease vertical ball speed (upwards)
+              ball.speed_y -= 1
