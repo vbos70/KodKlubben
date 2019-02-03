@@ -145,7 +145,7 @@ def update():
                 # so decrease vertical ball speed (upwards)
                 ball.speed_y -= 1
 
-        elif player2.colliderect(ball):
+        if player2.colliderect(ball):
             # Player2 hits the ball!
             # remove 'pass' and write the code here
             pass
