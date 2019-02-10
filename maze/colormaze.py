@@ -10,25 +10,31 @@ color = {
    'walls' : 'blue4',
    'door' : 'AntiqueWhite1',
    'trail' : 'red',
-   'start' : 'GhostWhite',
-   'end' : 'DarkGreen',
+   'start' : 'red',
+   'end' : 'blue',
+   'start_bg' : 'GhostWhite',
+   'end_bg' : 'DarkGreen',
 }
+
+
+def color_rgb(cname):
+   return turtle.getcanvas().winfo_rgb(cname)
+   
+def color_str(c):
+   return "#{:02x}{:02x}{:02x}".format(c[0]>>8, c[1]>>8, c[2]>>8)
    
 def color_range(start, end, num):
    if num < 2:
       return [start, end]
-   r0, g0, b0 = start
-   r1, g1, b1 = end
+   r0, g0, b0 = color_rgb(start)
+   r1, g1, b1 = color_rgb(end)
    dr = (r1 - r0) / (num-1)
    dg = (g1 - g0) / (num-1)
    db = (b1 - b0) / (num-1)
-   return [ (round(r0 + i * dr),
-             round(g0 + i * dg),
-             round(b0 + i * db)) for i in range(num)]
+   return [ color_str((round(r0 + i * dr),
+                       round(g0 + i * dg),
+                       round(b0 + i * db))) for i in range(num)]
 
-def color_str(c):
-   return "#{:02x}{:02x}{:02x}".format(c[0]>>8, c[1]>>8, c[2]>>8)
-   
 def sleep(seconds):
    cv = turtle.getcanvas()
    cv.update_idletasks()
@@ -144,6 +150,15 @@ def draw_maze(mz):
       write_centered(mz, str(cx), (cx, -1))
       write_centered(mz, str(cx), (-1, cx))
 
+   draw_walls(mz)
+   draw_doors(mz)
+
+def draw_walls(mz):
+   sz, cells, doors = mz
+   scale = image_scale()
+
+   cv = turtle.getcanvas()
+   
    for i in range(1, sz):
       cv.create_line(
          draw_offset(mz) + i * scale, draw_offset(mz),
@@ -156,17 +171,12 @@ def draw_maze(mz):
          fill = color['walls'],
          width = 3)
 
+def draw_doors(mz):
+   sz, cells, doors = mz   
    for d in doors:
       if doors[d]:
          draw_door(mz, d)
          
-   for c in cells:
-      if not has_doors(mz, c):
-         cx, cy = cell_center(mz, c)
-         cv.create_rectangle(cx-image_scale()/2, cy-image_scale()/2,
-                             cx+image_scale()/2, cy+image_scale()/2,
-                             fill=color['walls'],
-                             outline=color['walls'])
 
    
    
@@ -190,10 +200,10 @@ def draw_circle(x, y, rad, fill, outline):
 
 def draw_trail(mz, distance, c):
    sz, cells, doors = mz
-   fill = color['trail']
-   outline = color['trail']
    r = image_scale() // 6
    cur = c
+
+   cr = color_range(color['start'], color['end'], distance[c]+1)
    
    while distance[cur] < sz*sz:
       # check if we have reached the start point
@@ -203,7 +213,7 @@ def draw_trail(mz, distance, c):
       if c != cur:
          # draw a 'footprint'
          x0, y0 = cell_center(mz, cur)
-         draw_circle(x0, y0, r, fill, outline) 
+         draw_circle(x0, y0, r, cr[distance[cur]], cr[distance[cur]]) 
          sleep(0.5)
       
       # find a neighbour at 1 step away
@@ -214,8 +224,8 @@ def draw_trail(mz, distance, c):
             # between cur and n.
 
             x0, y0 = door_center_coords(mz, cur, n)
-            draw_circle(x0, y0, r, fill, outline)
-            sleep(0.5)
+            draw_circle(x0, y0, r, cr[distance[cur]], cr[distance[cur]])
+            sleep(0.25)
             cur = n
             break
       # no check needed for case with no neighbours.
@@ -275,6 +285,7 @@ def color_maze(mz, d, start, end):
    sz, cells, doors = mz
    max_d = 0
    inf = sz * sz
+   cv = turtle.getcanvas()
    for c in d:
       if d[c]>max_d and d[c] < inf:
          max_d = d[c]
@@ -283,9 +294,17 @@ def color_maze(mz, d, start, end):
    for c in cells:
       x0, y0 = cell_center(mz, c)
       if d[c] == inf:         
-         draw_circle(x0, y0, r, 'black', 'black')
+         cv.create_rectangle(x0-image_scale()/2, y0-image_scale()/2,
+                             x0+image_scale()/2, y0+image_scale()/2,
+                             fill=color['walls'],
+                             outline=color['walls'])
       else:         
-         draw_circle(x0, y0, r, color_str(cr[d[c]]), color_str(cr[d[c]])) 
+         cv.create_rectangle(x0-image_scale()/2 + 1, y0-image_scale()/2 + 1,
+                             x0+image_scale()/2 - 1, y0+image_scale()/2 - 1,
+                             fill=cr[d[c]],
+                             outline=cr[d[c]])
+   #draw_walls(mz)
+
 
 def int_input(msg, default=0):
    istr = input(msg).strip()
@@ -308,7 +327,6 @@ def coordinate_input(msg, default):
 def run_main():
 
    turtle.setup(width=0.75, height=0.9)
-   turtle.bgcolor(color['background'])
    turtle.hideturtle()
 
    if len(sys.argv) == 3:
@@ -342,14 +360,18 @@ def run_main():
    x1 = 0
    y1 = 0
 
+   turtle.bgcolor('White')
+         
 
    while run:
       if mz is None:
          maze_size = rnd_size()
          mz = generate_maze(maze_size)
 
+      turtle.bgcolor(color['background'])
       draw_maze(mz)
-      sleep(3)
+
+      sleep(1)
 
       sz, cells, doors = mz
 
@@ -361,9 +383,8 @@ def run_main():
       d = find_path(mz, (x0, y0), (x1, y1))
       #draw_distance(mz, d)
 
-      c0 = turtle.getcanvas().winfo_rgb(color['start'])
-      c1 = turtle.getcanvas().winfo_rgb(color['end'])
-      print(c0, c1)
+      c0 = color['start_bg']
+      c1 = color['end_bg']
       color_maze(mz, d, c0, c1)
       
       xc, yc = cell_center(mz, (x0, y0))
