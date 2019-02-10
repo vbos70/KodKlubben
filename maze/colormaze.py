@@ -7,11 +7,11 @@ import time
 
 color = {
    'background' : 'AntiqueWhite1',
-   'walls' : 'blue4',
-   'door' : 'AntiqueWhite1',
+   'walls' : 'DarkGrey',
+   'door' : 'LightGrey',
    'trail' : 'red',
-   'start' : 'red',
-   'end' : 'blue',
+   'start' : 'DarkGreen',
+   'end' : 'GhostWhite',
    'start_bg' : 'GhostWhite',
    'end_bg' : 'DarkGreen',
 }
