@@ -3,8 +3,8 @@ import random
 import animation
 
 # game screen size
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 1000
+HEIGHT = 800
 
 # create a class and instance to track game properties
 class Game: pass
@@ -23,6 +23,8 @@ game.meteors = [
     Actor('meteorgrey_big2'),
     Actor('meteorgrey_med1'),
     Actor('meteorgrey_small2'),
+    Actor('blockersad'),
+    Actor('blockermad'),
 ]
 
 # set the background
@@ -31,7 +33,7 @@ print(game.background.bottomright)
 #game.background.topleft = (0,0)
 
 # create a space ship (see images/ folder for other ships)
-game.ship = Actor('playership1_blue', midbottom = (400,550))
+game.ship = Actor('playership1_blue', midbottom = (WIDTH // 2,HEIGHT - 50))
 game.ship.speed = 0
 game.ship.missile_loaded = True
 
@@ -57,6 +59,8 @@ for m in game.meteors:
         m.points = 4
     elif 'med' in m.image:
         m.points = 2
+    elif 'blocker' in m.image:
+        m.points = 8
     m.active = False
     
 # explosions in the game
@@ -139,18 +143,19 @@ def update_actors():
     else:
         game.ship.speed = 0
         
-    if game.ship.missile_loaded and keyboard.space:
+    if (not game.ship.hurt) and game.ship.missile_loaded and keyboard.space:
+        game.ship.loaded = False
         sounds.sfx_shielddown.play()
         game.missiles.append(fire_missile())
         
     detect_hits()
 
     # check if a new meteor should be added.
-    if random.random() > 0.995:
+    if random.random() > 0.99:
         inactive_meteors = [m for m in game.meteors if not m.active ]
         if len(inactive_meteors) > 0:
             m = random.choice(inactive_meteors)
-            m.midleft = (WIDTH, random.randrange(100,400))
+            m.midleft = (WIDTH, random.randrange(100, HEIGHT-100))
             m.speed_x = random.choice([-2,-3,-4])
             m.speed_y = 0
             m.rotation_speed = random.choice(range(-5,5))
@@ -203,22 +208,25 @@ def update():
             game.time = 2*60
             game.score = 0
             game.ship.missile_loaded = True
+            game.ship.hurt = False
             clock.schedule_unique(decrease_time, 1.0)
             
     else:
         update_actors()
         
 def set_ship_hurt():
+    game.ship.hurt = True
     sounds.sfx_shielddown.play()
     game.ship.image = 'playership1_orange'
-    game.ship.bottom = 570
+    game.ship.bottom = HEIGHT - 20
     game.ship.missile_loaded = False
     clock.schedule_unique(set_ship_normal, 2.0)
     
 def set_ship_normal():
     game.ship.image = 'playership1_blue'
-    game.ship.bottom = 550
+    game.ship.bottom = HEIGHT - 50
     sounds.sfx_shieldup.play()
     game.ship.missile_loaded = True
+    game.ship.hurt = False
     
 pgzrun.go()
