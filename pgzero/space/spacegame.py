@@ -228,8 +228,6 @@ def on_key_up(key):
     elif key == keys.ESCAPE:
         if game_running():
             stop_game()
-        else:
-            exit()
             
 def update_actors():
     game.ship.speed = 0
