@@ -36,7 +36,7 @@ def draw():
     # draw ball
     ball.draw()
 
-def start_ball():
+def start_game():
     ball.speed_x = random.choice([-2,2])
     
 def update():
@@ -46,7 +46,7 @@ def update():
         ball.speed_x = 0
         ball.speed_y = 0
         # start the game in 3 seconds
-        clock.schedule_unique(start_ball, 3)
+        clock.schedule_unique(start_game, 3)
     else:
         # Change Player 1's speed if 'w' or 'z' is pressed
         if keyboard.w:
