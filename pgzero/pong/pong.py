@@ -80,11 +80,10 @@ def update():
         # Player2
         if keyboard.i:
             # 'i' means UP
-            # remove 'pass' and write the code here
-            pass
+            player2.speed_y = -SPEED
         elif keyboard.m:
             # 'm' means DOWN
-            # remove 'pass' and write the code here
+            player2.speed_y = SPEED
             pass
         else:
             # otherwise no movement
@@ -147,8 +146,19 @@ def update():
 
         if player2.colliderect(ball):
             # Player2 hits the ball!
-            # remove 'pass' and write the code here
-            pass
+
+            # reverse horizontal speed
+            ball.speed_x *= -1
+
+            # if player2 hits with upper / lower end, change vertical speed
+            if ball.y > player2.y + H:
+                # ball hits lower end of player 2
+                # so increase vertical ball speed (downwards)
+                ball.speed_y += 1
+            elif ball.y < player2.y - H:
+                # ball hits upper end of player 2
+                # so decrease vertical ball speed (upwards)
+                ball.speed_y -= 1
             
         # keep vertical speed within limits [-2,2]
         if ball.speed_y < -2:
