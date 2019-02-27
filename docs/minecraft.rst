@@ -4,6 +4,16 @@ Minecraft
 Jag beskriver kort hur man programmerar Minecraft i Python. Mera
 information finns på olika websidor, se `Minecraft länkar`_.
 
+K�ra din kod
+------------
+
+F�r att k�ra kod, spara du det i en Python fil (som kallas
+t.ex. `minkod.py`) och sedan ger du f�ljande kommandot i en terminal::
+
+  python3 minkod.py
+  
+Obs. det funkar bara om du har startat ett Minecraft spel redan!
+
 Pythons `mcpi` moduler
 ----------------------
 
@@ -101,18 +111,18 @@ Om du kör den här kod, ska du flytta din spelara nära position (0,
 du bygga nära spelarens nuvarande position::
 
   pos = mc.player.getPos()
-  mc.setBlock(pos+2, 0, pos+2, block.STONE)
+  mc.setBlock(pos.x+2, pos.y, pos.z+2, block.STONE)
 
 Här byggs en `STONE` block på lite mer än 2 meter från spelaren.
 
 Om man vill bygga flera block på en gång, används funktionen
 `setBlocks`. `setBlocks` fyller hela volumen mellan två angiven
-punkter med samma block.  Här fylls volumen mellan `(pos+2, 0, pos+2)`
-och `(pos+4,5,pos+6)` med `STONE` block::
+punkter med samma block.  Här fylls volumen mellan `(pos.x+2, pos.y, pos.z+2)`
+och `(pos.x+4,pos.y+5,pos.z+6)` med `STONE` block::
   
   pos = mc.player.getPos()
-  mc.setBlocks(pos+2, 0, pos+2,
-               pos+4, 5, pos+6,
+  mc.setBlocks(pos.x+2, pos.y, pos.z+2,
+               pos.x+4, pos.y+5, pos.z+6,
 	       block.STONE)
 
 Obs. spelaren blir inbyggd om han befinner sig i volumen mellan
@@ -128,16 +138,16 @@ parameter som anger typen av block. Här byggs en volum av ull (`WOOL`)
 i färgen magenta (2)::
 
   pos = mc.player.getPos()
-  mc.setBlocks(pos+2, 0, pos+2,
-               pos+4, 5, pos+6,
+  mc.setBlocks(pos.x+2, pos.y, pos.z+2,
+               pos.x+4, pos.y+5, pos.z+6,
 	       block.WOOL, 2)
 
 TNT är också en block som har `data`. TNT's `data` kan var 0 (inaktiv)
 eller 1 (aktiv). Aktiv TNT sprängs när spelaren slår på det::
 
   pos = mc.player.getPos()
-  mc.setBlocks(pos+2, 0, pos+2,
-               pos+4, 5, pos+6,
+  mc.setBlocks(pos.x+2, pos.y, pos.z+2,
+               pos.x+4, pos.y+5, pos.z+6,
 	       block.TNT, 1)
   
 Se `Minecraft API`_ for alla olika `data` som finns.
