@@ -4,15 +4,16 @@ Minecraft
 Jag beskriver kort hur man programmerar Minecraft i Python. Mera
 information finns på olika websidor, se `Minecraft länkar`_.
 
-K�ra din kod
+Köra din kod
 ------------
 
-F�r att k�ra kod, spara du det i en Python fil (som kallas
-t.ex. `minkod.py`) och sedan ger du f�ljande kommandot i en terminal::
+För att köra kod, spara du det i en Python fil (som kallas
+t.ex. `minkod.py`) och sedan ger du följande kommandot i en terminal::
 
   python3 minkod.py
   
 Obs. det funkar bara om du har startat ett Minecraft spel redan!
+
 
 Pythons `mcpi` moduler
 ----------------------
@@ -103,7 +104,7 @@ block på position (0, 0, 0)::
 
   mc.setBlock(0, 0, 0, block.STONE.id)
 
-Obs. gl�m inte `.id` efter `STONE`! Utan `.id` kan det funka, men
+Obs. glöm inte `.id` efter `STONE`! Utan `.id` kan det funka, men
 block med data funkar inte.
 
 På sidan `Minecraft API`_ hittar du alla block sorter som finns i
@@ -120,8 +121,8 @@ Här byggs en `STONE` block på lite mer än 2 meter från spelaren.
 
 Om man vill bygga flera block på en gång, används funktionen
 `setBlocks`. `setBlocks` fyller hela volumen mellan två angiven
-punkter med samma block.  Här fylls volumen mellan `(pos.x+2, pos.y, pos.z+2)`
-och `(pos.x+4,pos.y+5,pos.z+6)` med `STONE` block::
+punkter med samma block.  Här fylls volumen mellan `(pos.x+2, pos.y,
+pos.z+2)` och `(pos.x+4,pos.y+5,pos.z+6)` med `STONE` block::
   
   pos = mc.player.getPos()
   mc.setBlocks(pos.x+2, pos.y, pos.z+2,
