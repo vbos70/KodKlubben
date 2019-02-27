@@ -101,7 +101,10 @@ Bygga block
 Bygga block gör man med funktionen `setBlock`. Här byggs en `STONE`
 block på position (0, 0, 0)::
 
-  mc.setBlock(0, 0, 0, block.STONE)
+  mc.setBlock(0, 0, 0, block.STONE.id)
+
+Obs. gl�m inte `.id` efter `STONE`! Utan `.id` kan det funka, men
+block med data funkar inte.
 
 På sidan `Minecraft API`_ hittar du alla block sorter som finns i
 Minecraft.
@@ -111,7 +114,7 @@ Om du kör den här kod, ska du flytta din spelara nära position (0,
 du bygga nära spelarens nuvarande position::
 
   pos = mc.player.getPos()
-  mc.setBlock(pos.x+2, pos.y, pos.z+2, block.STONE)
+  mc.setBlock(pos.x+2, pos.y, pos.z+2, block.STONE.id)
 
 Här byggs en `STONE` block på lite mer än 2 meter från spelaren.
 
@@ -123,7 +126,7 @@ och `(pos.x+4,pos.y+5,pos.z+6)` med `STONE` block::
   pos = mc.player.getPos()
   mc.setBlocks(pos.x+2, pos.y, pos.z+2,
                pos.x+4, pos.y+5, pos.z+6,
-	       block.STONE)
+	       block.STONE.id)
 
 Obs. spelaren blir inbyggd om han befinner sig i volumen mellan
 denna två punkter.
@@ -140,7 +143,7 @@ i färgen magenta (2)::
   pos = mc.player.getPos()
   mc.setBlocks(pos.x+2, pos.y, pos.z+2,
                pos.x+4, pos.y+5, pos.z+6,
-	       block.WOOL, 2)
+	       block.WOOL.id, 2)
 
 TNT är också en block som har `data`. TNT's `data` kan var 0 (inaktiv)
 eller 1 (aktiv). Aktiv TNT sprängs när spelaren slår på det::
@@ -148,7 +151,7 @@ eller 1 (aktiv). Aktiv TNT sprängs när spelaren slår på det::
   pos = mc.player.getPos()
   mc.setBlocks(pos.x+2, pos.y, pos.z+2,
                pos.x+4, pos.y+5, pos.z+6,
-	       block.TNT, 1)
+	       block.TNT.id, 1)
   
 Se `Minecraft API`_ for alla olika `data` som finns.
 
