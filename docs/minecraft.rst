@@ -191,7 +191,7 @@ Här är en program som bygger an pyramid i Minecraft::
       else:
           s = PYRAMID_BLOCK1
   
-  mc.player.setPos(x, PYRAMID_SIZE+1, PYRAMID_SIZE+OFFSET)
+  mc.player.setPos(x, PYRAMID_SIZE+10, PYRAMID_SIZE+OFFSET)
   
 
 
