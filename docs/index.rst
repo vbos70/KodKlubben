@@ -11,6 +11,7 @@ Välkommen till Kodklubben's dokumentation
    :caption: Kort innehål:
 
    terminal
+   minecraft
    pong
 
 
@@ -22,7 +23,13 @@ Terminal, shell, och kommandon
 Lär dig var och hur du ger datorn skriven kommandon. Det är ofta
 lättare att skriva kommandon istället för att mus-klicka igenom olika
 fönstrar och menyer.
-   
+
+
+Minecraft
+---------
+
+Programmera Minecraft i Python.
+
 Pong
 ----
 
