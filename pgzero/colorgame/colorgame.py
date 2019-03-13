@@ -1,4 +1,4 @@
-CSIZE = 20
+CSIZE = 80
 BSIZE = 10
 WIDTH = BSIZE * CSIZE
 HEIGHT = BSIZE * CSIZE
@@ -33,6 +33,9 @@ def init_board(size):
     return [[board_color for x in range(BSIZE)]
             for y in range(BSIZE)]
 
+def color_dist(c1, c2):
+   return sum([abs(s - t) ** 2 for (s,t) in zip(c1, c2)]) ** 0.5
+   
 def is_empty(cell):
    return cell == board_color
 
@@ -47,29 +50,57 @@ def neighbours(bsize, x, y):
               (x+1, y),
               (x+1, y+1)] if nx > -1 and nx < bsize and ny > -1 and ny < bsize ]
 
+def cells():
+   for x in range(BSIZE):
+      for y in range(BSIZE):
+         yield (x, y)
+                
 
 board = init_board(BSIZE)
 def draw():
-    for x in range(BSIZE):
-        for y in range(BSIZE):
-            screen.draw.filled_rect(Rect((x*CSIZE, y*CSIZE), (CSIZE, CSIZE)),
-                                    board[y][x])
+   for (x, y) in cells():
+      screen.draw.filled_rect(Rect((x*CSIZE, y*CSIZE), (CSIZE, CSIZE)),
+                              board[y][x])
+   for (x, y) in cells():
+      screen.draw.rect(Rect((x*CSIZE, y*CSIZE), (CSIZE, CSIZE)),
+                       (0,0,0))
+
+def compute_score():
+   score = [0,0]
+   for x, y in cells():
+      clr = board[y][x]
+      cdA = color_dist(clr, A_color)
+      cdB = color_dist(clr, B_color)
+      if cdA > cdB:
+         score[0] += 1
+      elif cdB > cdA:
+         score[1] += 1
+   return score
+
+def game_end():
+   for x, y in cells():
+      if board[y][x] == board_color:
+         return False
+   return True
 
 player = [A_color, B_color]
 turn = 0
 def other(turn): return 1 - turn
 def on_mouse_down(pos):
     global turn
+    if game_end():
+       print("Game over")
+       return
     x = pos[0] // CSIZE
     y = pos[1] // CSIZE
     if board[y][x] != player[other(turn)]:
-        board[y][x] = player[turn]
-        for nx, ny in neighbours(BSIZE, x, y):
-            board[ny][nx] = add_colors(board[ny][nx],
-                                       dim_color(player[turn], COLOR_F))
-        turn = other(turn)
-    
-    
+       board[y][x] = player[turn]
+       for nx, ny in neighbours(BSIZE, x, y):
+          board[ny][nx] = add_colors(board[ny][nx],
+                                     dim_color(player[turn], COLOR_F))
+       turn = other(turn)
+    print(compute_score())
+         
 if __name__ == '__main__':
     print(add_colors(board_color, dim_color(player[turn], 4)))
     print(add_colors(player[other(turn)], dim_color(player[turn], 4)))
