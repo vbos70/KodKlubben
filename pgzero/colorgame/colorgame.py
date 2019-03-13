@@ -1,12 +1,11 @@
 CSIZE = 80
-BSIZE = 10
+BSIZE = 5
 WIDTH = BSIZE * CSIZE
-HEIGHT = BSIZE * CSIZE
+HEIGHT = BSIZE * CSIZE + CSIZE * 2
 COLOR_F = 2
 board_color = (255, 255, 255)
 A_color = (255, 0, 0)
 B_color = (0, 0, 255)
-
 
 def color_range(start, end, num):
    if num < 2:
@@ -58,6 +57,7 @@ def cells():
 
 board = init_board(BSIZE)
 def draw():
+   screen.fill(board_color)
    for (x, y) in cells():
       screen.draw.filled_rect(Rect((x*CSIZE, y*CSIZE), (CSIZE, CSIZE)),
                               board[y][x])
@@ -65,17 +65,43 @@ def draw():
       screen.draw.rect(Rect((x*CSIZE, y*CSIZE), (CSIZE, CSIZE)),
                        (0,0,0))
 
+   screen.draw.text("Score",
+                    fontsize=CSIZE,
+                    color=(0,0,0),
+                    midtop=(BSIZE * CSIZE * 0.5, (BSIZE+0) * CSIZE))
+   score = compute_score()
+   screen.draw.text("{:d}".format(score[0]),
+                    fontsize=CSIZE,
+                    color=A_color,
+                    midtop=(BSIZE * CSIZE * 0.3, (BSIZE+1) * CSIZE))
+   screen.draw.text("{:d}".format(score[1]),
+                    fontsize=CSIZE,
+                    color=B_color,
+                    midtop=(BSIZE * CSIZE * 0.7, (BSIZE+1) * CSIZE))
+
+   
 def compute_score():
    score = [0,0]
    for x, y in cells():
       clr = board[y][x]
       cdA = color_dist(clr, A_color)
       cdB = color_dist(clr, B_color)
-      if cdA > cdB:
+      if cdA < cdB:
          score[0] += 1
-      elif cdB > cdA:
+      elif cdB < cdA:
          score[1] += 1
    return score
+
+def show_end_score():
+   for x, y in cells():
+      clr = board[y][x]
+      cdA = color_dist(clr, A_color)
+      cdB = color_dist(clr, B_color)
+      if cdA < cdB:
+         board[y][x] = A_color
+      elif cdB < cdA:
+         board[y][x] = B_color
+   draw()
 
 def game_end():
    for x, y in cells():
@@ -89,7 +115,7 @@ def other(turn): return 1 - turn
 def on_mouse_down(pos):
     global turn
     if game_end():
-       print("Game over")
+       show_end_score()
        return
     x = pos[0] // CSIZE
     y = pos[1] // CSIZE
@@ -99,7 +125,6 @@ def on_mouse_down(pos):
           board[ny][nx] = add_colors(board[ny][nx],
                                      dim_color(player[turn], COLOR_F))
        turn = other(turn)
-    print(compute_score())
          
 if __name__ == '__main__':
     print(add_colors(board_color, dim_color(player[turn], 4)))
