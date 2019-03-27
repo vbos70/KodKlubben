@@ -17,33 +17,29 @@ style="background-color:#333">
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var radius = canvas.height / 2;
+var shrink_factor = 0.95;
 ctx.translate(radius, radius);
 radius = radius * 0.90
 setInterval(drawClock, 500);
 
 function drawClock() {
 
-  // 0  : 1
-  // 15 : 0.25
-  // 30 : 0.5
-  // radius scale factor: 1 - 0.5 * sec/30
-
-  // 45 : 0.25
-  // 50 : 
-  // radius scale factor: 1 - 0.5 * (60 - sec)/30
-
   var now = new Date();
   var second = now.getSeconds();
   var radius2 = radius;
   if (second<30) {
-    radius2 = radius * (1 - (0.75 * (second / 30)));
+    radius2 = radius * (1 - (shrink_factor * (second / 30)));
   } else {
-    radius2 = radius * (1 - (0.75 * ((60 - second) / 30)));
+    radius2 = radius * (1 - (shrink_factor * ((60 - second) / 30)));
   }
   ctx.fillStyle = "#000000";
   ctx.fillRect(-200, -200, 400, 400);
+  ctx.fillStyle = "#000000";
   drawFace(ctx, radius2);
+  ctx.fillStyle = "#00FF00";
   drawNumbers(ctx, radius2);
+  //ctx.fillStyle = "#FF0000";
+  ctx.strokeStyle = "#FF0000";
   drawTime(ctx, radius2);
 }
 
