@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>Squares and Rectangles</h1>
+
+  See also <a href="https://www.w3schools.com/graphics/canvas_drawing.asp">w3schools.com,
+  Canvas Drawing</a>
+
+  <p/>
+  
+<canvas id="canvas" width="400" height="400"
+style="background-color:#333">
+</canvas>
+
+<script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+ctx.fillStyle = "#FF0000";
+ctx.fillRect(0,0,100,100);
+ctx.fillStyle = "#00FF00";
+ctx.fillRect(100,100,100,100);
+ctx.fillStyle = "#0000FF";
+ctx.fillRect(200,0,100,100);
+
+ctx.fillStyle = "#FF0000";
+ctx.fillRect(0,200,400,200);
+ctx.fillStyle = "#00FF00";
+ctx.fillRect(100,200,300,100);
+ctx.fillStyle = "#0000FF";
+ctx.fillRect(100,200,100,400);
+
+</script>
+
+</body>
+</html>
