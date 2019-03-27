@@ -4,8 +4,8 @@ Minecraft
 Jag beskriver kort hur man programmerar Minecraft i Python. Mera
 information finns på olika websidor, se `Minecraft länkar`_.
 
-Köra din kod
-------------
+Kör din kod
+-----------
 
 För att köra kod, spara du det i en Python fil (som kallas
 t.ex. `minkod.py`) och sedan ger du följande kommandot i en terminal::
