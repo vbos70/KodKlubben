@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>Clock</h1>
+
+  The original version of this clock can be found
+  on <a href="https://www.w3schools.com/graphics/canvas_clock.asp">w3schools.com,
+  Canvas Clock</a>
+
+  <p/>
+  
+<canvas id="canvas" width="800" height="800"
+style="background-color:#333">
+</canvas>
+
+<script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var radius = canvas.height / 4;
+var shrink_factor = 0.95;
+ctx.translate(radius, radius);
+radius = radius * 0.90
+setInterval(drawClock, 500);
+
+
+function drawSecondsBlocks(sec, x, y, w, h) {
+    var bw = w / 15;
+    var bh = h / 4;
+    var tick;
+    var grd;
+    for (tick = 0; tick < 60; tick++) {
+	cy = y + bh * Math.floor(tick / 15);
+	cx = x + bw * (tick % 15);
+	grd = ctx.createLinearGradient(cx, cy, cx+bw, cy+bh);
+	grd.addColorStop(0, "white");
+	grd.addColorStop(1, "red");
+	if ( tick <= sec ) {
+	    ctx.fillStyle = grd;
+	} else {
+	    ctx.fillStyle = "#AA4444";
+	}
+	ctx.fillRect(cx, cy, bw, bh);
+    }
+}
+
+function drawMinutesBlocks(sec, x, y, w, h) {
+    var bw = w / 15;
+    var bh = h / 4;
+    var tick;
+    var grd;
+    for (tick = 0; tick < 60; tick++) {
+	cy = y + bh * Math.floor(tick / 15);
+	cx = x + bw * (tick % 15);
+	grd = ctx.createLinearGradient(cx, cy, cx+bw, cy+bh);
+	grd.addColorStop(0, "white");
+	grd.addColorStop(1, "green");
+	if ( tick <= sec ) {
+	    ctx.fillStyle = grd;
+	} else {
+	    ctx.fillStyle = "#44AA44";
+	}
+	ctx.fillRect(cx, cy, bw, bh);
+    }
+}
+
+function drawClock() {
+
+    var now = new Date();
+    var second = now.getSeconds();
+    var minute = now.getMinutes();
+    var radius2 = radius;
+    if (second<30) {
+	radius2 = radius * (1 - (shrink_factor * (second / 30)));
+    } else {
+	radius2 = radius * (1 - (shrink_factor * ((60 - second) / 30)));
+    }
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(-200, -200, 400, 400);
+    ctx.fillStyle = "#000000";
+    drawFace(ctx, radius2);
+    ctx.fillStyle = "#00FF00";
+    drawNumbers(ctx, radius2);
+    ctx.strokeStyle = "#FF0000";
+    drawTime(ctx, radius2);
+    drawSecondsBlocks(second, -200, 200, 800, 200);
+    drawMinutesBlocks(minute, -200, 400, 800, 200);
+}
+
+function drawFace(ctx, radius) {
+  var grad;
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, 0, 2*Math.PI);
+  ctx.fillStyle = 'white';
+  ctx.fill();
+  grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
+  grad.addColorStop(0, '#333');
+  grad.addColorStop(0.5, 'white');
+  grad.addColorStop(1, '#333');
+  ctx.strokeStyle = grad;
+  ctx.lineWidth = radius*0.1;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
+  ctx.fillStyle = '#333';
+  ctx.fill();
+}
+
+function drawNumbers(ctx, radius){
+  var ang, ang2;
+  var num, tick;
+  ctx.font = radius*0.15 + "px arial";
+  ctx.textBaseline="middle";
+  ctx.textAlign="center";
+  for(num = 1; num < 13; num++){
+    ang = num * Math.PI / 6;
+    ctx.rotate(ang);
+    ctx.translate(0, -radius*0.85);
+    ctx.rotate(-ang);
+    ctx.fillText(num.toString(), 0, 0);
+    ctx.rotate(ang);
+    ctx.translate(0, radius*0.85);
+    ctx.rotate(-ang);
+    for (tick = 1; tick < 6; tick++) {
+      ang2 = ang - (tick * Math.PI / 30);
+      ctx.lineWidth = 0.01*radius;
+      ctx.rotate(ang2);
+      ctx.translate(0, -radius);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, -0.05*radius);
+      ctx.stroke();
+      ctx.translate(0, radius);
+      ctx.rotate(-ang2);
+    }
+  }
+}
+
+
+function drawTime(ctx, radius){
+    var now = new Date();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
+    //hour
+    hour=hour%12;
+    hour=(hour*Math.PI/6)+
+    (minute*Math.PI/(6*60))+
+    (second*Math.PI/(360*60));
+    drawHand(ctx, hour, radius*0.5, radius*0.07);
+    //minute
+    minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
+    drawHand(ctx, minute, radius*0.8, radius*0.07);
+    // second
+    second=(second*Math.PI/30);
+    drawHand(ctx, second, radius*0.9, radius*0.02);
+}
+
+function drawHand(ctx, pos, length, width) {
+    ctx.beginPath();
+    ctx.lineWidth = width;
+    ctx.lineCap = "round";
+    ctx.moveTo(0,0);
+    ctx.rotate(pos);
+    ctx.lineTo(0, -length);
+    ctx.stroke();
+    ctx.rotate(-pos);
+}
+</script>
+
+</body>
+</html>
