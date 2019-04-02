@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html>
 <body>
-  <h1>Clock</h1>
+  <h1>Block Clock</h1>
 
-  The original version of this clock can be found
-  on <a href="https://www.w3schools.com/graphics/canvas_clock.asp">w3schools.com,
-  Canvas Clock</a>
+  
 
   <p/>
   
-<canvas id="canvas" width="864" height="600"
-style="background-color:#333">
+<canvas id="canvas" width="800" height="600">
+
 </canvas>
 
 <script>
@@ -19,7 +17,7 @@ var ctx = canvas.getContext("2d");
 setInterval(drawClock, 500);
 
 
-function drawBlocks(curTime, x, y, w, h, bw, bh, numx, numy, color1, color2, bgcolor) {
+function drawBlocks(curTime, x, y, bw, bh, numx, numy, color1, color2, bgcolor) {
     var tick;
     var grd;
     for (tick = 0; tick < (numx*numy); tick++) {
@@ -35,6 +33,10 @@ function drawBlocks(curTime, x, y, w, h, bw, bh, numx, numy, color1, color2, bgc
 	}
 	ctx.fillRect(cx, cy, bw, bh);
     }
+
+    ctx.font = "120px Verdana";
+    ctx.fillStyle = bgcolor;
+    ctx.fillText(curTime.toString(), x+610, y+150);
 }
 
 function drawClock() {
@@ -45,33 +47,27 @@ function drawClock() {
     var hour = now.getHours();
     var x = 0;
     var y = 0;
-    var w = 864; // 12 * 12 * 6
-    var h = 100; // 5 * 5 * 4
+    var w = 600;
+    var h = 200;
     var cols = 6;
     var rows = 4;
     var bw = w / cols;
     var bh = h / rows;
-    drawBlocks(hour, x, y, w, h, bw, bh, cols, rows, "white", "blue", "#4444AA");
-    
-    x = x + bw * (hour % cols);
-    y = y + bh * Math.floor(hour / cols);
-    w = bw;
-    h = bh;
-    cols = 12;
-    rows = 5;
-    bw = w / cols;
-    bh = h / rows;
-    drawBlocks(minute, x, y, w, h, bw, bh, cols, rows, "white", "red", "#44AA44");    
 
-    x = x + bw * (minute % cols);
-    y = y + bh * Math.floor(minute / cols);
-    w = bw;
-    h = bh;
+    ctx.clearRect(0, 0, 800, 600);
+    drawBlocks(hour, x, y, bw, bh, cols, rows, "white", "blue", "#4444AA");
+    
+    x = 0;
+    y = 200;
     cols = 12;
     rows = 5;
     bw = w / cols;
     bh = h / rows;
-    drawBlocks(second, x, y, w, h, bw, bh, cols, rows, "white", "green", "#4444AA");    
+    drawBlocks(minute, x, y, bw, bh, cols, rows, "white", "red", "#AA4444");    
+
+    x = 0;
+    y = 400;
+    drawBlocks(second, x, y, bw, bh, cols, rows, "white", "green", "#44AA44");    
 }
 
 </script>
