@@ -12,10 +12,18 @@
 </canvas>
 
 <script>
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
-setInterval(drawClock, 500);
+var width = 400
+var height = 400 
+var canvas = 0;//document.getElementById("canvas");
+var ctx = 0;//canvas.getContext("2d");
 
+function init_blockclock(cvsid, w, h) {
+    width = w
+    height = h
+    canvas = document.getElementById(cvsid);
+    ctx = canvas.getContext("2d");
+    setInterval(drawClock, 1000);
+}
 
 function drawBlocks(curTime, x, y, bw, bh, numx, numy, color1, color2, bgcolor) {
     var tick;
@@ -36,7 +44,7 @@ function drawBlocks(curTime, x, y, bw, bh, numx, numy, color1, color2, bgcolor) 
 
     ctx.font = "120px Verdana";
     ctx.fillStyle = bgcolor;
-    ctx.fillText(curTime.toString(), x+610, y+150);
+    ctx.fillText(curTime.toString(), x+(610 * width / 800), y+(150 * height / 600));
 }
 
 function drawClock() {
@@ -47,18 +55,18 @@ function drawClock() {
     var hour = now.getHours();
     var x = 0;
     var y = 0;
-    var w = 600;
-    var h = 200;
+    var w = 600 * (width / 800);
+    var h = 200 * (height / 600);
     var cols = 6;
     var rows = 4;
     var bw = w / cols;
     var bh = h / rows;
 
-    ctx.clearRect(0, 0, 800, 600);
+    ctx.clearRect(0, 0, width, height);
     drawBlocks(hour, x, y, bw, bh, cols, rows, "white", "blue", "#4444AA");
     
     x = 0;
-    y = 200;
+    y = 200 * (height / 600);
     cols = 12;
     rows = 5;
     bw = w / cols;
@@ -66,10 +74,11 @@ function drawClock() {
     drawBlocks(minute, x, y, bw, bh, cols, rows, "white", "red", "#AA4444");    
 
     x = 0;
-    y = 400;
+    y = 400 * (height / 600);
     drawBlocks(second, x, y, bw, bh, cols, rows, "white", "green", "#44AA44");    
 }
 
+init_blockclock("canvas", 800, 600);
 </script>
 
 </body>
