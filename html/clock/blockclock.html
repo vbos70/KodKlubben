@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<meta charset="UTF-8">
+
 <html>
 <body>
   <h1>Block Clock</h1>
@@ -44,7 +46,7 @@ function drawBlocks(curTime, x, y, bw, bh, numx, numy, color1, color2, bgcolor) 
 
     ctx.font = "120px Verdana";
     ctx.fillStyle = bgcolor;
-    ctx.fillText(curTime.toString(), x+(610 * width / 800), y+(150 * height / 600));
+    ctx.fillText(curTime.toString(), x+(61/80) * width, y+(height / 4));
 }
 
 function drawClock() {
@@ -55,8 +57,8 @@ function drawClock() {
     var hour = now.getHours();
     var x = 0;
     var y = 0;
-    var w = 600 * (width / 800);
-    var h = 200 * (height / 600);
+    var w = width * (3 / 4);
+    var h = height / 3;
     var cols = 6;
     var rows = 4;
     var bw = w / cols;
@@ -66,7 +68,7 @@ function drawClock() {
     drawBlocks(hour, x, y, bw, bh, cols, rows, "white", "blue", "#4444AA");
     
     x = 0;
-    y = 200 * (height / 600);
+    y = height / 3;
     cols = 12;
     rows = 5;
     bw = w / cols;
@@ -74,11 +76,11 @@ function drawClock() {
     drawBlocks(minute, x, y, bw, bh, cols, rows, "white", "red", "#AA4444");    
 
     x = 0;
-    y = 400 * (height / 600);
+    y = 2 * y; // now, y == 2/3 * height
     drawBlocks(second, x, y, bw, bh, cols, rows, "white", "green", "#44AA44");    
 }
-
 init_blockclock("canvas", 800, 600);
+
 </script>
 
 </body>
