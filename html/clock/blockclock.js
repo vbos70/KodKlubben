@@ -1,9 +1,8 @@
 
 // Read parameters (defined in html <script> tag)
-var width = document.currentScript.getAttribute("data-width");
-var height = document.currentScript.getAttribute("data-height"); 
-var canvas = document.getElementById(
-    document.currentScript.getAttribute("canvas-id"));
+var canvas = document.getElementById("bc-canvas");
+var width = canvas.width;
+var height = canvas.height; 
 
 // get a drawing context
 var ctx = canvas.getContext("2d");
@@ -14,23 +13,32 @@ setInterval(drawClock, 1000);
 function drawBlocks(curTime, x, y, bw, bh, numx, numy, color1, color2, bgcolor) {
     var tick;
     var grd;
+    var tx;
+    var ty;
     for (tick = 0; tick < (numx*numy); tick++) {
 	cy = y + bh * Math.floor(tick / numx);
 	cx = x + bw * (tick % numx);
 	grd = ctx.createLinearGradient(cx, cy, cx+bw, cy+bh);
 	grd.addColorStop(0, color1);
 	grd.addColorStop(1, color2);
-	if ( tick < curTime ) {
+	if ( tick < curTime+1 ) {
 	    ctx.fillStyle = grd;
+	    tx = cx;
+	    ty = cy;
+	    ctx.fillRect(cx, cy, bw, bh);
 	} else {
-	    ctx.fillStyle = bgcolor;
+	    ctx.beginPath();
+	    ctx.strokeStyle = bgcolor;
+	    ctx.rect(cx, cy, bw, bh);
+	    ctx.stroke();
 	}
-	ctx.fillRect(cx, cy, bw, bh);
     }
 
-    ctx.font = "120px Verdana";
-    ctx.fillStyle = bgcolor;
-    ctx.fillText(curTime.toString(), x+(numx * bw), y+(height / 4));
+    ctx.font = "20px Verdana";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "right";
+    curTime = curTime + 1;
+    ctx.fillText(curTime.toString(), tx  + 0.95 * bw, ty + 0.9 * bh);
 }
 
 function drawClock() {
@@ -41,10 +49,10 @@ function drawClock() {
     var hour = now.getHours();
     var x = 0;
     var y = 0;
-    var w = width * (3 / 4);
+    var w = width;
     var h = height / 3;
-    var cols = 6;
-    var rows = 4;
+    var cols = 12;
+    var rows = 2;
     var bw = w / cols;
     var bh = h / rows;
 
@@ -69,7 +77,7 @@ function drawClock() {
     x = w / 2;
     y = 2 * y; // now, y == 2/3 * height
 
-    w = width * (3 / 4) / 2; // use only half of the area width
+    w = width / 2; // use only half of the area width
     cols = 6;      // 6 blocks per row.
     rows = 10;     // 10 rows
     bw = w / cols;
