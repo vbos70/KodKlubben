@@ -1,6 +1,7 @@
 import pgzrun
 import random
 import animation
+from math import sin, cos, radians
 
 # game screen size
 WIDTH = 800
@@ -47,8 +48,8 @@ class Game:
         self.background = Actor('space1_background.png')
 
         # create a space ship (see images/ folder for other ships)
-        self.ship = Actor('playership1_blue', midbottom = (400,550))
-
+        self.ship = Actor('playership1_blue', center = (WIDTH//2,HEIGHT//2))
+        
 game = Game()
 
 def stop_game():
@@ -93,7 +94,7 @@ def game_stopped():
 def set_ship_hurt():
     game.ship.is_hurt = True
     game.ship.image = 'playership1_orange'
-    game.ship.bottom = HEIGHT - 30
+    #game.ship.bottom = HEIGHT - 30
     game.ship.missile_loaded = False
     sounds.sfx_shielddown.play()
     clock.schedule_unique(set_ship_normal, 2.0)
@@ -101,7 +102,7 @@ def set_ship_hurt():
 def set_ship_normal():
     game.ship.is_hurt = False
     game.ship.image = 'playership1_blue'
-    game.ship.bottom = HEIGHT - 50
+    #game.ship.bottom = HEIGHT - 50
     game.ship.missile_loaded = True
     game.ship.speed = 0
     sounds.sfx_shieldup.play()
@@ -111,8 +112,23 @@ def load_missile():
 
 def fire_missile():
     game.ship.missile_loaded = False
-    x, y = game.ship.midtop
-    m = Actor('laserred01.png', midbottom = (x, y+2))
+    h = game.ship.height / 2
+    x0 = (h + 2) * sin(-radians(game.ship.angle))
+    y0 = (h + 2) * cos(-radians(game.ship.angle))
+
+    x1 = (h + 2 + 5) * sin(-radians(game.ship.angle))
+    y1 = (h + 2 + 5) * cos(-radians(game.ship.angle))
+
+    x, y = game.ship.center
+    x = x + x0
+    y = y - y0
+    
+    m = Actor('laserred01.png', angle=game.ship.angle, pos=(x,y))
+    m.speed_x = x1 - x0
+    m.speed_y = -(y1 - y0)
+    
+    m.angle = game.ship.angle
+
     clock.schedule(load_missile, 0.5)
     return m
 
@@ -210,8 +226,14 @@ def draw():
             shadow=(1, 1)
         )
 
+def on_mouse_move(pos):
+    game.ship.angle = game.ship.angle_to(pos) - 90
 
-
+def on_mouse_up(pos):
+    if game_running():
+        if(not game.ship.is_hurt) and (game.ship.missile_loaded):
+            game.missiles.append(fire_missile())
+    
 def on_key_up(key):
     if key == keys.SPACE:
         if game_running():
@@ -229,12 +251,12 @@ def on_key_up(key):
             stop_game()
 
 def update_actors():
-    game.ship.speed = 0
+    #game.ship.speed = 0
 
-    if keyboard.a:
-        game.ship.speed = -2
-    elif keyboard.d:
-        game.ship.speed = 2
+    #if keyboard.a:
+    #    game.ship.speed = -2
+    #elif keyboard.d:
+    #    game.ship.speed = 2
 
     detect_hits()
 
@@ -255,7 +277,7 @@ def update_actors():
                 m.active = False
 
     # move the ship
-    game.ship.x += game.ship.speed
+    #game.ship.x += game.ship.speed
 
     if game.ship.left < 0:
         game.ship.left = 0
@@ -264,7 +286,8 @@ def update_actors():
 
     # move the fired missiles
     for m in game.missiles:
-        m.y -= 5
+        m.x += m.speed_x
+        m.y += m.speed_y
         if m.top < 0:
             game.missiles.remove(m)
 
