@@ -21,7 +21,7 @@ class Game:
         self.stars = []
         self.state = STOPPED
         self.message = None
-        
+
         # create some meteors (see images/ folder for more!)
         self.meteors = [
             Actor('meteorbrown_big1'),
@@ -42,7 +42,7 @@ class Game:
                 m.points = 2
             # and deactivate all meteors
             m.active = False
-    
+
         # set the background
         self.background = Actor('space1_background.png')
 
@@ -54,7 +54,7 @@ game = Game()
 def stop_game():
     game.state = STOPPED
     game.message = 'PAUSE'
-    
+
 def continue_game():
     game.state = RUNNING
     game.message = None
@@ -68,13 +68,13 @@ def rotate_ship():
         clock.schedule_unique(rotate_ship, 0.005)
     else:
         clock.schedule_unique(continue_game, 0.5)
-        
+
 def show_intro():
     game.state = STOPPED
     game.ship.angles =[d for d in range(0, 360, 10)] + [0]
     game.ship.angles += [d for d in range(360, 0, -10)] + [0]
     rotate_ship()
-        
+
 def start_game():
     show_intro()
     game.time = 2*60
@@ -83,7 +83,7 @@ def start_game():
     set_ship_normal()
     for m in game.meteors:
         m.active = False
-    
+
 def game_running():
     return game.state == RUNNING
 
@@ -97,7 +97,7 @@ def set_ship_hurt():
     game.ship.missile_loaded = False
     sounds.sfx_shielddown.play()
     clock.schedule_unique(set_ship_normal, 2.0)
-    
+
 def set_ship_normal():
     game.ship.is_hurt = False
     game.ship.image = 'playership1_blue'
@@ -105,10 +105,10 @@ def set_ship_normal():
     game.ship.missile_loaded = True
     game.ship.speed = 0
     sounds.sfx_shieldup.play()
-    
+
 def load_missile():
     game.ship.missile_loaded = True
-    
+
 def fire_missile():
     game.ship.missile_loaded = False
     x, y = game.ship.midtop
@@ -121,10 +121,10 @@ expl6s = [ Actor('expl_06_{:04d}.png'.format(d)) for d in range(0,25) ]
 
 def make_meteor_active(m):
     m.active = True
-    
+
 def make_meteor_inactive(m):
     m.active = False
-    
+
 def new_explosion(pos, speed_x=0, speed_y=0):
     sounds.explosion1.play()
     e = animation.Animation(expl6s, pos, 0.05, speed_x, speed_y)
@@ -168,23 +168,23 @@ def detect_hits():
                 set_ship_hurt()
                 game.score -= meteor.points
                 make_meteor_inactive(meteor)
-            
+
 def draw():
     screen.fill((5,10,20))
     #game.background.draw()
-    
+
     game.ship.draw()
 
     for m in game.meteors:
         if m.active:
             m.draw()
-        
+
     for m in game.missiles:
         m.draw()
 
     for e in game.explosions:
         e.draw()
-        
+
     screen.draw.text(
         str(game.score),
         color='white',
@@ -216,7 +216,6 @@ def on_key_up(key):
     if key == keys.SPACE:
         if game_running():
             if(not game.ship.is_hurt) and (game.ship.missile_loaded):
-                sounds.sfx_shielddown.play()
                 game.missiles.append(fire_missile())
         else:
             continue_game()
@@ -228,7 +227,7 @@ def on_key_up(key):
     elif key == keys.ESCAPE:
         if game_running():
             stop_game()
-            
+
 def update_actors():
     game.ship.speed = 0
 
@@ -236,7 +235,7 @@ def update_actors():
         game.ship.speed = -2
     elif keyboard.d:
         game.ship.speed = 2
-            
+
     detect_hits()
 
     # move active meteors and change their speed
@@ -247,7 +246,7 @@ def update_actors():
                 m.speed_y += 1
             elif m.speed_y > -3 and r > 0.9:
                 m.speed_y -= 1
-        
+
             m.x += m.speed_x
             m.y += m.speed_y
             m.angle += m.rotation_speed
@@ -279,8 +278,8 @@ def decrease_time():
     if game_running() and not game.stopped:
         game.time -= 1
         clock.schedule_unique(decrease_time, 1.0)
-    
-def update():        
+
+def update():
     if game.time < 1:
         stop_game()
 
@@ -289,5 +288,5 @@ def update():
 
 def quit_game():
     exit()
-    
+
 pgzrun.go()
