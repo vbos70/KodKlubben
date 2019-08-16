@@ -9,6 +9,17 @@ HEIGHT = 600
 
 STOPPED = 0
 RUNNING = 1
+PAUSED = 2
+IDLE = 3
+INTRO = 4
+
+messages = {
+    STOPPED : "STOPPED",
+    RUNNING : None,
+    PAUSED : "PAUSED",
+    IDLE : "IDLE",
+    INTRO : "INTRO"
+    }
 
 # create a class and instance to track game properties
 class Game:
@@ -20,8 +31,7 @@ class Game:
         self.time = 0
         self.stopped = False
         self.stars = []
-        self.state = STOPPED
-        self.message = None
+        self.state = IDLE
 
         # create some meteors (see images/ folder for more!)
         self.meteors = [
@@ -52,13 +62,11 @@ class Game:
         
 game = Game()
 
-def stop_game():
-    game.state = STOPPED
-    game.message = 'PAUSE'
+def pause_game():
+    game.state = PAUSED
 
 def continue_game():
     game.state = RUNNING
-    game.message = None
     clock.schedule_unique(decrease_time, 1.0)
     clock.schedule_unique(new_meteor,0.5)
 
@@ -71,7 +79,7 @@ def rotate_ship():
         clock.schedule_unique(continue_game, 0.5)
 
 def show_intro():
-    game.state = STOPPED
+    game.state = INTRO
     game.ship.angles =[d for d in range(0, 360, 10)] + [0]
     game.ship.angles += [d for d in range(360, 0, -10)] + [0]
     rotate_ship()
@@ -84,17 +92,17 @@ def start_game():
     set_ship_normal()
     for m in game.meteors:
         m.active = False
+    continue_game()
 
-def game_running():
-    return game.state == RUNNING
-
-def game_stopped():
-    return game.state == STOPPED
+def stop_game():
+    game.state = IDLE
+    
+def is_state(s):
+    return game.state == s
 
 def set_ship_hurt():
     game.ship.is_hurt = True
     game.ship.image = 'playership1_orange'
-    #game.ship.bottom = HEIGHT - 30
     game.ship.missile_loaded = False
     sounds.sfx_shielddown.play()
     clock.schedule_unique(set_ship_normal, 2.0)
@@ -102,7 +110,6 @@ def set_ship_hurt():
 def set_ship_normal():
     game.ship.is_hurt = False
     game.ship.image = 'playership1_blue'
-    #game.ship.bottom = HEIGHT - 50
     game.ship.missile_loaded = True
     game.ship.speed = 0
     sounds.sfx_shieldup.play()
@@ -149,17 +156,21 @@ def new_explosion(pos, speed_x=0, speed_y=0):
     return e
 
 def new_meteor():
-    if game_running():
-        if random.random() > 0.75:
-            inactive_meteors = [m for m in game.meteors if not m.active ]
-            if len(inactive_meteors) > 0:
-                m = random.choice(inactive_meteors)
-                m.midleft = (WIDTH, random.randrange(100,HEIGHT-200))
-                m.speed_x = random.choice([-2,-3,-4])
-                m.speed_y = 0
-                m.rotation_speed = random.choice(range(-5,5))
-                m.active = True
+    if is_state(RUNNING):
+
+        inactive_meteors = [m for m in game.meteors if not m.active ]
+        if random.randrange(0, len(game.meteors)) < len(inactive_meteors):
+            m = random.choice(inactive_meteors)
+            m.midleft = (WIDTH, random.randrange(100,HEIGHT-200))
+            m.speed_x = random.choice([-2,-3,-4])
+            m.speed_y = 0
+            m.rotation_speed = random.choice(range(-5,5))
+            m.active = True
         clock.schedule_unique(new_meteor, 0.5)
+
+def in_between_pos(p1, p2):
+    return ((p1[0] + p2[0]) // 2,
+            (p1[1] + p2[1]) // 2)
 
 def detect_hits():
     for meteor in game.meteors:
@@ -168,7 +179,7 @@ def detect_hits():
                 if missile.colliderect(meteor):
                     game.explosions.append(
                         new_explosion(
-                            missile.pos,
+                            in_between_pos(meteor.pos, missile.pos),
                             speed_x = meteor.speed_x,
                             speed_y = meteor.speed_y))
                     game.score += meteor.points
@@ -187,7 +198,7 @@ def detect_hits():
 
 def draw():
     screen.fill((5,10,20))
-    #game.background.draw()
+    game.background.draw()
 
     game.ship.draw()
 
@@ -217,9 +228,9 @@ def draw():
         shadow=(1, 1)
     )
 
-    if game.message is not None:
+    if messages[game.state] is not None:
         screen.draw.text(
-            game.message,
+            messages[game.state],
             color='yellow',
             midbottom=(WIDTH // 2, HEIGHT // 2),
             fontsize=70,
@@ -227,29 +238,29 @@ def draw():
         )
 
 def on_mouse_move(pos):
-    game.ship.angle = game.ship.angle_to(pos) - 90
+    if is_state(RUNNING):
+        game.ship.angle = game.ship.angle_to(pos) - 90
 
 def on_mouse_up(pos):
-    if game_running():
+    if is_state(RUNNING):
         if(not game.ship.is_hurt) and (game.ship.missile_loaded):
             game.missiles.append(fire_missile())
     
 def on_key_up(key):
     if key == keys.SPACE:
-        if game_running():
+        if is_state(RUNNING):
             if(not game.ship.is_hurt) and (game.ship.missile_loaded):
                 game.missiles.append(fire_missile())
-        else:
+        elif is_state(PAUSED):
             continue_game()
-    elif key == keys.RETURN:
-        if game_stopped():
+        elif is_state(IDLE):
             start_game()
-        else:
-            stop_game()
+            
     elif key == keys.ESCAPE:
-        if game_running():
+        if is_state(RUNNING) or is_state(PAUSED):
             stop_game()
-
+            
+    
 def update_actors():
     #game.ship.speed = 0
 
@@ -303,11 +314,11 @@ def decrease_time():
         clock.schedule_unique(decrease_time, 1.0)
 
 def update():
-    if game.time < 1:
-        stop_game()
 
-    if game_running():
+    if is_state(RUNNING):
         update_actors()
+        if game.time < 1:
+            stop_game()
 
 def quit_game():
     exit()
