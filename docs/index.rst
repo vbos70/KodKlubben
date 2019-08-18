@@ -6,6 +6,8 @@
 Välkommen till Kodklubben's dokumentation
 =========================================
 
+These pages are soon going to be updated.
+
 .. toctree::
    :maxdepth: 2
    :caption: Kort innehål:
