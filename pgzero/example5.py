@@ -12,12 +12,11 @@ HEIGHT = 400
 #   Click "Play" button or hit F5
 
 # Create a game state class
-class GameState:
+class GameState: pass
 
-    def __init__(self):
-        self.mouse_clicks = 0
-
+# Create a game state to track mouse clicks
 game_state = GameState()
+game_state.mouse_clicks = 0
 
 def on_mouse_down():
     game_state.mouse_clicks += 1

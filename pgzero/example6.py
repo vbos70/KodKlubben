@@ -12,13 +12,13 @@ HEIGHT = 400
 #   Click "Play" button or hit F5
 
 # Create a game state class
-class GameState:
+class GameState: pass
 
-    def __init__(self):
-        self.colors = [ (255,0,0), (0, 255, 0), (0, 0, 255) ]
-        self.index = 0
-
+# A game state with a list of colors and
+# an index or the current color.
 game_state = GameState()
+game_state.colors = [ (255,0,0), (0,255,0), (0,0,255) ]
+game_state.index = 0
 
 def on_mouse_down():
     game_state.index += 1

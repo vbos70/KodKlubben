@@ -12,12 +12,11 @@ HEIGHT = 400
 #   Click "Play" button or hit F5
 
 # Create a game state class
-class GameState:
+class GameState: pass
 
-    def __init__(self):
-        self.color = 255, 0, 0
-
+# A game state with a color
 game_state = GameState()
+game_state.color = 255, 0, 0
 
 def draw():
     screen.fill(game_state.color)

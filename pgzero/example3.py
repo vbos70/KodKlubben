@@ -12,17 +12,18 @@ HEIGHT = 400
 #   Click "Play" button or hit F5
 
 # Create a game state class
-class GameState:
+class GameState: pass
 
-    def __init__(self):
-        self.t0 = 0
-
+# A game state with a clock starting at 0 (t0)
+# and ending at 5 (t1)
 game_state = GameState()
+game_state.t0 = 0
+game_state.t1 = 5
 
 def update( seconds         # time since last update call
             ):
     print (game_state.t0, seconds)
-    if game_state.t0 > 5:
+    if game_state.t0 > game_state.t1:
         exit()
     game_state.t0 += seconds
         
