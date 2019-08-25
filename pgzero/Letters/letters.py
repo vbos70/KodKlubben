@@ -33,6 +33,7 @@ class LetterGame:
         self.total_time = self.total_time + self.time_step
 
 word_pos = (WIDTH / 2, HEIGHT / 4)
+word_speed = 1
 typed_word_pos = (WIDTH / 2, HEIGHT / 2)
 score_pos = (WIDTH / 2, HEIGHT * 3 / 4)
 
@@ -64,6 +65,10 @@ def on_key_down(key, unicode, mod):
                 lg.letters_typed = 0
 
 def update():
+
+    global word_pos
+    global word_speed
+
     if lg.letters_typed == 0 and not lg.game_started:
         lg.game_started = True
         clock.schedule_interval(lg.increase_time, lg.time_step)
@@ -71,6 +76,12 @@ def update():
     elif lg.letters_typed >= len(lg.get_word()):
         clock.unschedule(lg.increase_time)
         lg.game_started = False
+
+    word_pos = (word_pos[0] + word_speed, word_pos[1])
+    if word_pos[0] < 0:
+        word_speed = 1
+    elif word_pos[0] >= WIDTH:
+        word_speed = -1
 
 def draw():
     screen.fill((0,0,0))
