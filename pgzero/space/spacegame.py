@@ -309,7 +309,7 @@ def update_actors():
         e.update()
 
 def decrease_time():
-    if game_running() and not game.stopped:
+    if is_state(RUNNING):
         game.time -= 1
         clock.schedule_unique(decrease_time, 1.0)
 
