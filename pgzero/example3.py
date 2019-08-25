@@ -19,12 +19,13 @@ class GameState:
 
 game_state = GameState()
 
-def update( seconds,         # time since last update call
-            gs = game_state  # state of the game
+def update( seconds         # time since last update call
             ):
-    print (gs.t0, seconds)
-    gs.t0 += seconds
-
+    print (game_state.t0, seconds)
+    if game_state.t0 > 5:
+        exit()
+    game_state.t0 += seconds
+        
 def draw():
     print ("draw called")
 
