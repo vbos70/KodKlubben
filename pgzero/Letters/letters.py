@@ -3,41 +3,39 @@ import pgzrun
 WIDTH = 600
 HEIGHT = 500
 
-class LetterGame:
+class LetterGame: pass
 
-    def __init__(self):
-        self.words = [
-            "Kodklubben!",
-            "kodare",
-            "hacka",
-            "dator",
-            "game"
-        ]
-        self.index = 0
-        self.total_time = 0.0
-        self.time_step = 0.10
-        self.game_started = False
-        self.letters_typed = 0
-        self.score = 0
+lg = LetterGame()
+lg.words = [
+    "Kodklubben!",
+    "kodare",
+    "hacka",
+    "dator",
+    "game"
+]
+lg.index = 0
+lg.total_time = 0.0
+lg.time_step = 0.10
+lg.game_started = False
+lg.letters_typed = 0
+lg.score = 0
 
-    def get_word(self):
-        return self.words[self.index]
+def get_word():
+    return lg.words[lg.index]
 
-    def next_word(self):
-        self.index = self.index + 1
-        if self.index >= len(self.words):
-            self.index = 0
-        return self.get_word()
+def next_word():
+    lg.index = lg.index + 1
+    if lg.index >= len(lg.words):
+        lg.index = 0
+    return get_word()
 
-    def increase_time(self):
-        self.total_time = self.total_time + self.time_step
+def increase_time():
+    lg.total_time = lg.total_time + lg.time_step
 
 word_pos = (WIDTH / 2, HEIGHT / 4)
 word_speed = 1
 typed_word_pos = (WIDTH / 2, HEIGHT / 2)
 score_pos = (WIDTH / 2, HEIGHT * 3 / 4)
-
-lg = LetterGame()
 
 def on_key_down(key, unicode, mod):
     # Use this for printing the key values
@@ -49,11 +47,11 @@ def on_key_down(key, unicode, mod):
     elif key == keys.ESCAPE:
         exit()
     elif key == keys.RETURN:
-        lg.next_word()
+        next_word()
         lg.letters_typed = 0
         lg.total_time = 0.0
     else:
-        word = lg.get_word()
+        word = get_word()
         if lg.letters_typed < len(word):
             if unicode == word[lg.letters_typed]:
                 # User pressed right key!
@@ -71,10 +69,10 @@ def update():
 
     if lg.letters_typed == 0 and not lg.game_started:
         lg.game_started = True
-        clock.schedule_interval(lg.increase_time, lg.time_step)
+        clock.schedule_interval(increase_time, lg.time_step)
 
-    elif lg.letters_typed >= len(lg.get_word()):
-        clock.unschedule(lg.increase_time)
+    elif lg.letters_typed >= len(get_word()):
+        clock.unschedule(increase_time)
         lg.game_started = False
 
     word_pos = (word_pos[0] + word_speed, word_pos[1])
@@ -85,7 +83,7 @@ def update():
 
 def draw():
     screen.fill((0,0,0))
-    word = lg.get_word()
+    word = get_word()
     screen.draw.text(word, midbottom=word_pos, fontsize=32)
     if lg.letters_typed > 0:
         screen.draw.text(word[:lg.letters_typed], midbottom=typed_word_pos, fontsize=32)
