@@ -19,6 +19,11 @@ lg.time_step = 0.10
 lg.game_started = False
 lg.letters_typed = 0
 lg.score = 0
+lg.word_pos = (WIDTH / 2, HEIGHT / 4)
+lg.word_speed = 1
+lg.typed_word_pos = (WIDTH / 2, HEIGHT / 2)
+lg.score_pos = (WIDTH / 2, HEIGHT * 3 / 4)
+
 
 def get_word():
     return lg.words[lg.index]
@@ -31,11 +36,6 @@ def next_word():
 
 def increase_time():
     lg.total_time = lg.total_time + lg.time_step
-
-word_pos = (WIDTH / 2, HEIGHT / 4)
-word_speed = 1
-typed_word_pos = (WIDTH / 2, HEIGHT / 2)
-score_pos = (WIDTH / 2, HEIGHT * 3 / 4)
 
 def on_key_down(key, unicode, mod):
     # Use this for printing the key values
@@ -64,9 +64,6 @@ def on_key_down(key, unicode, mod):
 
 def update():
 
-    global word_pos
-    global word_speed
-
     if lg.letters_typed == 0 and not lg.game_started:
         lg.game_started = True
         clock.schedule_interval(increase_time, lg.time_step)
@@ -75,18 +72,18 @@ def update():
         clock.unschedule(increase_time)
         lg.game_started = False
 
-    word_pos = (word_pos[0] + word_speed, word_pos[1])
-    if word_pos[0] < 0:
-        word_speed = 1
-    elif word_pos[0] >= WIDTH:
-        word_speed = -1
+    lg.word_pos = (lg.word_pos[0] + lg.word_speed, lg.word_pos[1])
+    if lg.word_pos[0] < 0:
+        lg.word_speed = 1
+    elif lg.word_pos[0] >= WIDTH:
+        lg.word_speed = -1
 
 def draw():
     screen.fill((0,0,0))
     word = get_word()
-    screen.draw.text(word, midbottom=word_pos, fontsize=32)
+    screen.draw.text(word, midbottom=lg.word_pos, fontsize=32)
     if lg.letters_typed > 0:
-        screen.draw.text(word[:lg.letters_typed], midbottom=typed_word_pos, fontsize=32)
-    screen.draw.text("letters to type: " + str(len(word) - lg.letters_typed), midbottom=score_pos, fontsize=32)
+        screen.draw.text(word[:lg.letters_typed], midbottom=lg.typed_word_pos, fontsize=32)
+    screen.draw.text("letters to type: " + str(len(word) - lg.letters_typed), midbottom=lg.score_pos, fontsize=32)
     screen.draw.text("Time: {:6g}".format(lg.total_time), topright=(WIDTH-2, 2), fontsize = 24)
     screen.draw.text("SCORE: {:d}".format(lg.score), topleft=(2,2), fontsize=24)
