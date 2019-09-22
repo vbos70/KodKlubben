@@ -1,5 +1,3 @@
-import pgzrun
-
 WIDTH = 600
 HEIGHT = 500
 
@@ -81,9 +79,13 @@ def update():
 def draw():
     screen.fill((0,0,0))
     word = get_word()
+    if lg.game_started:
+        word = get_word()
+        screen.draw.text("letters to type: " + str(len(word) - lg.letters_typed), midbottom=lg.score_pos, fontsize=32)
+        if lg.letters_typed > 0:
+            screen.draw.text(word[:lg.letters_typed], midbottom=lg.typed_word_pos, fontsize=32)
+    else:
+        word = "<<RETURN>"
     screen.draw.text(word, midbottom=lg.word_pos, fontsize=32)
-    if lg.letters_typed > 0:
-        screen.draw.text(word[:lg.letters_typed], midbottom=lg.typed_word_pos, fontsize=32)
-    screen.draw.text("letters to type: " + str(len(word) - lg.letters_typed), midbottom=lg.score_pos, fontsize=32)
     screen.draw.text("Time: {:6g}".format(lg.total_time), topright=(WIDTH-2, 2), fontsize = 24)
     screen.draw.text("SCORE: {:d}".format(lg.score), topleft=(2,2), fontsize=24)
