@@ -12,6 +12,7 @@ These pages are soon going to be updated.
    :maxdepth: 2
    :caption: Kort innehål:
 
+   klubb_1
    terminal
    minecraft
    pong
@@ -21,6 +22,11 @@ Lubuntu 19.04
 
 The material for KodKlubben 2019-2020 is prepared and tested on Lubuntu 19.04. This system can be downloaded from the Lubuntu website.
 
+
+:doc:`klubb_1`
+
+Koda i ``mu-editor``.
+---------------------
 
 Terminal, shell, och kommandon
 ------------------------------
