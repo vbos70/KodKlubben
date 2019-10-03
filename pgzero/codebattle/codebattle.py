@@ -62,11 +62,16 @@ class Game:
             ws = [ bot for bot in self.bots if self.score[bot] == max_score ]
         return ws
     
+###########################################################################
+#
+# The Bot base class. It randomly picks a move
+#
+###########################################################################
 class Bot:
 
     def __init__(self):
-        self.name = 'noname'
-        self.image = '?'
+        self.name = '<noname>'
+        self.image = ' '
         
     def initialize(self, game):
         pass
@@ -75,6 +80,11 @@ class Bot:
         moves = game.possible_moves(self)
         game.execute(self, choice(moves))
 
+###########################################################################
+#
+# Two example Bots. They only set the image and the name
+#
+###########################################################################
 class Mumintroll(Bot):
 
     def initialize(self, game):
@@ -90,7 +100,7 @@ class Stinky(Bot):
         
 if __name__ == '__main__':
 
-    game = Game(100, 7, [Mumintroll(), Stinky()])
+    game = Game(1000, 50, [Mumintroll(), Stinky()])
     game.run()
     print()
     ws = game.winners()
