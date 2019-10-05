@@ -1,15 +1,12 @@
 from random import choice
+from game import *
 
-class Game:
+class MuminGame(Game):
 
     def __init__(self, max_turn, max_score, bots):
-        self.score = {}
         self.max_turn = max_turn
         self.max_score = max_score
-        self.turn = 0
-        self.bots = bots
-        self.stop_game = len(self.bots) == 0
-        self.init_bots()
+        super().__init__(bots)
 
     def possible_moves(self, bot):
         return ["good", "bad" ] + ([ "noop" ] * 5)
@@ -30,16 +27,7 @@ class Game:
     # The following functions shall not be used by Bots
     #
     ######################################################################
-    def init_bots(self):
-        for b in self.bots:
-            self.score[b] = 0
-            b.initialize(self)
             
-    def play_turn(self):
-        for bot in self.bots:
-            bot.step(self)
-        self.turn = self.turn + 1
-
     def print_score(self):
         for bot in self.bots:
             print(bot.image, bot.name, "score:", self.score[bot])
@@ -64,25 +52,7 @@ class Game:
     
 ###########################################################################
 #
-# The Bot base class. It randomly picks a move
-#
-###########################################################################
-class Bot:
-
-    def __init__(self):
-        self.name = '<noname>'
-        self.image = ' '
-        
-    def initialize(self, game):
-        pass
-
-    def step(self, game):
-        moves = game.possible_moves(self)
-        game.execute(self, choice(moves))
-
-###########################################################################
-#
-# Two example Bots. They only set the image and the name
+# The Mumin bots.
 #
 ###########################################################################
 class Mumintroll(Bot):
@@ -100,7 +70,7 @@ class Stinky(Bot):
         
 if __name__ == '__main__':
 
-    game = Game(1000, 50, [Mumintroll(), Stinky()])
+    game = MuminGame(1000, 50, [Mumintroll(), Stinky()])
     game.run()
     print()
     ws = game.winners()
