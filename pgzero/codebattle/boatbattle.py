@@ -110,7 +110,7 @@ class BoatBattle(Game):
             elif heading == 'S':
                 y = y - dist
             elif heading == 'W':
-                x = x - 1
+                x = x - dist
 
             if dist > 0:
                 msg = msg + "moves from {pos0} to {pos1}.".format( pos0 = self.position[bot], pos1 = (x,y))
