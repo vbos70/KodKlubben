@@ -31,6 +31,16 @@ class BoatBattle(Game):
             if x - dist < 0:
                 result = False
 
+        # cannot shoot backwards
+        if target == 'N' and heading == 'S':
+            return False
+        if target == 'S' and heading == 'N':
+            return False
+        if target == 'E' and heading == 'W':
+            return False
+        if target == 'W' and heading == 'E':
+            return False
+       
         # check firing range
         if target == 'N':
             if y + fran >= self.boardsize:
@@ -53,7 +63,7 @@ class BoatBattle(Game):
 
             directions = ['N', 'E', 'S', 'W']
             distances = [0, 1, 2]
-            fire_ranges = [0, 1, 2, 3]
+            fire_ranges = [0, 1, 2]
             moves = [ ((heading, dist), (target, fran))
                       for heading in directions
                       for dist in distances
@@ -67,7 +77,7 @@ class BoatBattle(Game):
             # bot's position at the start of the turn is at target position
             d = { 1 : 0.9,    # close range fire has high probability of hit
                   2 : 0.65,   # medium range fire has lower probablity of hit
-                  3: 0.25 }   # long range  fire has low probability of hit
+                  3: 0.25 }   # long range fire has low probability of hit
             return random() <= d[fran]
         # bot is not at target position
         return False
@@ -78,6 +88,8 @@ class BoatBattle(Game):
 
             msg = "Bot {bot} ".format(bot = bot.image)
 
+            bot.move = move # so boatgame can use it to draw the boat
+            
             ((heading, dist),(target, fran)) = move
 
             if fran > 0:
@@ -90,7 +102,8 @@ class BoatBattle(Game):
                     ty = ty - fran
                 if target == 'W':
                     tx = tx - fran
-
+                bot.tx_ty = (tx, ty) # so boatgame can use it to draw an explosion
+                
                 msg = msg + "fires at {target} and ".format(target = (tx,ty))
 
                 for b in self.bots:

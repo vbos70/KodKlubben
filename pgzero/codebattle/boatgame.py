@@ -1,4 +1,5 @@
 from boatbattle import *
+import animation
 
 board_size = 10
 
@@ -12,16 +13,26 @@ def load_boat_images():
     imgs["grey"] = [ Actor('ship_grey_0'), Actor('ship_grey_1'), Actor('ship_grey_2') ]
     return imgs
 
+def load_explosion_images():
+    imgs = [ Actor('explosion1'), Actor('explosion2'), Actor('explosion3')]
+    return imgs
+
 class BoatGame: pass
 
 boat_game = BoatGame()
 boat_game.boats = load_boat_images()
+boat_game.explosion_imgs = load_explosion_images()
+boat_game.explosions = []
+boat_game.bullet_img = Actor('bullet')
+boat_game.bullets = []
 
 boat_game.boat_1_imgs = boat_game.boats["red"]
 boat_game.boat_2_imgs = boat_game.boats["yellow"]
 
 boat_game.bot_1 = Bot()
+boat_game.bot_1.move = (('N',0),('N',0))
 boat_game.bot_2 = Bot()
+boat_game.bot_2.move = (('N',0),('N',0))
 
 boat_game.started = False
 
@@ -44,20 +55,70 @@ def cell_coords(col_row):
     return (bc(col) * CELL_SIZE + 0.5 * CELL_SIZE, bc(row) * CELL_SIZE + 0.5 * CELL_SIZE)
 
 
+def set_boat_angle(actor, heading):
+    if heading == 'N':
+        actor.angle = 0
+    elif heading == 'E':
+        actor.angle = 90
+    elif heading == 'S':
+        actor.angle = 180
+    elif heading == 'W':
+        actor.angle = 270
+    
 def draw():
-
     screen.fill((100, 150, 200))
 
+    for b in boat_game.bullets:
+        b.draw()
+        
+    for e in boat_game.explosions:
+        e.draw()
+    
+    ((heading, dist),(target, fran)) = boat_game.bot_1.move
+    set_boat_angle(boat_game.boat_1_imgs[0], heading)
     boat_game.boat_1_imgs[0].draw()
+
+    ((heading, dist),(target, fran)) = boat_game.bot_2.move    
+    set_boat_angle(boat_game.boat_2_imgs[0], heading)
     boat_game.boat_2_imgs[0].draw()
 
+def new_explosion(bullet, game_bullets):
+    game_bullets.remove(bullet)
+    e = animation.Animation(boat_game.explosion_imgs, bullet.pos, 0.2)
+    e.start()
+    boat_game.explosions.append(e)
 
+    
 def do_game_turn():
     print("turn", boat_game.BB.turn)
     bb = boat_game.BB
     if not bb.stop_game:
         if bb.max_turn ==  0 or bb.max_turn > bb.turn:
             bb.play_turn()
+
+            ((heading, dist),(target, fran)) = boat_game.bot_1.move
+            if fran > 0:
+                bullet = Actor('bullet')
+                bullet.pos = cell_coords(boat_game.BB.old_position[boat_game.bot_1])
+                boat_game.bullets.append(bullet)
+                animate(bullet,
+                        pos = cell_coords(boat_game.bot_1.tx_ty),
+                        duration=0.2,
+                        on_finished = lambda bs=boat_game.bullets, b=bullet : new_explosion(b, bs) 
+                )                        
+                #boat_game.explosions.append(new_explosion(cell_coords(boat_game.bot_1.tx_ty)))
+            ((heading, dist),(target, fran)) = boat_game.bot_2.move
+            if fran > 0:
+                bullet = Actor('bullet')
+                bullet.pos = cell_coords(boat_game.BB.old_position[boat_game.bot_2])
+                boat_game.bullets.append(bullet)
+                animate(bullet,
+                        pos = cell_coords(boat_game.bot_2.tx_ty),
+                        duration=0.2,
+                        on_finished = lambda bs=boat_game.bullets, b=bullet : new_explosion(b, bs)
+                )
+                #boat_game.explosions.append(new_explosion(cell_coords(boat_game.bot_2.tx_ty)))
+            
             animate(boat_game.boat_1_imgs[0], pos=cell_coords(boat_game.BB.position[boat_game.bot_1]))
             animate(boat_game.boat_2_imgs[0], pos=cell_coords(boat_game.BB.position[boat_game.bot_2]))
             
@@ -74,3 +135,9 @@ def update():
             boat_game.boat_2_imgs[0].pos = cell_coords(boat_game.BB.position[boat_game.bot_2])
             boat_game.started = True
             clock.schedule_interval(do_game_turn, 1)
+
+    # filter live (running) explosions
+    boat_game.explosions = [ e for e in boat_game.explosions if e.running() ]
+    for e in boat_game.explosions:
+        e.update()
+
