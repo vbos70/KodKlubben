@@ -5,6 +5,7 @@ import animation
 import pygame
 
 board_size = 8
+time_scale = 1.0
 
 def load_boat_images():
     imgs = {}
@@ -134,7 +135,7 @@ def do_game_turn():
                 boat_game.bullets.append(bullet)
                 animate(bullet,
                         pos = cell_coords(boat_game.bot_1.tx_ty),
-                        duration=0.2,
+                        duration=time_scale / 5.0,
                         on_finished = lambda bs=boat_game.bullets, b=bullet : new_explosion(b, bs) 
                 )                        
                 #boat_game.explosions.append(new_explosion(cell_coords(boat_game.bot_1.tx_ty)))
@@ -150,8 +151,14 @@ def do_game_turn():
                 )
                 #boat_game.explosions.append(new_explosion(cell_coords(boat_game.bot_2.tx_ty)))
             
-            animate(boat_game.boat_1_imgs[0], pos=cell_coords(boat_game.BB.position[boat_game.bot_1]))
-            animate(boat_game.boat_2_imgs[0], pos=cell_coords(boat_game.BB.position[boat_game.bot_2]))
+            animate(boat_game.boat_1_imgs[0],
+                    pos=cell_coords(boat_game.BB.position[boat_game.bot_1]),
+                    duration=time_scale
+            )
+            animate(boat_game.boat_2_imgs[0],
+                    pos=cell_coords(boat_game.BB.position[boat_game.bot_2]),
+                    duration=time_scale                    
+            )
             
         else:
             bb.stop_game = True
@@ -165,7 +172,7 @@ def update():
             boat_game.boat_1_imgs[0].pos = cell_coords(boat_game.BB.position[boat_game.bot_1])
             boat_game.boat_2_imgs[0].pos = cell_coords(boat_game.BB.position[boat_game.bot_2])
             boat_game.started = True
-            clock.schedule_interval(do_game_turn, 1)
+            clock.schedule_interval(do_game_turn, time_scale)
 
     # filter live (running) explosions
     boat_game.explosions = [ e for e in boat_game.explosions if e.running() ]
