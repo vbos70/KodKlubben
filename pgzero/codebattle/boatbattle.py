@@ -149,7 +149,9 @@ class BoatBattle(Game):
         for bot in self.bots:
             bot.step(self)
         self.turn = self.turn + 1
-            
+
+    def hit(self, bot):
+        return self.hits[bot] 
 
     def show_game(self):
         print("-"*40)
@@ -159,7 +161,46 @@ class BoatBattle(Game):
             print("TURN:", self.turn)
         for b in self.bots:
             print( "Bot {img} {nm} [hits: {hits}]".format(img = b.image, nm = b.name, hits = self.hits[b]))
+
+    def directions(self, p0, p1):
+        dx = p1[0]-p0[0]
+        dy = p1[1]-p0[1]
+        ds = []
+        if dx < 0:
+            ds.append('W')
+        if dx > 0:
+            ds.append('E')
+        if dy < 0:
+            ds.append('S')
+        if dy > 0:
+            ds.append('N')
+        return ds
+
+    def distance_to_enemy(self, bot):
+        for b in self.bots:
+            if b != bot:
+                dx = abs(self.position[bot][0] - self.position[b][0])
+                dy = abs(self.position[bot][1] - self.position[b][1])
+                return dx + dy
             
+    def where_is_enemy(self, bot):
+        for b in self.bots:
+            if b != bot:
+                return self.directions(self.position[bot], self.position[b])
+        return ["?"]
+
+    def move_direction(self, move):
+        ((heading,_),(_,_)) = move
+        return heading
+
+    def target_direction(self, move):
+        ((_,_),(target,_)) = move
+        return target
+
+    def fires(self, move):
+        ((_,_),(_,fran)) = move
+        return fran > 0
+        
 if __name__ == '__main__':
 
     b1 = Bot()

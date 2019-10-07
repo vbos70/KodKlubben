@@ -1,7 +1,10 @@
 from boatbattle import *
-import animation
+from bot1 import Bot1
 
-board_size = 10
+import animation
+import pygame
+
+board_size = 8
 
 def load_boat_images():
     imgs = {}
@@ -20,6 +23,9 @@ def load_explosion_images():
 class BoatGame: pass
 
 boat_game = BoatGame()
+boat_game.boat_1_icon = Actor('ship_red_0')
+boat_game.boat_2_icon = Actor('ship_yellow_0')
+
 boat_game.boats = load_boat_images()
 boat_game.explosion_imgs = load_explosion_images()
 boat_game.explosions = []
@@ -29,7 +35,7 @@ boat_game.bullets = []
 boat_game.boat_1_imgs = boat_game.boats["red"]
 boat_game.boat_2_imgs = boat_game.boats["yellow"]
 
-boat_game.bot_1 = Bot()
+boat_game.bot_1 = Bot1()
 boat_game.bot_1.move = (('N',0),('N',0))
 boat_game.bot_2 = Bot()
 boat_game.bot_2.move = (('N',0),('N',0))
@@ -41,7 +47,7 @@ boat_game.BB = BoatBattle(board_size, [boat_game.bot_1, boat_game.bot_2], max_tu
 CELL_SIZE = max(boat_game.boat_1_imgs[0].width, boat_game.boat_1_imgs[0].height) * 2
 
 WIDTH  = CELL_SIZE * board_size
-HEIGHT = CELL_SIZE * board_size
+HEIGHT = CELL_SIZE * board_size + CELL_SIZE
 
 def cell_coords(col_row):
     col, row = col_row
@@ -82,6 +88,31 @@ def draw():
     set_boat_angle(boat_game.boat_2_imgs[0], heading)
     boat_game.boat_2_imgs[0].draw()
 
+    # draw score board
+    screen.draw.filled_rect(Rect((0,board_size * CELL_SIZE),
+                                 (board_size * CELL_SIZE, CELL_SIZE)),
+                            "black")
+    
+    screen.draw.text("Hits", midleft=(CELL_SIZE, (board_size + 0.5) * CELL_SIZE),
+                     fontsize = 0.75 * CELL_SIZE
+    )
+
+    boat_game.boat_1_icon.pos = (CELL_SIZE*3, (board_size + 0.5) * CELL_SIZE)
+    boat_game.boat_1_icon.draw()
+    screen.draw.text("{h1}".format(h1=boat_game.BB.hits[boat_game.bot_1]),
+                     center = (CELL_SIZE * 3.5, (board_size + 0.5) * CELL_SIZE),
+                     fontsize = 0.75 * CELL_SIZE
+    )
+
+    boat_game.boat_2_icon.pos = (CELL_SIZE*5, (board_size + 0.5) * CELL_SIZE)
+    boat_game.boat_2_icon.draw()
+    screen.draw.text("{h2}".format(h2=boat_game.BB.hits[boat_game.bot_2]),
+                     center = (CELL_SIZE * 5.5, (board_size + 0.5) * CELL_SIZE),
+                     fontsize = 0.75 * CELL_SIZE
+    )
+    
+
+    
 def new_explosion(bullet, game_bullets):
     game_bullets.remove(bullet)
     e = animation.Animation(boat_game.explosion_imgs, bullet.pos, 0.2)
