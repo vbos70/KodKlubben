@@ -86,8 +86,6 @@ class BoatBattle(Game):
         hit = False
         if move in self.possible_moves(bot):
 
-            msg = "Bot {bot} ".format(bot = bot.image)
-
             bot.move = move # so boatgame can use it to draw the boat
             
             ((heading, dist),(target, fran)) = move
@@ -104,16 +102,10 @@ class BoatBattle(Game):
                     tx = tx - fran
                 bot.tx_ty = (tx, ty) # so boatgame can use it to draw an explosion
                 
-                msg = msg + "fires at {target} and ".format(target = (tx,ty))
-
                 for b in self.bots:
                     if b != bot:
                         if self.is_boat_hit(b, (tx, ty), fran):
                             self.hits[b] = self.hits[b] + 1
-                            msg = msg + "bot {bot0} is hit! Bot {bot1} ".format(bot0 = b.image, bot1 = bot.image)
-                            #hit = True
-                        else:
-                            msg = msg + "misses. Bot {bot} ".format(bot = bot.image)
                 
             x, y = self.position[bot]
             if heading == 'N':
@@ -124,18 +116,7 @@ class BoatBattle(Game):
                 y = y - dist
             elif heading == 'W':
                 x = x - dist
-
-            if dist > 0:
-                msg = msg + "moves from {pos0} to {pos1}.".format( pos0 = self.position[bot], pos1 = (x,y))
-            else:
-                msg = msg + "stays at {pos}.".format( pos = (x,y))
-
-
             self.position[bot] = (x,y)
-            if hit:    
-                s = input(msg)
-            else:
-                print(msg)
 
             
     def play_turn(self):
@@ -152,15 +133,6 @@ class BoatBattle(Game):
 
     def hit(self, bot):
         return self.hits[bot] 
-
-    def show_game(self):
-        print("-"*40)
-        if self.max_turn > 0:
-            print("TURN", self.turn, "OF", self.max_turn)
-        else:
-            print("TURN:", self.turn)
-        for b in self.bots:
-            print( "Bot {img} {nm} [hits: {hits}]".format(img = b.image, nm = b.name, hits = self.hits[b]))
 
     def directions(self, p0, p1):
         dx = p1[0]-p0[0]
@@ -201,21 +173,4 @@ class BoatBattle(Game):
         ((_,_),(_,fran)) = move
         return fran > 0
         
-if __name__ == '__main__':
-
-    b1 = Bot()
-    b1.image = '*'
-    b1.name = "B1"
-    
-    b2 = Bot()
-    b2.image = '.'
-    b2.name = "B2"
-
-    interactive = False
-    if len(sys.argv)>1:
-        for a in sys.argv[1:]:
-            if a == "-i":
-                interactive = True
-    game = BoatBattle(19,  [b1, b2], max_turn = 1000)
-    game.run(interactive = interactive)
 

@@ -1,8 +1,59 @@
 from boatbattle import *
-from bot1 import Bot1
 
 import animation
 import pygame
+
+
+
+################################################################################
+class Bot:
+
+    def __init__(self):
+        self.name = 'Bot'        
+        self.move = (('N', 0), ('N', 0))
+
+    def heading(self):
+        return self.move[0][0]
+
+    def dist(self):
+        return self.move[0][1]
+    
+    def target(self):
+        return self.move[1][0]
+
+    def fran(self):
+        return self.move[1][1]
+
+    def step(self, game):
+        moves = game.possible_moves(self)
+        if len(moves)>0:
+            game.execute(self, choice(moves))
+
+            
+################################################################################
+class Bot1(Bot):
+
+    def __init__(self):
+        super().__init__()
+        self.name = 'Bot1'
+
+    def step(self, game):
+        moves = game.possible_moves(self)
+
+        enemy_directions = game.where_is_enemy(self)
+
+        if game.distance_to_enemy(self) > 2:
+            moves = [ m for m in moves if game.move_direction(m) in enemy_directions ]
+            
+        smart_moves = [ m for m in moves if game.fires(m) and game.target_direction(m) in enemy_directions ]
+        if len(smart_moves) > 0:
+            moves = smart_moves
+        if len(moves) > 0:
+            m = choice(moves)
+            self.move = m
+            game.execute(self, self.move)
+
+################################################################################
 
 board_size = 8
 time_scale = 1.0
@@ -37,9 +88,7 @@ boat_game.boat_1_imgs = boat_game.boats["red"]
 boat_game.boat_2_imgs = boat_game.boats["yellow"]
 
 boat_game.bot_1 = Bot1()
-boat_game.bot_1.move = (('N',0),('N',0))
 boat_game.bot_2 = Bot()
-boat_game.bot_2.move = (('N',0),('N',0))
 
 boat_game.started = False
 
@@ -81,12 +130,10 @@ def draw():
     for e in boat_game.explosions:
         e.draw()
     
-    ((heading, dist),(target, fran)) = boat_game.bot_1.move
-    set_boat_angle(boat_game.boat_1_imgs[0], heading)
+    set_boat_angle(boat_game.boat_1_imgs[0], boat_game.bot_1.heading())
     boat_game.boat_1_imgs[0].draw()
 
-    ((heading, dist),(target, fran)) = boat_game.bot_2.move    
-    set_boat_angle(boat_game.boat_2_imgs[0], heading)
+    set_boat_angle(boat_game.boat_2_imgs[0], boat_game.bot_2.heading())
     boat_game.boat_2_imgs[0].draw()
 
     # draw score board
@@ -112,24 +159,19 @@ def draw():
                      fontsize = 0.75 * CELL_SIZE
     )
     
-
-    
 def new_explosion(bullet, game_bullets):
     game_bullets.remove(bullet)
     e = animation.Animation(boat_game.explosion_imgs, bullet.pos, 0.2)
     e.start()
     boat_game.explosions.append(e)
-
     
 def do_game_turn():
-    print("turn", boat_game.BB.turn)
     bb = boat_game.BB
     if not bb.stop_game:
         if bb.max_turn ==  0 or bb.max_turn > bb.turn:
             bb.play_turn()
 
-            ((heading, dist),(target, fran)) = boat_game.bot_1.move
-            if fran > 0:
+            if boat_game.bot_1.fran() > 0:
                 bullet = Actor('bullet')
                 bullet.pos = cell_coords(boat_game.BB.old_position[boat_game.bot_1])
                 boat_game.bullets.append(bullet)
@@ -138,9 +180,8 @@ def do_game_turn():
                         duration=time_scale / 5.0,
                         on_finished = lambda bs=boat_game.bullets, b=bullet : new_explosion(b, bs) 
                 )                        
-                #boat_game.explosions.append(new_explosion(cell_coords(boat_game.bot_1.tx_ty)))
-            ((heading, dist),(target, fran)) = boat_game.bot_2.move
-            if fran > 0:
+
+            if boat_game.bot_2.fran() > 0:
                 bullet = Actor('bullet')
                 bullet.pos = cell_coords(boat_game.BB.old_position[boat_game.bot_2])
                 boat_game.bullets.append(bullet)
@@ -149,7 +190,6 @@ def do_game_turn():
                         duration=0.2,
                         on_finished = lambda bs=boat_game.bullets, b=bullet : new_explosion(b, bs)
                 )
-                #boat_game.explosions.append(new_explosion(cell_coords(boat_game.bot_2.tx_ty)))
             
             animate(boat_game.boat_1_imgs[0],
                     pos=cell_coords(boat_game.BB.position[boat_game.bot_1]),
