@@ -10,19 +10,7 @@ class Bot:
 
     def __init__(self):
         self.name = 'Bot'        
-        self.move = (('N', 0), ('N', 0))
-
-    def heading(self):
-        return self.move[0][0]
-
-    def dist(self):
-        return self.move[0][1]
-    
-    def target(self):
-        return self.move[1][0]
-
-    def fran(self):
-        return self.move[1][1]
+        self.move = Move('N', 0, 'N', 0)
 
     def step(self, game):
         moves = game.possible_moves(self)
@@ -130,10 +118,10 @@ def draw():
     for e in boat_game.explosions:
         e.draw()
     
-    set_boat_angle(boat_game.boat_1_imgs[0], boat_game.bot_1.heading())
+    set_boat_angle(boat_game.boat_1_imgs[0], boat_game.bot_1.move.heading)
     boat_game.boat_1_imgs[0].draw()
 
-    set_boat_angle(boat_game.boat_2_imgs[0], boat_game.bot_2.heading())
+    set_boat_angle(boat_game.boat_2_imgs[0], boat_game.bot_2.move.heading)
     boat_game.boat_2_imgs[0].draw()
 
     # draw score board
@@ -171,7 +159,7 @@ def do_game_turn():
         if bb.max_turn ==  0 or bb.max_turn > bb.turn:
             bb.play_turn()
 
-            if boat_game.bot_1.fran() > 0:
+            if boat_game.bot_1.move.fran > 0:
                 bullet = Actor('bullet')
                 bullet.pos = cell_coords(boat_game.BB.old_position[boat_game.bot_1])
                 boat_game.bullets.append(bullet)
@@ -179,9 +167,10 @@ def do_game_turn():
                         pos = cell_coords(boat_game.bot_1.tx_ty),
                         duration=time_scale / 5.0,
                         on_finished = lambda bs=boat_game.bullets, b=bullet : new_explosion(b, bs) 
-                )                        
+                )
+                boat_game.bot_1.move.fran = 0
 
-            if boat_game.bot_2.fran() > 0:
+            if boat_game.bot_2.move.fran > 0:
                 bullet = Actor('bullet')
                 bullet.pos = cell_coords(boat_game.BB.old_position[boat_game.bot_2])
                 boat_game.bullets.append(bullet)
@@ -190,15 +179,21 @@ def do_game_turn():
                         duration=0.2,
                         on_finished = lambda bs=boat_game.bullets, b=bullet : new_explosion(b, bs)
                 )
-            
-            animate(boat_game.boat_1_imgs[0],
-                    pos=cell_coords(boat_game.BB.position[boat_game.bot_1]),
-                    duration=time_scale
-            )
-            animate(boat_game.boat_2_imgs[0],
-                    pos=cell_coords(boat_game.BB.position[boat_game.bot_2]),
-                    duration=time_scale                    
-            )
+                boat_game.bot_1.move.fran = 0
+            if boat_game.bot_1.move.dist > 0:
+                animate(boat_game.boat_1_imgs[0],
+                        pos=cell_coords(boat_game.BB.position[boat_game.bot_1]),
+                        duration=time_scale
+                )
+                boat_game.bot_1.move.dist = 0
+                
+            if boat_game.bot_2.move.dist > 0:
+                animate(boat_game.boat_2_imgs[0],
+                        pos=cell_coords(boat_game.BB.position[boat_game.bot_2]),
+                        duration=time_scale                    
+                )
+
+                boat_game.bot_2.move.dist = 0
             
         else:
             bb.stop_game = True

@@ -2,6 +2,20 @@ from random import choice, random, randrange
 from game import *
 import sys
 
+class Move:
+
+    def __init__(self, heading, dist, target, fran):
+        self.heading = heading
+        self.dist = dist
+        self.target = target
+        self.fran = fran
+
+    def __eq__(self, other):
+        return ( self.heading == other.heading and
+                 self.dist == other.dist and
+                 self.target == other.target and
+                 self.fran == other.fran )
+    
 class BoatBattle(Game):
 
     def __init__(self, boardsize, bots, max_turn = 0):
@@ -15,44 +29,43 @@ class BoatBattle(Game):
     def is_valid_move(self, mv, bot):
         result = True
         x,y = self.position[bot]
-        ((heading, dist),(target, fran)) = mv
 
         # check sailing distance
-        if heading == 'N':
-            if y + dist >= self.boardsize:
+        if mv.heading == 'N':
+            if y + mv.dist >= self.boardsize:
                 result = False
-        elif heading == 'E':
-            if x + dist >= self.boardsize:
+        elif mv.heading == 'E':
+            if x + mv.dist >= self.boardsize:
                 result = False
-        elif heading == 'S':
-            if y - dist < 0:
+        elif mv.heading == 'S':
+            if y - mv.dist < 0:
                 result = False
-        elif heading == 'W':
-            if x - dist < 0:
+        elif mv.heading == 'W':
+            if x - mv.dist < 0:
                 result = False
 
         # cannot shoot backwards
-        if target == 'N' and heading == 'S':
-            return False
-        if target == 'S' and heading == 'N':
-            return False
-        if target == 'E' and heading == 'W':
-            return False
-        if target == 'W' and heading == 'E':
-            return False
+        if mv.target == 'N' and mv.heading == 'S':
+            result = False
+        if mv.target == 'S' and mv.heading == 'N':
+            result = False
+        if mv.target == 'E' and mv.heading == 'W':
+            result = False
+        if mv.target == 'W' and mv.heading == 'E':
+            result = False
        
         # check firing range
-        if target == 'N':
-            if y + fran >= self.boardsize:
+        if mv.target == 'N':
+            if y + mv.fran >= self.boardsize:
                 result = False
-        elif target == 'E':
-            if x + fran >= self.boardsize:
+        elif mv.target == 'E':
+            if x + mv.fran >= self.boardsize:
                 result = False
-        elif target == 'S':
-            if y - fran < 0:
+        elif mv.target == 'S':
+            if y - mv.fran < 0:
                 result = False
-        elif target == 'W':
-            if x - fran < 0:
+        elif mv.target == 'W':
+            if x - mv.fran < 0:
                 result = False
 
         return result
@@ -64,12 +77,12 @@ class BoatBattle(Game):
             directions = ['N', 'E', 'S', 'W']
             distances = [0, 1, 2]
             fire_ranges = [0, 1, 2]
-            moves = [ ((heading, dist), (target, fran))
+            moves = [ Move(heading, dist, target, fran)
                       for heading in directions
                       for dist in distances
                       for target in directions
                       for fran in fire_ranges
-                      if self.is_valid_move(((heading, dist),(target,fran)), bot) ]
+                      if self.is_valid_move(Move(heading, dist, target,fran), bot) ]
         return moves
 
     def is_boat_hit(self, bot, target, fran):
@@ -88,34 +101,31 @@ class BoatBattle(Game):
 
             bot.move = move # so boatgame can use it to draw the boat
             
-            ((heading, dist),(target, fran)) = move
-
-            if fran > 0:
+            if move.fran > 0:
                 tx, ty = self.position[bot]
-                if target == 'N':
-                    ty = ty + fran
-                if target == 'E':
-                    tx = tx + fran
-                if target == 'S':
-                    ty = ty - fran
-                if target == 'W':
-                    tx = tx - fran
+                if move.target == 'N':
+                    ty = ty + move.fran
+                if move.target == 'E':
+                    tx = tx + move.fran
+                if move.target == 'S':
+                    ty = ty - move.fran
+                if move.target == 'W':
+                    tx = tx - move.fran
                 bot.tx_ty = (tx, ty) # so boatgame can use it to draw an explosion
-                
                 for b in self.bots:
                     if b != bot:
-                        if self.is_boat_hit(b, (tx, ty), fran):
+                        if self.is_boat_hit(b, (tx, ty), move.fran):
                             self.hits[b] = self.hits[b] + 1
                 
             x, y = self.position[bot]
-            if heading == 'N':
-                y = y + dist
-            elif heading == 'E':
-                x = x + dist
-            elif heading == 'S':
-                y = y - dist
-            elif heading == 'W':
-                x = x - dist
+            if move.heading == 'N':
+                y = y + move.dist
+            elif move.heading == 'E':
+                x = x + move.dist
+            elif move.heading == 'S':
+                y = y - move.dist
+            elif move.heading == 'W':
+                x = x - move.dist
             self.position[bot] = (x,y)
 
             
@@ -162,15 +172,12 @@ class BoatBattle(Game):
         return ["?"]
 
     def move_direction(self, move):
-        ((heading,_),(_,_)) = move
-        return heading
+        return move.heading
 
     def target_direction(self, move):
-        ((_,_),(target,_)) = move
-        return target
+        return move.target
 
     def fires(self, move):
-        ((_,_),(_,fran)) = move
-        return fran > 0
+        return move.fran > 0
         
 
