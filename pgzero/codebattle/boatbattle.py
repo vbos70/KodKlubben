@@ -96,7 +96,6 @@ class BoatBattle(Game):
         return False
     
     def execute(self, bot, move):
-        hit = False
         if move in self.possible_moves(bot):
 
             bot.move = move # so boatgame can use it to draw the boat
@@ -166,10 +165,13 @@ class BoatBattle(Game):
                 return dx + dy
             
     def where_is_enemy(self, bot):
+        dirs = set()
         for b in self.bots:
             if b != bot:
-                return self.directions(self.position[bot], self.position[b])
-        return ["?"]
+                dirs.update(self.directions(self.position[bot], self.position[b]))
+        if len(dirs) == 0:
+            dirs.add('?')
+        return dirs
 
     def move_direction(self, move):
         return move.heading

@@ -11,7 +11,7 @@ class Bot:
     def __init__(self):
         self.name = 'Bot'        
         self.move = Move('N', 0, 'N', 0)
-
+        
     def step(self, game):
         moves = game.possible_moves(self)
         if len(moves)>0:
@@ -117,7 +117,7 @@ def draw():
         
     for e in boat_game.explosions:
         e.draw()
-    
+
     set_boat_angle(boat_game.boat_1_imgs[0], boat_game.bot_1.move.heading)
     boat_game.boat_1_imgs[0].draw()
 
