@@ -8,8 +8,8 @@ import pygame
 ################################################################################
 class Bot:
 
-    def __init__(self):
-        self.name = 'Bot'        
+    def __init__(self, name = 'Lucky'):
+        self.name = name        
         self.move = Move('N', 0, 'N', 0)
         
     def step(self, game):
@@ -21,9 +21,8 @@ class Bot:
 ################################################################################
 class Bot1(Bot):
 
-    def __init__(self):
-        super().__init__()
-        self.name = 'Braveheart'
+    def __init__(self, name = 'Braveheart'):
+        super().__init__( name )
 
     def step(self, game):
         moves = game.possible_moves(self)
@@ -46,9 +45,8 @@ class Bot1(Bot):
 ################################################################################
 class Bot2(Bot):
 
-    def __init__(self):
-        super().__init__()
-        self.name = 'Weasel'
+    def __init__(self, name = 'Weasel'):
+        super().__init__( name )
 
     def step(self, game):
         moves = game.possible_moves(self)
@@ -88,6 +86,19 @@ def load_explosion_images():
 class BoatGame: pass
 
 boat_game = BoatGame()
+
+################################################################################
+#
+# Pick the bots you want to play: Bot, Bot1, or Bot2 (or your own)
+#
+################################################################################
+
+boat_game.bot_1 = Bot1( name = 'Braveheart' )
+boat_game.bot_2 = Bot2( name = 'Weasel' )
+
+################################################################################
+
+
 boat_game.boat_1_icon = Actor('ship_red_0')
 boat_game.boat_2_icon = Actor('ship_yellow_0')
 
@@ -99,9 +110,6 @@ boat_game.bullets = []
 
 boat_game.boat_1_imgs = boat_game.boats["red"]
 boat_game.boat_2_imgs = boat_game.boats["yellow"]
-
-boat_game.bot_1 = Bot1()
-boat_game.bot_2 = Bot2()
 
 boat_game.started = False
 
@@ -164,12 +172,19 @@ def draw():
                      center = (CELL_SIZE * 3.5, (board_size + 0.5) * CELL_SIZE),
                      fontsize = 0.75 * CELL_SIZE
     )
-
+    screen.draw.text("{name1}".format(name1=boat_game.bot_1.name),
+                     midbottom = (CELL_SIZE * 3.25, (board_size + 1) * CELL_SIZE),
+                     fontsize = 0.25 * CELL_SIZE
+    )
     boat_game.boat_2_icon.pos = (CELL_SIZE*5, (board_size + 0.5) * CELL_SIZE)
     boat_game.boat_2_icon.draw()
     screen.draw.text("{h2}".format(h2=boat_game.BB.hits[boat_game.bot_2]),
                      center = (CELL_SIZE * 5.5, (board_size + 0.5) * CELL_SIZE),
                      fontsize = 0.75 * CELL_SIZE
+    )
+    screen.draw.text("{name2}".format(name2=boat_game.bot_2.name),
+                     midbottom = (CELL_SIZE * 5.25, (board_size + 1) * CELL_SIZE),
+                     fontsize = 0.25 * CELL_SIZE
     )
     
 def new_explosion(bullet, game_bullets):
