@@ -169,8 +169,6 @@ class BoatBattle(Game):
         for b in self.bots:
             if b != bot:
                 dirs.update(self.directions(self.position[bot], self.position[b]))
-        if len(dirs) == 0:
-            dirs.add('?')
         return dirs
 
     def move_direction(self, move):

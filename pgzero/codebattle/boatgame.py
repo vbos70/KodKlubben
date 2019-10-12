@@ -23,17 +23,42 @@ class Bot1(Bot):
 
     def __init__(self):
         super().__init__()
-        self.name = 'Bot1'
+        self.name = 'Braveheart'
 
     def step(self, game):
         moves = game.possible_moves(self)
 
         enemy_directions = game.where_is_enemy(self)
 
-        if game.distance_to_enemy(self) > 2:
+        if game.distance_to_enemy(self) > 1:
             moves = [ m for m in moves if game.move_direction(m) in enemy_directions ]
             
-        smart_moves = [ m for m in moves if game.fires(m) and game.target_direction(m) in enemy_directions ]
+        smart_moves = [ m for m in moves
+                        if game.fires(m) and game.target_direction(m) in enemy_directions ]
+        
+        if len(smart_moves) > 0:
+            moves = smart_moves
+        if len(moves) > 0:
+            m = choice(moves)
+            self.move = m
+            game.execute(self, self.move)
+
+################################################################################
+class Bot2(Bot):
+
+    def __init__(self):
+        super().__init__()
+        self.name = 'Weasel'
+
+    def step(self, game):
+        moves = game.possible_moves(self)
+
+        enemy_directions = game.where_is_enemy(self)
+
+        moves = [ m for m in moves if game.move_direction(m) not in enemy_directions ]
+            
+        smart_moves = [ m for m in moves
+                        if game.fires(m) and game.target_direction(m) in enemy_directions ]
         if len(smart_moves) > 0:
             moves = smart_moves
         if len(moves) > 0:
@@ -76,7 +101,7 @@ boat_game.boat_1_imgs = boat_game.boats["red"]
 boat_game.boat_2_imgs = boat_game.boats["yellow"]
 
 boat_game.bot_1 = Bot1()
-boat_game.bot_2 = Bot()
+boat_game.bot_2 = Bot2()
 
 boat_game.started = False
 
