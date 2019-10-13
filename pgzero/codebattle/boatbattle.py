@@ -31,13 +31,13 @@ class BoatBattle(Game):
         x,y = self.position[bot]
 
         # check sailing distance
-        if mv.heading == 'N':
+        if mv.heading == 'S':
             if y + mv.dist >= self.boardsize:
                 result = False
         elif mv.heading == 'E':
             if x + mv.dist >= self.boardsize:
                 result = False
-        elif mv.heading == 'S':
+        elif mv.heading == 'N':
             if y - mv.dist < 0:
                 result = False
         elif mv.heading == 'W':
@@ -55,13 +55,13 @@ class BoatBattle(Game):
             result = False
        
         # check firing range
-        if mv.target == 'N':
+        if mv.target == 'S':
             if y + mv.fran >= self.boardsize:
                 result = False
         elif mv.target == 'E':
             if x + mv.fran >= self.boardsize:
                 result = False
-        elif mv.target == 'S':
+        elif mv.target == 'N':
             if y - mv.fran < 0:
                 result = False
         elif mv.target == 'W':
@@ -103,7 +103,7 @@ class BoatBattle(Game):
             if move.fran > 0:
                 tx, ty = self.position[bot]
                 if move.target == 'N':
-                    ty = ty + move.fran
+                    ty = ty - move.fran
                 if move.target == 'E':
                     tx = tx + move.fran
                 if move.target == 'S':
@@ -118,11 +118,11 @@ class BoatBattle(Game):
                 
             x, y = self.position[bot]
             if move.heading == 'N':
-                y = y + move.dist
+                y = y - move.dist
             elif move.heading == 'E':
                 x = x + move.dist
             elif move.heading == 'S':
-                y = y - move.dist
+                y = y + move.dist
             elif move.heading == 'W':
                 x = x - move.dist
             self.position[bot] = (x,y)
@@ -144,17 +144,20 @@ class BoatBattle(Game):
         return self.hits[bot] 
 
     def directions(self, p0, p1):
-        dx = p1[0]-p0[0]
-        dy = p1[1]-p0[1]
-        ds = []
-        if dx < 0:
-            ds.append('W')
-        if dx > 0:
-            ds.append('E')
-        if dy < 0:
-            ds.append('S')
-        if dy > 0:
-            ds.append('N')
+        #  .(x0,y0)              E, S
+        #          .(x1,y1)
+        #
+        x0, y0 = p0
+        x1, y1 = p1
+        ds = set()
+        if x1 < x0:
+            ds.add('W')
+        elif x1 > x0:
+            ds.add('E')
+        if y1 < y0:
+            ds.add('N')
+        elif y1 > y0:
+            ds.add('S')
         return ds
 
     def distance_to_enemy(self, bot):

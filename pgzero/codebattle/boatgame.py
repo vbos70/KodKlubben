@@ -135,11 +135,11 @@ def cell_coords(col_row):
 
 def set_boat_angle(actor, heading):
     if heading == 'N':
-        actor.angle = 0
+        actor.angle = 180
     elif heading == 'E':
         actor.angle = 90
     elif heading == 'S':
-        actor.angle = 180
+        actor.angle = 0
     elif heading == 'W':
         actor.angle = 270
     
