@@ -11,6 +11,7 @@ class Bot:
     def __init__(self, name = 'Lucky'):
         self.name = name        
         self.move = Move('N', 0, 'N', 0)
+        self.hit = False
         
     def step(self, game):
         moves = game.possible_moves(self)
@@ -188,11 +189,13 @@ def draw():
                      fontsize = 0.25 * CELL_SIZE
     )
     
-def new_explosion(bullet, game_bullets):
+def new_explosion(bot, bullet, game_bullets):
     game_bullets.remove(bullet)
-    e = animation.Animation(boat_game.explosion_imgs, bullet.pos, 0.2)
-    e.start()
-    boat_game.explosions.append(e)
+    if bot.hit:
+        bot.hit = False
+        e = animation.Animation(boat_game.explosion_imgs, bullet.pos, 0.2)
+        e.start()
+        boat_game.explosions.append(e)
     
 def do_game_turn():
     bb = boat_game.BB
@@ -207,7 +210,7 @@ def do_game_turn():
                 animate(bullet,
                         pos = cell_coords(boat_game.bot_1.tx_ty),
                         duration=time_scale / 5.0,
-                        on_finished = lambda bs=boat_game.bullets, b=bullet : new_explosion(b, bs) 
+                        on_finished = lambda bot=boat_game.bot_1, bs=boat_game.bullets, b=bullet : new_explosion(bot, b, bs) 
                 )
                 boat_game.bot_1.move.fran = 0
 
@@ -218,7 +221,7 @@ def do_game_turn():
                 animate(bullet,
                         pos = cell_coords(boat_game.bot_2.tx_ty),
                         duration=0.2,
-                        on_finished = lambda bs=boat_game.bullets, b=bullet : new_explosion(b, bs)
+                        on_finished = lambda bot=boat_game.bot_2, bs=boat_game.bullets, b=bullet : new_explosion(bot, b, bs)
                 )
                 boat_game.bot_1.move.fran = 0
             if boat_game.bot_1.move.dist > 0:

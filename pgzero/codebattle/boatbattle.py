@@ -114,6 +114,7 @@ class BoatBattle(Game):
                 for b in self.bots:
                     if b != bot:
                         if self.is_boat_hit(b, (tx, ty), move.fran):
+                            bot.hit = True
                             self.hits[b] = self.hits[b] + 1
                 
             x, y = self.position[bot]
