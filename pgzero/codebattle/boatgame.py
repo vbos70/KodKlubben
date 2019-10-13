@@ -8,7 +8,7 @@ import pygame
 ################################################################################
 class Bot:
 
-    def __init__(self, name = 'Lucky'):
+    def __init__(self, name = 'Bot'):
         self.name = name        
         self.move = Move('N', 0, 'N', 0)
         self.hit = False
@@ -22,7 +22,7 @@ class Bot:
 ################################################################################
 class Bot1(Bot):
 
-    def __init__(self, name = 'Braveheart'):
+    def __init__(self, name = 'Bot1'):
         super().__init__( name )
 
     def step(self, game):
@@ -46,7 +46,7 @@ class Bot1(Bot):
 ################################################################################
 class Bot2(Bot):
 
-    def __init__(self, name = 'Weasel'):
+    def __init__(self, name = 'Bot2'):
         super().__init__( name )
 
     def step(self, game):
