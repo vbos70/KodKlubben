@@ -170,14 +170,5 @@ class BoatBattle(Game):
             if b != bot:
                 dirs.update(self.directions(self.position[bot], self.position[b]))
         return dirs
-
-    def move_direction(self, move):
-        return move.heading
-
-    def target_direction(self, move):
-        return move.target
-
-    def fires(self, move):
-        return move.fran > 0
         
 

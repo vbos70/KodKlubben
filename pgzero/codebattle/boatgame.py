@@ -30,10 +30,10 @@ class Bot1(Bot):
         enemy_directions = game.where_is_enemy(self)
 
         if game.distance_to_enemy(self) > 1:
-            moves = [ m for m in moves if game.move_direction(m) in enemy_directions ]
+            moves = [ m for m in moves if m.heading in enemy_directions ]
             
         smart_moves = [ m for m in moves
-                        if game.fires(m) and game.target_direction(m) in enemy_directions ]
+                        if m.fran > 0 and m.target in enemy_directions ]
         
         if len(smart_moves) > 0:
             moves = smart_moves
@@ -53,10 +53,11 @@ class Bot2(Bot):
 
         enemy_directions = game.where_is_enemy(self)
 
-        moves = [ m for m in moves if game.move_direction(m) not in enemy_directions ]
+        moves = [ m for m in moves if m.heading not in enemy_directions ]
             
         smart_moves = [ m for m in moves
-                        if game.fires(m) and game.target_direction(m) in enemy_directions ]
+                        if m.fran > 0 and m.target in enemy_directions ]
+        
         if len(smart_moves) > 0:
             moves = smart_moves
         if len(moves) > 0:
