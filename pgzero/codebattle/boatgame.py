@@ -8,9 +8,10 @@ import pygame
 ################################################################################
 class Bot:
 
-    def __init__(self, name = 'Bot'):
+    def __init__(self, name, icons ):
         self.name = name        
         self.move = Move('N', 0, 'N', 0)
+        self.icons = icons
         self.hit = False
         
     def step(self, game):
@@ -22,8 +23,8 @@ class Bot:
 ################################################################################
 class Bot1(Bot):
 
-    def __init__(self, name = 'Bot1'):
-        super().__init__( name )
+    def __init__(self, name, icons):
+        super().__init__( name, icons )
 
     def step(self, game):
         moves = game.possible_moves(self)
@@ -46,8 +47,8 @@ class Bot1(Bot):
 ################################################################################
 class Bot2(Bot):
 
-    def __init__(self, name = 'Bot2'):
-        super().__init__( name )
+    def __init__(self, name, icons):
+        super().__init__( name, icons )
 
     def step(self, game):
         moves = game.possible_moves(self)
@@ -69,7 +70,7 @@ class Bot2(Bot):
 ################################################################################
 
 board_size = 8
-time_scale = 1.0
+time_scale = 0.5
 
 def load_boat_images():
     imgs = {}
@@ -95,29 +96,31 @@ boat_game = BoatGame()
 #
 ################################################################################
 
-boat_game.bot_1 = Bot1( name = 'Braveheart' )
-boat_game.bot_2 = Bot2( name = 'Weasel' )
+boat_game.bots = [
+    Bot ( 'Lucky',      ['ship_green_0'] ),
+    Bot1( 'Braveheart', ['ship_red_0'] ),
+    Bot2( 'Weasel',     ['ship_yellow_0'] )
+    ]
+
+NUM_BOTS = len(boat_game.bots)
+
+# players are moving on the board
+boat_game.players = [ Actor(b.icons[0]) for b in boat_game.bots ]
+
+# icons are symbols on the score board
+boat_game.icons = [ Actor(b.icons[0]) for b in boat_game.bots ]
 
 ################################################################################
 
-
-boat_game.boat_1_icon = Actor('ship_red_0')
-boat_game.boat_2_icon = Actor('ship_yellow_0')
-
-boat_game.boats = load_boat_images()
 boat_game.explosion_imgs = load_explosion_images()
 boat_game.explosions = []
 boat_game.bullet_img = Actor('bullet')
 boat_game.bullets = []
-
-boat_game.boat_1_imgs = boat_game.boats["red"]
-boat_game.boat_2_imgs = boat_game.boats["yellow"]
-
 boat_game.started = False
+boat_game.BB = BoatBattle(board_size, boat_game.bots, max_turn = 1000)
 
-boat_game.BB = BoatBattle(board_size, [boat_game.bot_1, boat_game.bot_2], max_turn = 1000)
-
-CELL_SIZE = max(boat_game.boat_1_imgs[0].width, boat_game.boat_1_imgs[0].height) * 2
+# assume all players have the same size
+CELL_SIZE = max(boat_game.players[0].width, boat_game.players[0].height) * 2
 
 WIDTH  = CELL_SIZE * board_size
 HEIGHT = CELL_SIZE * board_size + CELL_SIZE
@@ -153,47 +156,43 @@ def draw():
     for e in boat_game.explosions:
         e.draw()
 
-    set_boat_angle(boat_game.boat_1_imgs[0], boat_game.bot_1.move.heading)
-    boat_game.boat_1_imgs[0].draw()
-
-    set_boat_angle(boat_game.boat_2_imgs[0], boat_game.bot_2.move.heading)
-    boat_game.boat_2_imgs[0].draw()
+    for i in range(NUM_BOTS):
+        a = boat_game.players[i]
+        b = boat_game.bots[i]
+        
+        set_boat_angle(a, b.move.heading)
+        a.draw()
 
     # draw score board
     screen.draw.filled_rect(Rect((0,board_size * CELL_SIZE),
                                  (board_size * CELL_SIZE, CELL_SIZE)),
                             "black")
     
-    screen.draw.text("Hits", midleft=(CELL_SIZE, (board_size + 0.5) * CELL_SIZE),
+    screen.draw.text("Hits", midleft=(CELL_SIZE/4, (board_size + 0.5) * CELL_SIZE),
                      fontsize = 0.75 * CELL_SIZE
     )
+    x = CELL_SIZE*2
+    for i in range(NUM_BOTS):
+        bot = boat_game.bots[i]
+        icon = boat_game.icons[i]
+        
+        icon.pos = (x, (board_size + 0.5) * CELL_SIZE)
+        icon.draw()
+        screen.draw.text("{hits}".format(hits=boat_game.BB.hits[bot]),
+                         midleft = (x + 0.2*CELL_SIZE, (board_size + 0.5) * CELL_SIZE),
+                         fontsize = 0.5 * CELL_SIZE
+        )
+        screen.draw.text("{name}".format(name=bot.name),
+                         bottomleft = (icon.left, (board_size + 1) * CELL_SIZE),
+                         fontsize = 0.25 * CELL_SIZE
+        )
+        x += CELL_SIZE
 
-    boat_game.boat_1_icon.pos = (CELL_SIZE*3, (board_size + 0.5) * CELL_SIZE)
-    boat_game.boat_1_icon.draw()
-    screen.draw.text("{h1}".format(h1=boat_game.BB.hits[boat_game.bot_1]),
-                     center = (CELL_SIZE * 3.5, (board_size + 0.5) * CELL_SIZE),
-                     fontsize = 0.75 * CELL_SIZE
-    )
-    screen.draw.text("{name1}".format(name1=boat_game.bot_1.name),
-                     midbottom = (CELL_SIZE * 3.25, (board_size + 1) * CELL_SIZE),
-                     fontsize = 0.25 * CELL_SIZE
-    )
-    boat_game.boat_2_icon.pos = (CELL_SIZE*5, (board_size + 0.5) * CELL_SIZE)
-    boat_game.boat_2_icon.draw()
-    screen.draw.text("{h2}".format(h2=boat_game.BB.hits[boat_game.bot_2]),
-                     center = (CELL_SIZE * 5.5, (board_size + 0.5) * CELL_SIZE),
-                     fontsize = 0.75 * CELL_SIZE
-    )
-    screen.draw.text("{name2}".format(name2=boat_game.bot_2.name),
-                     midbottom = (CELL_SIZE * 5.25, (board_size + 1) * CELL_SIZE),
-                     fontsize = 0.25 * CELL_SIZE
-    )
-    
 def new_explosion(bot, bullet, game_bullets):
     game_bullets.remove(bullet)
     if bot.hit:
         bot.hit = False
-        e = animation.Animation(boat_game.explosion_imgs, bullet.pos, 0.2)
+        e = animation.Animation(boat_game.explosion_imgs, bullet.pos, time_scale / 5)
         e.start()
         boat_game.explosions.append(e)
     
@@ -203,42 +202,26 @@ def do_game_turn():
         if bb.max_turn ==  0 or bb.max_turn > bb.turn:
             bb.play_turn()
 
-            if boat_game.bot_1.move.fran > 0:
-                bullet = Actor('bullet')
-                bullet.pos = cell_coords(boat_game.BB.old_position[boat_game.bot_1])
-                boat_game.bullets.append(bullet)
-                animate(bullet,
-                        pos = cell_coords(boat_game.bot_1.tx_ty),
-                        duration=time_scale / 5.0,
-                        on_finished = lambda bot=boat_game.bot_1, bs=boat_game.bullets, b=bullet : new_explosion(bot, b, bs) 
-                )
-                boat_game.bot_1.move.fran = 0
-
-            if boat_game.bot_2.move.fran > 0:
-                bullet = Actor('bullet')
-                bullet.pos = cell_coords(boat_game.BB.old_position[boat_game.bot_2])
-                boat_game.bullets.append(bullet)
-                animate(bullet,
-                        pos = cell_coords(boat_game.bot_2.tx_ty),
-                        duration=0.2,
-                        on_finished = lambda bot=boat_game.bot_2, bs=boat_game.bullets, b=bullet : new_explosion(bot, b, bs)
-                )
-                boat_game.bot_1.move.fran = 0
-            if boat_game.bot_1.move.dist > 0:
-                animate(boat_game.boat_1_imgs[0],
-                        pos=cell_coords(boat_game.BB.position[boat_game.bot_1]),
-                        duration=time_scale
-                )
-                boat_game.bot_1.move.dist = 0
-                
-            if boat_game.bot_2.move.dist > 0:
-                animate(boat_game.boat_2_imgs[0],
-                        pos=cell_coords(boat_game.BB.position[boat_game.bot_2]),
-                        duration=time_scale                    
-                )
-
-                boat_game.bot_2.move.dist = 0
-            
+            for b in boat_game.bots:
+                if b.move.fran > 0:
+                    bullet = Actor('bullet')
+                    bullet.pos = cell_coords(boat_game.BB.old_position[b])
+                    boat_game.bullets.append(bullet)
+                    animate(bullet,
+                            pos = cell_coords(b.tx_ty),
+                            duration=time_scale / 5.0,
+                            on_finished = lambda bot=b, bs=boat_game.bullets, b=bullet : new_explosion(bot, b, bs) 
+                    )
+                    b.move.fran = 0
+            for i in range(NUM_BOTS):
+                b = boat_game.bots[i]
+                if b.move.dist > 0:
+                    animate(boat_game.players[i],
+                            pos=cell_coords(boat_game.BB.position[b]),
+                            duration=time_scale
+                    )
+                    b.move.dist = 0
+                            
         else:
             bb.stop_game = True
 
@@ -248,8 +231,10 @@ def update():
         clock.unschedule(do_game_turn)
     else:
         if not boat_game.started:
-            boat_game.boat_1_imgs[0].pos = cell_coords(boat_game.BB.position[boat_game.bot_1])
-            boat_game.boat_2_imgs[0].pos = cell_coords(boat_game.BB.position[boat_game.bot_2])
+            for i in range(NUM_BOTS):
+                p = boat_game.players[i]
+                b = boat_game.bots[i]
+                p.pos = cell_coords(boat_game.BB.position[b])
             boat_game.started = True
             clock.schedule_interval(do_game_turn, time_scale)
 
