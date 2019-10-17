@@ -18,10 +18,10 @@ class Move:
     
 class BoatBattle(Game):
 
-    def __init__(self, boardsize, bots, max_turn = 0):
+    def __init__(self, boardsize, bots, max_turn = 0, max_hits = 3):
         super().__init__(bots)
         self.max_turn = max_turn
-        self.max_hits = 3
+        self.max_hits = max_hits
         self.boardsize = boardsize
         self.position = { b : (randrange(boardsize),  randrange(self.boardsize)) for b in self.bots }
         self.hits = { b : 0 for b in self.bots }
@@ -69,10 +69,16 @@ class BoatBattle(Game):
                 result = False
 
         return result
+
+    def is_alive(self, bot):
+        return self.hits[bot] < self.max_hits
+
+    def alive_bots(self):
+        return [ b for b in self.bots if self.is_alive(b) ]
     
     def possible_moves(self, bot):
         moves = []
-        if self.hits[bot] < 3:
+        if self.is_alive(bot):
 
             directions = ['N', 'E', 'S', 'W']
             distances = [0, 1, 2]
@@ -130,12 +136,6 @@ class BoatBattle(Game):
 
             
     def play_turn(self):
-
-        for b in self.bots:
-            if self.hits[b] >= self.max_hits:
-                self.stop_game = True
-                return
-            
         self.old_position = { b : self.position[b] for b in self.bots }
         for bot in self.bots:
             bot.step(self)
@@ -162,7 +162,7 @@ class BoatBattle(Game):
         return ds
 
     def distance_to_enemy(self, bot):
-        for b in self.bots:
+        for b in self.alive_bots():
             if b != bot:
                 dx = abs(self.position[bot][0] - self.position[b][0])
                 dy = abs(self.position[bot][1] - self.position[b][1])
@@ -170,7 +170,7 @@ class BoatBattle(Game):
             
     def where_is_enemy(self, bot):
         dirs = set()
-        for b in self.bots:
+        for b in self.alive_bots():
             if b != bot:
                 dirs.update(self.directions(self.position[bot], self.position[b]))
         return dirs

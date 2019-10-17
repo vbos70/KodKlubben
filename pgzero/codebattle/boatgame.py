@@ -19,7 +19,9 @@ class Bot:
         if len(moves)>0:
             game.execute(self, choice(moves))
 
-            
+    def is_alive(self):
+        return len(self.icons) > 0
+    
 ################################################################################
 class Bot1(Bot):
 
@@ -97,20 +99,25 @@ boat_game = BoatGame()
 ################################################################################
 
 boat_game.bots = [
-    Bot ( 'Lucky',      ['ship_green_0'] ),
-    Bot1( 'Braveheart', ['ship_red_0'] ),
-    Bot2( 'Weasel',     ['ship_yellow_0'] )
+    Bot ( 'Lucky',      ['ship_green_0', 'ship_green_1', 'ship_green_2'] ),
+    Bot1( 'Braveheart', ['ship_red_0', 'ship_red_1', 'ship_red_2'] ),
+    Bot2( 'Weasel',     ['ship_yellow_0', 'ship_yellow_1', 'ship_yellow_2'] )
     ]
 
 NUM_BOTS = len(boat_game.bots)
 
 # players are moving on the board
-boat_game.players = [ Actor(b.icons[0]) for b in boat_game.bots ]
-
+boat_game.players = { b : [ Actor(b.icons[i]) for i in range(len(b.icons)) ]
+                      for b in boat_game.bots }
+          
 # icons are symbols on the score board
 boat_game.icons = [ Actor(b.icons[0]) for b in boat_game.bots ]
 
 ################################################################################
+
+def player(bot):
+    idx = min(len(boat_game.players[bot]), boat_game.BB.hits[bot])
+    return boat_game.players[bot][idx]
 
 boat_game.explosion_imgs = load_explosion_images()
 boat_game.explosions = []
@@ -120,7 +127,8 @@ boat_game.started = False
 boat_game.BB = BoatBattle(board_size, boat_game.bots, max_turn = 1000)
 
 # assume all players have the same size
-CELL_SIZE = max(boat_game.players[0].width, boat_game.players[0].height) * 2
+p = player(boat_game.bots[0])
+CELL_SIZE = max(p.width, p.height) * 2
 
 WIDTH  = CELL_SIZE * board_size
 HEIGHT = CELL_SIZE * board_size + CELL_SIZE
@@ -137,16 +145,17 @@ def cell_coords(col_row):
     return (bc(col) * CELL_SIZE + 0.5 * CELL_SIZE, bc(row) * CELL_SIZE + 0.5 * CELL_SIZE)
 
 
-def set_boat_angle(actor, heading):
+def boat_angle(heading):
     if heading == 'N':
-        actor.angle = 180
+        return 180
     elif heading == 'E':
-        actor.angle = 90
+        return 90
     elif heading == 'S':
-        actor.angle = 0
+        return 0
     elif heading == 'W':
-        actor.angle = 270
-    
+        return 270
+    return 45 # should never happen !?
+
 def draw():
     screen.fill((100, 150, 200))
 
@@ -156,11 +165,8 @@ def draw():
     for e in boat_game.explosions:
         e.draw()
 
-    for i in range(NUM_BOTS):
-        a = boat_game.players[i]
-        b = boat_game.bots[i]
-        
-        set_boat_angle(a, b.move.heading)
+    for b in boat_game.BB.alive_bots():
+        a = player(b)
         a.draw()
 
     # draw score board
@@ -195,14 +201,18 @@ def new_explosion(bot, bullet, game_bullets):
         e = animation.Animation(boat_game.explosion_imgs, bullet.pos, time_scale / 5)
         e.start()
         boat_game.explosions.append(e)
-    
+
 def do_game_turn():
     bb = boat_game.BB
+    # game ends if all but one bot are not alive anymore
+    if len([ b for b in bb.bots if bb.is_alive(b) ]) <= 1:
+        bb.stop_game = True
+
     if not bb.stop_game:
         if bb.max_turn ==  0 or bb.max_turn > bb.turn:
             bb.play_turn()
 
-            for b in boat_game.bots:
+            for b in bb.alive_bots():
                 if b.move.fran > 0:
                     bullet = Actor('bullet')
                     bullet.pos = cell_coords(boat_game.BB.old_position[b])
@@ -213,10 +223,12 @@ def do_game_turn():
                             on_finished = lambda bot=b, bs=boat_game.bullets, b=bullet : new_explosion(bot, b, bs) 
                     )
                     b.move.fran = 0
-            for i in range(NUM_BOTS):
-                b = boat_game.bots[i]
+            for b in bb.alive_bots():
+                a = player(b)
+                a.angle = boat_angle(b.move.heading)
+                a.pos = cell_coords(boat_game.BB.old_position[b])
                 if b.move.dist > 0:
-                    animate(boat_game.players[i],
+                    animate(a,
                             pos=cell_coords(boat_game.BB.position[b]),
                             duration=time_scale
                     )
@@ -229,12 +241,9 @@ def do_game_turn():
 def update():
     if boat_game.BB.stop_game:
         clock.unschedule(do_game_turn)
+        print ('Game over')
     else:
         if not boat_game.started:
-            for i in range(NUM_BOTS):
-                p = boat_game.players[i]
-                b = boat_game.bots[i]
-                p.pos = cell_coords(boat_game.BB.position[b])
             boat_game.started = True
             clock.schedule_interval(do_game_turn, time_scale)
 
