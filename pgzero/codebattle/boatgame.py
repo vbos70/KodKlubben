@@ -99,8 +99,8 @@ boat_game = BoatGame()
 ################################################################################
 
 boat_game.bots = [
-    Bot ( 'Lucky',      ['ship_green_0', 'ship_green_1', 'ship_green_2'] ),
-    Bot1( 'Braveheart', ['ship_red_0', 'ship_red_1', 'ship_red_2'] ),
+    Bot ( 'Lucky',      ['ship_green_0',  'ship_green_1',  'ship_green_2'] ),
+    Bot1( 'Braveheart', ['ship_red_0',    'ship_red_1',    'ship_red_2'] ),
     Bot2( 'Weasel',     ['ship_yellow_0', 'ship_yellow_1', 'ship_yellow_2'] )
     ]
 
