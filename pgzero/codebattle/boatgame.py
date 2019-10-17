@@ -240,8 +240,10 @@ def do_game_turn():
     
 def update():
     if boat_game.BB.stop_game:
-        clock.unschedule(do_game_turn)
-        print ('Game over')
+        if boat_game.started:
+            clock.unschedule(do_game_turn)
+            print('Game over')
+            boat_game.started = False
     else:
         if not boat_game.started:
             boat_game.started = True
