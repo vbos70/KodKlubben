@@ -174,5 +174,13 @@ class BoatBattle(Game):
             if b != bot:
                 dirs.update(self.directions(self.position[bot], self.position[b]))
         return dirs
-        
+
+    def enemies(self, bot):
+        return [ b for b in self.alive_bots() if b != bot ]
+
+
+    def distance(self, bot1, bot2):
+        return (abs(self.position[bot1][0] - self.position[bot2][0]) +
+                abs(self.position[bot1][1] - self.position[bot2][1]))
+
 

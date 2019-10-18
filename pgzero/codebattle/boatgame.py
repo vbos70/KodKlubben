@@ -19,14 +19,15 @@ class Bot:
         if len(moves)>0:
             game.execute(self, choice(moves))
 
-    def is_alive(self):
-        return len(self.icons) > 0
+    
+################################################################################
+class Bot0(Bot):
+        
+    def step(self, game):
+        pass
     
 ################################################################################
 class Bot1(Bot):
-
-    def __init__(self, name, icons):
-        super().__init__( name, icons )
 
     def step(self, game):
         moves = game.possible_moves(self)
@@ -47,10 +48,7 @@ class Bot1(Bot):
             game.execute(self, self.move)
 
 ################################################################################
-class Bot2(Bot):
-
-    def __init__(self, name, icons):
-        super().__init__( name, icons )
+class Bot2(Bot1):
 
     def step(self, game):
         moves = game.possible_moves(self)
@@ -69,6 +67,47 @@ class Bot2(Bot):
             self.move = m
             game.execute(self, self.move)
 
+
+################################################################################
+class Bot3(Bot1):
+
+    def __init__(self, name, icons):
+        super().__init__( name, icons )
+        self.target = None
+
+    def find_target(self, game):
+        enemies = game.enemies(self)
+        if len(enemies)>0:
+            self.target = choice(enemies)
+            print("{b1} found target: {b2}".format(b1 = self.name, b2 = self.target.name))
+        
+    def step(self, game):
+        all_moves = game.possible_moves(self)
+        
+        if self.target is None:
+            self.find_target(game)
+
+        moves =  []
+        if self.target is not None:
+            if game.is_alive(self.target):
+                d = game.directions(game.position[self], game.position[self.target])
+                moves = [ m for m in all_moves
+                          if m.heading in d
+                          if m.target in d
+                          if game.distance(self, self.target) > m.dist ]
+                moves += [ m for m in all_moves
+                           if m.heading not in d
+                           if m.target in d
+                           if game.distance(self, self.target) < m.dist ]
+            else:
+                self.target = None
+            
+        if len(moves) > 0:
+            m = choice(moves)
+            self.move = m
+            game.execute(self, self.move)
+
+    
 ################################################################################
 
 board_size = 8
@@ -99,9 +138,10 @@ boat_game = BoatGame()
 ################################################################################
 
 boat_game.bots = [
-    Bot ( 'Lucky',      ['ship_green_0',  'ship_green_1',  'ship_green_2'] ),
+    Bot0( 'Stone',      ['ship_green_0',  'ship_green_1',  'ship_green_2'] ),
     Bot1( 'Braveheart', ['ship_red_0',    'ship_red_1',    'ship_red_2'] ),
-    Bot2( 'Weasel',     ['ship_yellow_0', 'ship_yellow_1', 'ship_yellow_2'] )
+    Bot2( 'Weasel',     ['ship_yellow_0', 'ship_yellow_1', 'ship_yellow_2'] ),
+    Bot3( 'Bullet',     ['ship_white_0', 'ship_white_1', 'ship_white_2'] )
     ]
 
 NUM_BOTS = len(boat_game.bots)
@@ -155,6 +195,10 @@ def boat_angle(heading):
     elif heading == 'W':
         return 270
     return 45 # should never happen !?
+
+def on_key_up(key):
+    if key == keys.ESCAPE:
+        exit()
 
 def draw():
     screen.fill((100, 150, 200))
