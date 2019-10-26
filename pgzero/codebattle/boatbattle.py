@@ -92,7 +92,8 @@ class BoatBattle(Game):
         return moves
 
     def is_boat_hit(self, bot, target, fran):
-        if self.old_position[bot] == target:
+        
+        if self.is_alive(bot) and (self.old_position[bot] == target):
             # bot's position at the start of the turn is at target position
             d = { 1 : 0.9,    # close range fire has high probability of hit
                   2 : 0.65,   # medium range fire has lower probablity of hit
