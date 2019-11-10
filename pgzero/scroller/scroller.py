@@ -20,6 +20,10 @@ def on_key_up(key):
 
 # draw the current scene
 def draw():
+    # clear the screen
+    screen.fill((0, 0, 0))
+
+    # draw the circle
     screen.draw.circle((circle['x'], circle['y']),
                        circle['r'],
                        (255,0,0)
@@ -27,7 +31,7 @@ def draw():
 
 # update the current scene (60 times per second!)
 def update(dt):
-    
+
     # compute new position of 
     circle['x'] += dt * circle['speed_x']
     circle['y'] += dt * circle['speed_y']
