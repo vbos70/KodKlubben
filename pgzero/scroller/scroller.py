@@ -13,6 +13,16 @@ circle = {
     'speed_y' : 0,        # vertical speed (pixels/second)
 }
 
+
+# The square object
+square = {
+    'x' : WIDTH,          # horizontal position (pixels)
+    'y' : HEIGHT // 2,    # vertical position (pixels)
+    's' : WIDTH // 40,    # half the edge size of the square (pixels)
+    'speed_x' : -100,     # horizontal speed (pixels/second)
+    'speed_y' : 0,        # vertical speed (pixels/second)
+    }
+
 # Press ESC to quit
 def on_key_up(key):
     if key == keys.ESCAPE:
@@ -41,6 +51,11 @@ def draw():
                        (255,0,0)
     )
 
+    # draw the square
+    s = square['s']
+    r = Rect((square['x']-s, square['y']-s), (2*s, 2*s))
+    screen.draw.rect(r, (0,255,0))
+
 # update the current scene (60 times per second!)
 def update(dt):
 
@@ -59,7 +74,23 @@ def update(dt):
     # if circle moves to the top of the screen, move it back
     if circle['y'] < 0:
         circle['y'] = HEIGHT
+
+    # compute new position of the square
+    square['x'] += dt * square['speed_x']
+    square['y'] += dt * square['speed_y']
+
+    # if square moves to the left of the screen, move it back
+    if square['x'] < 0:
+        square['x'] = WIDTH
+    
+    # if square moves to the top of the screen, move it back
+    if square['y'] < 0:
+        square['y'] = HEIGHT
         
+    # if square moves to the bottom of the screen, move it back
+    if square['y'] > HEIGHT:
+        square['y'] = 0
+
 # The last line starts pgzero:
 pgzrun.go()
 
