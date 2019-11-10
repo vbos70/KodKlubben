@@ -63,6 +63,10 @@ def update(dt):
     circle['x'] += dt * circle['speed_x']
     circle['y'] += dt * circle['speed_y']
 
+    # if circle moves to the left of the screen, move it back
+    if circle['x'] < 0:
+        circle['x'] = WIDTH
+    
     # if circle moves to the right of the screen, move it back
     if circle['x'] > WIDTH:
         circle['x'] = 0
@@ -82,6 +86,10 @@ def update(dt):
     # if square moves to the left of the screen, move it back
     if square['x'] < 0:
         square['x'] = WIDTH
+
+    # if square moves to the right of the screen, move it back
+    if square['x'] > WIDTH:
+        square['x'] = 0
     
     # if square moves to the top of the screen, move it back
     if square['y'] < 0:
@@ -91,6 +99,15 @@ def update(dt):
     if square['y'] > HEIGHT:
         square['y'] = 0
 
+
+    if circle['x']+circle['r'] >= square['x']-square['s']:
+        if circle['y'] > square['y']-square['s']:
+            if circle['y'] < square['y']+square['s']:
+                # collision!
+
+                circle['x'] = 0
+                square['x'] = WIDTH
+                
 # The last line starts pgzero:
 pgzrun.go()
 
