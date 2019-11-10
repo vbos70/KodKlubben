@@ -4,8 +4,8 @@ import pgzrun
 WIDTH = 800
 HEIGHT = 600
 
-# Game values stored in "Bertil"
-bertil = {
+# Game values stored in "circle"
+circle = {
     'x' : 0,              # horizontal position (pixels)
     'y' : HEIGHT // 2,    # vertical position (pixels)
     'r' : WIDTH // 10,    # circle radius (pixels)
@@ -20,10 +20,17 @@ def on_key_up(key):
 
 # draw the current scene
 def draw():
-    screen.draw.circle((bertil['x'], bertil['y']),
-                       bertil['r'],
+    screen.draw.circle((circle['x'], circle['y']),
+                       circle['r'],
                        (255,0,0)
     )
+
+# update the current scene (60 times per second!)
+def update(dt):
+    
+    # compute new position of 
+    circle['x'] += dt * circle['speed_x']
+    circle['y'] += dt * circle['speed_y']
 
 # The last line starts pgzero:
 pgzrun.go()
