@@ -25,11 +25,8 @@ square = GameObject(
     speed_y = 0,        # vertical speed (pixels/second)
     )
 
-# Press ESC to quit
-def on_key_up(key):
-    if key == keys.ESCAPE:
-        exit()
-
+# Press and hold arrow up/down to move up and down 
+def on_key_down(key):
     # UP-arrow moves circle up
     if key == keys.UP:
         circle.speed_y = -100
@@ -37,11 +34,20 @@ def on_key_up(key):
     # DOWN-arrow moves circle down
     elif key == keys.DOWN:
         circle.speed_y = 100
-
-    # SPACE stops circle from moving up or down
-    elif key == keys.SPACE:
-        circle.speed_y = 0
         
+# Press ESC to quit
+def on_key_up(key):
+    if key == keys.ESCAPE:
+        exit()
+
+    # UP-arrow moves circle up
+    if key == keys.UP:
+        circle.speed_y = 0
+
+    # DOWN-arrow moves circle down
+    elif key == keys.DOWN:
+        circle.speed_y = 0
+
 # draw the current scene
 def draw():
     # clear the screen
