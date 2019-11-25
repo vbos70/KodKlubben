@@ -30,7 +30,7 @@ square = GameObject(
 
 # The background
 background = GameObject(
-    w = 0.25,                 # percentage of total width (0.25: 1/4, 0.5: 1/2, ...)
+    num_bars = 5,             # number of vertical bars
     offset = 0,               # horizontal shift.
     speed = -50,              # speed of horizontal shift (speed of background scrolling)
     colors = [(240,220,220),  # sequence of colors for background bars
@@ -72,20 +72,49 @@ def on_key_up(key):
     elif key == keys.DOWN:
         circle.speed_y = 0
 
+
+# Draw the vertical bars of the background.
+def draw_background():
+    bar_width = WIDTH // background.num_bars
+    num_fat_bars = WIDTH % background.num_bars
+    num_colors = len(background.colors)
+
+    
+    def X(i):
+        return i * bar_width + min(i, num_fat_bars)
+
+    
+    def W(i):
+        if i < num_fat_bars:
+            return bar_width + 1
+        return bar_width
+
+
+    def color(i):
+        return background.colors[i % num_colors]
+
+    
+    def split(x, w):
+        if x+w > WIDTH:
+            v = WIDTH - x 
+            return [(x, v+1), (0, w-v)]
+        return [(x, w)]
+
+    
+    for b in range(background.num_bars):
+        bs = split((X(b) + background.offset) % WIDTH, W(b))
+        for x,w in bs:
+            screen.draw.filled_rect(Rect(x, 0, w, HEIGHT), color(b))
+
+    
 # draw the current scene
 def draw():
     # clear the screen
     screen.fill((0, 0, 0))
 
     # Draw the background
-    bgw = WIDTH * background.w
-    bgh = HEIGHT
-    i = 0
-    while i * bgw < 2 * WIDTH:
-        c = background.colors[ i % len(background.colors) ]
-        screen.draw.filled_rect(Rect(((i*bgw + background.offset) % (2 * WIDTH)) - WIDTH, 0, bgw, bgh), c)
-        i += 1
-
+    draw_background()
+    
     # draw the score
     screen.draw.text("Hits: {score}".format(score = control.score),
                      midtop = (WIDTH // 2, 10),
@@ -112,6 +141,8 @@ def update(dt):
     
     # move the background
     background.offset += dt * background.speed
+    
+    
     if background.offset > WIDTH:
         background.offset = 0
     if background.offset < 0:
