@@ -97,9 +97,10 @@ def draw_background():
 
     
     def W(i):
+        w = bar_width
         if i < num_fat_bars:
-            return bar_width + 1
-        return bar_width
+            w += 1
+        return w
 
 
     def color(i):
@@ -108,17 +109,17 @@ def draw_background():
     
     def split(x, w):
         if x+w > WIDTH:
-            v = WIDTH - x 
+            v = WIDTH - x
             return [(x, v+1), (0, w-v)]
         return [(x, w)]
 
-    
+
     for b in range(background.num_bars):
         bs = split((X(b) + background.offset) % WIDTH, W(b))
         for x,w in bs:
             screen.draw.filled_rect(Rect(x, 0, w, HEIGHT), color(b))
 
-
+    
 # draw the current scene
 def draw():
     # clear the screen
