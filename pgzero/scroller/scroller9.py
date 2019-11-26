@@ -122,7 +122,7 @@ def draw_background():
 # draw the current scene
 def draw():
     # clear the screen
-    screen.fill((0, 0, 0))
+    screen.clear()
 
     # Draw the background
     draw_background()
