@@ -14,7 +14,7 @@ circle = GameObject(
     r = WIDTH // 20,    # circle radius (pixels)
     speed_x = 0,        # horizontal speed (pixels/second)
     speed_y = 0,        # vertical speed (pixels/second)
-    move_speed = 200,   # speed to move up or down
+    accel_y = 0,        # vertical accelleration
 )
 
 
@@ -45,15 +45,15 @@ control = GameObject(
     score = 0,
 )
 
-# Press and hold arrow up/down to move up and down 
+# Press and hold arrow up/down to move up and down
 def on_key_down(key):
     # UP-arrow moves circle up
     if key == keys.UP:
-        circle.speed_y = -circle.move_speed
+        circle.accel_y = -10
 
     # DOWN-arrow moves circle down
     elif key == keys.DOWN:
-        circle.speed_y = circle.move_speed
+        circle.accel_y = 10
 
     # RIGHT-arrow increases circle x-speed
     elif key == keys.RIGHT:
@@ -70,7 +70,7 @@ def on_key_down(key):
     # SPACE key pauses the game
     elif key == keys.SPACE:
         control.pause = not control.pause
-        
+
 # Press ESC to quit
 def on_key_up(key):
     if key == keys.ESCAPE:
@@ -78,10 +78,12 @@ def on_key_up(key):
 
     # UP-arrow moves circle up
     if key == keys.UP:
+        circle.accel_y = 0
         circle.speed_y = 0
 
     # DOWN-arrow moves circle down
     elif key == keys.DOWN:
+        circle.accel_y = 0
         circle.speed_y = 0
 
 
@@ -91,11 +93,11 @@ def draw_background():
     num_fat_bars = WIDTH % background.num_bars
     num_colors = len(background.colors)
 
-    
+
     def X(i):
         return i * bar_width + min(i, num_fat_bars)
 
-    
+
     def W(i):
         w = bar_width
         if i < num_fat_bars:
@@ -106,7 +108,7 @@ def draw_background():
     def color(i):
         return background.colors[i % num_colors]
 
-    
+
     def split(x, w):
         if x+w > WIDTH:
             v = WIDTH - x
@@ -119,7 +121,7 @@ def draw_background():
         for x,w in bs:
             screen.draw.filled_rect(Rect(x, 0, w, HEIGHT), color(b))
 
-    
+
 # draw the current scene
 def draw():
     # clear the screen
@@ -134,7 +136,7 @@ def draw():
                      fontsize = 0.1 * HEIGHT,
                      color = circle.color
                      )
-    
+
     # draw the circle
     screen.draw.circle((circle.x, circle.y),
                        circle.r,
@@ -151,29 +153,30 @@ def update(dt):
 
     if control.pause:
         return
-    
+
     # move the background
     background.offset += dt * (background.speed - circle.speed_x)
     if background.offset > WIDTH:
         background.offset = 0
     if background.offset < 0:
         background.offset = WIDTH
-        
+
+    circle.speed_y += circle.accel_y
     # compute new position of circle
     circle.y += dt * circle.speed_y
 
     # if circle moves to the left of the screen, move it back
     if circle.x < 0:
         circle.x = WIDTH
-    
+
     # if circle moves to the right of the screen, move it back
     if circle.x > WIDTH:
         circle.x = 0
-    
+
     # if circle moves to the bottom of the screen, move it back
     if circle.y > HEIGHT:
         circle.y = 0
-        
+
     # if circle moves to the top of the screen, move it back
     if circle.y < 0:
         circle.y = HEIGHT
@@ -189,11 +192,11 @@ def update(dt):
     # if square moves to the right of the screen, move it back
     if square.x > WIDTH:
         square.x = 0
-    
+
     # if square moves to the top of the screen, move it back
     if square.y < 0:
         square.y = HEIGHT
-        
+
     # if square moves to the bottom of the screen, move it back
     if square.y > HEIGHT:
         square.y = 0
@@ -207,8 +210,7 @@ def update(dt):
         control.score += 1
         circle.x = WIDTH // 2
         square.x = WIDTH
-                
+
 # The last line starts pgzero:
 pgzrun.go()
-
 
