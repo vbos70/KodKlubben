@@ -1,7 +1,7 @@
 Webserver
 =========
 
-Du kan köra din egen (lokala) webserver med *Flask* och *Python*. Se också `FlaskPytonWebserver`_
+Du kan köra din egen (lokala) webserver med *Flask* och *Python*. Se också `FlaskPythonWebserver`_
 
 1. Skapa en map *webapp*::
 
