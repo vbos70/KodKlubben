@@ -33,7 +33,7 @@ $ python3 mcbuild.py house.mcb
 
 Öppna `house.mbc` i Thonny IDE och ändra husets ritning:
 
-1. Använt andra blovk
+1. Använt andra block
 1. Ändra husets storlek
 1. Ändra rumindelning
 1. ...

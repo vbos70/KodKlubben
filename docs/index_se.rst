@@ -53,3 +53,10 @@ att lära programmera. Spelet är 2-dimensional och räknar med X och
 Y-koordinater för att kontrollera bollen och spelarna.
 
 .. _Kodklubben GitHub: https://github.com/vbos70/KodKlubben/
+
+Web server
+----------
+
+:doc: `webserver`
+
+Kör din egen webserver.
