@@ -1,7 +1,7 @@
 Webserver
 =========
 
-Du kan köra din egen (lokala) webserver med *Flask* och *Python*. Se också FlaskPytonWebserver_
+Du kan köra din egen (lokala) webserver med *Flask* och *Python*. Se också `FlaskPytonWebserver`_
 
 1. Skapa en map *webapp*::
 
@@ -33,8 +33,8 @@ Du kan köra din egen (lokala) webserver med *Flask* och *Python*. Se också Fla
 
 5. Öppna websidan i webbrowsern:
 
-   Clicka här: websidan_
+   Clicka här: `websidan`_
    
-.. websidan:   http://127.0.0.1:5000/
+.. _websidan:   http://127.0.0.1:5000/
 .. _FlaskPythonWebserver: https://projects.raspberrypi.org/en/projects/python-web-server-with-flask/2/
 
