@@ -16,6 +16,7 @@ These pages are soon going to be updated.
    terminal
    minecraft
    pong
+   webserver
 
 Lubuntu 19.04
 -------------
@@ -57,6 +58,6 @@ Y-koordinater för att kontrollera bollen och spelarna.
 Web server
 ----------
 
-:doc: `webserver`
+:doc:`webserver`
 
 Kör din egen webserver.
