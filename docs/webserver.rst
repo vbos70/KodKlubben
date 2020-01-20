@@ -7,7 +7,7 @@ Du kan köra din egen (lokala) webserver med *Flask* och *Python*. Se också `Fl
 
      $ mkdir webapp
 
-2. Skapa en fil *app.py" med följande text ock spara filen i *webapp* mappen::
+2. Skapa en fil *app.py* med följande text ock spara filen i *webapp* mappen::
 
     from flask import Flask
 
@@ -31,11 +31,13 @@ Du kan köra din egen (lokala) webserver med *Flask* och *Python*. Se också `Fl
 
      $ python app.py
 
+   Ny lysnar din webservers till (lokala) *URL requests* på `http://127.0.0.1:5000`.
+   
 5. Öppna websidan i webbrowsern:
 
-   Clicka här: `websidan`_ (http://127.0.0.1:5000/)
+   Clicka här: `websidan`_ (dvs, http://127.0.0.1:5000/)
 
-   Eller här: `kexsidan`_  (http://127.0.0.1:5000/kex)
+   Eller här: `kexsidan`_  (dvs, http://127.0.0.1:5000/kex)
 
 6. Lägg till en link med `@app.route()`
 
@@ -43,6 +45,8 @@ Du kan köra din egen (lokala) webserver med *Flask* och *Python*. Se också `Fl
    ´/´ (med `@app.route('/')`) och '/kex' (med
    `app.route('/kex')`). Kopierar en av denna linkar och ändrar den i
    en ny link.
+
+   Testar din nya link med webbrowsern.
    
 .. _websidan:   http://127.0.0.1:5000/
 .. _kexsidan:   http://127.0.0.1:5000/kex
