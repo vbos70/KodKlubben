@@ -18,11 +18,6 @@ These pages are soon going to be updated.
    pong
    webserver
 
-Lubuntu 19.04
--------------
-
-The material for KodKlubben 2019-2020 is prepared and tested on Lubuntu 19.04. This system can be downloaded from the Lubuntu website.
-
 
 Koda i ``mu-editor``.
 ---------------------
