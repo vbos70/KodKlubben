@@ -22,6 +22,7 @@ Du kan köra din egen (lokala) webserver med *Flask* och *Python*. Se också `Fl
         return 'KEX !!!'
 
     if __name__ == '__main__':
+        app.run(debug=True, host='0.0.0.0')
      
 3. Öppna en terminal och går in i mappen *webapp*::
 
@@ -47,6 +48,26 @@ Du kan köra din egen (lokala) webserver med *Flask* och *Python*. Se också `Fl
    en ny link.
 
    Testar din nya link med webbrowsern.
+
+7. Öppna websidan från en annan dator på samma nät
+
+   Du kan öppna din websida från en annan dator om den är på samma
+   nät. Först ska du ha namnet på datorn som kör webservern: i en
+   *terminal*, ge kommandot::
+
+     $ hostname
+
+   Svaret är datorns namn. Till exempel, min dator hetar
+   *too-ticki*. Om jag ge kommandot `hostname`, ser jag::
+
+     $ hostname
+     too-ticki
+
+   På en annan dator (på samma nät), kann du användar det namn för att
+   öppna en websida. I webbrowsern på den andra dator, skriv följande
+   adressen: http://too-ticki.local:5000/ (bytt *too-ticki* för din dators
+   namn).
+   
    
 .. _websidan:   http://127.0.0.1:5000/
 .. _kexsidan:   http://127.0.0.1:5000/kex
