@@ -32,7 +32,7 @@ Du kan köra din egen (lokala) webserver med *Flask* och *Python*. Se också `Fl
 
      $ python app.py
 
-   Ny lysnar din webservers till (lokala) *URL requests* på `http://127.0.0.1:5000`.
+   Ny lysnar din webserver till (lokala) *URL requests* på `http://127.0.0.1:5000`.
    
 5. Öppna websidan i webbrowsern:
 
