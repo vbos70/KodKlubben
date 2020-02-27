@@ -14,8 +14,9 @@ def index():
 def kex():
     return (doctype()
             + html(
-                body(
-                    h1("Kex page") 
+                head("""<link rel="stylesheet" type="text/css" href="/static/style.css">""")
+                + body(
+                    h1("App2 Kex") 
                     + p("Ker är gott!")
                 )
             )

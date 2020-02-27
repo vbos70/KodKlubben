@@ -6,6 +6,7 @@ from app5_kex import kex_page
 from app5_user import user_page
 from app5_user2 import user2_page
 
+
 app = Flask(__name__)
 
 # test in browser: http://127.0.0.1:5000/

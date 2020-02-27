@@ -8,6 +8,9 @@ def html(txt):
     </html>
     '''.format(txt=txt)
 
+def head(htmlstr):
+    return '<head>' + htmlstr + '</html>'
+
 def body(txt):
     return '''
     <body>

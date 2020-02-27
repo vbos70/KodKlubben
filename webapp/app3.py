@@ -15,8 +15,11 @@ def kex():
     return '''
     <!DOCTYPE=html>
     <html>
+      <head>
+        <link rel="stylesheet" type="text/css" href="/static/style.css">
+      </head>
       <body>
-         <h1>Kex Sidan</h1>
+         <h1>App3 Kex</h1>
          <p>Kex är super gott!</p>
       </body>
     </html>
@@ -29,8 +32,11 @@ def hello_user(username):
     return '''
     <!DOCTYPE=html>
     <html>
+      <head>
+        <link rel="stylesheet" type="text/css" href="/static/style.css">
+      </head>
       <body>
-         <h1>User</h1>
+         <h1>App3 User</h1>
          <p>Hej, {uname}, tycker du om kex?</p>
       </body>
     </html>
