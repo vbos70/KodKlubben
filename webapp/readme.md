@@ -19,15 +19,13 @@ this in your web browser by going to http://127.0.0.1:5000/
 
 # Using the IP address #
 
-If you know the IP address of your computer, you can try to reach your 
-web application via the IP address. This does not work for a global IP 
-address, but on a computer (or phone) on the same local net, it might 
-work.
+If you know the IP address of your computer, you can try to reach your
+web application via the IP address.  Suppose your IP address is
+192.168.100.11, then on the other computer (or phone), you should use
+the url: http://192.168.100.11:5000/
 
-Suppose your IP address is 192.168.100.11, then on the other computer 
-(or phone), you should use the url: http://192.168.100.11:5000/
-
-Note: the local address might be different than what you see here. 
+Note: the IP address of your computer might be different than what you
+see here.
 
 
 # Find out what your IP addresses are #
