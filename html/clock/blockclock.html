@@ -36,7 +36,7 @@ function drawBlocks(curTime, x, y, bw, bh, numx, numy, color1, color2, bgcolor) 
 	grd = ctx.createLinearGradient(cx, cy, cx+bw, cy+bh);
 	grd.addColorStop(0, color1);
 	grd.addColorStop(1, color2);
-	if ( tick < curTime ) {
+	if ( tick <= curTime ) {
 	    ctx.fillStyle = grd;
 	} else {
 	    ctx.fillStyle = bgcolor;
@@ -65,7 +65,7 @@ function drawClock() {
     var bh = h / rows;
 
     ctx.clearRect(0, 0, width, height);
-    drawBlocks(hour, x, y, bw, bh, cols, rows, "white", "blue", "#4444AA");
+    drawBlocks(hour, x, y, bw, bh, cols, rows, "white", "blue", "#AAAAFF");
     
     x = 0;
     y = height / 3;
@@ -73,11 +73,11 @@ function drawClock() {
     rows = 5;
     bw = w / cols;
     bh = h / rows;
-    drawBlocks(minute, x, y, bw, bh, cols, rows, "white", "red", "#AA4444");    
+    drawBlocks(minute, x, y, bw, bh, cols, rows, "white", "red", "#FFAAAA");    
 
     x = 0;
     y = 2 * y; // now, y == 2/3 * height
-    drawBlocks(second, x, y, bw, bh, cols, rows, "white", "green", "#44AA44");    
+    drawBlocks(second, x, y, bw, bh, cols, rows, "white", "green", "#AAFFAA");    
 }
 init_blockclock("canvas", 800, 600);
 
