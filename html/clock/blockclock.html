@@ -2,40 +2,58 @@
 <meta charset="UTF-8">
 
 <html>
-<body>
-  <h1>Block Clock</h1>
+  <body>
+    <h1>Block Clock</h1>
 
+    <p/>
   
+    <canvas id="canvas"
+	    width="800"
+	    height="600"
+	    hourcolor="blue"
+	    minutecolor="red"
+	    secondcolor="green"
+	    backgroundcolor="ghostwhite">
+    </canvas>
 
-  <p/>
-  
-<canvas id="canvas" width="800" height="600">
+    <p/>
 
-</canvas>
+    To find more colors, go here:
+    <a href="https://www.w3schools.com/colors/colors_names.asp">HTML
+      Color Names</a>
 
 <script>
-var width = 400
-var height = 400 
-var canvas = 0;//document.getElementById("canvas");
-var ctx = 0;//canvas.getContext("2d");
+var width = 0;
+var height = 0; 
+var canvas = 0;
+var ctx = 0;
+var hourcolor = "blue";
+var minutecolor = "red";
+var secondcolor = "green";
+var backgroundcolor = "ghostwhite";
 
-function init_blockclock(cvsid, w, h) {
-    width = w
-    height = h
+function init_blockclock(cvsid) {
     canvas = document.getElementById(cvsid);
+    width = canvas.getAttribute("width")
+    height = canvas.getAttribute("height")
     ctx = canvas.getContext("2d");
+    hourcolor = canvas.getAttribute("hourcolor");
+    minutecolor = canvas.getAttribute("minutecolor");
+    secondcolor = canvas.getAttribute("secondcolor");
+    backgroundcolor = canvas.getAttribute("backgroundcolor");
     setInterval(drawClock, 1000);
+
 }
 
-function drawBlocks(curTime, x, y, bw, bh, numx, numy, color1, color2, bgcolor) {
+function drawBlocks(curTime, x, y, bw, bh, numx, numy, fgcolor, bgcolor) {
     var tick;
     var grd;
     for (tick = 0; tick < (numx*numy); tick++) {
 	cy = y + bh * Math.floor(tick / numx);
 	cx = x + bw * (tick % numx);
 	grd = ctx.createLinearGradient(cx, cy, cx+bw, cy+bh);
-	grd.addColorStop(0, color1);
-	grd.addColorStop(1, color2);
+	grd.addColorStop(0, bgcolor);
+	grd.addColorStop(1, fgcolor);
 	if ( tick <= curTime ) {
 	    ctx.fillStyle = grd;
 	} else {
@@ -45,7 +63,7 @@ function drawBlocks(curTime, x, y, bw, bh, numx, numy, color1, color2, bgcolor) 
     }
 
     ctx.font = "120px Verdana";
-    ctx.fillStyle = bgcolor;
+    ctx.fillStyle = fgcolor;
     ctx.fillText(curTime.toString(), x+(61/80) * width, y+(height / 4));
 }
 
@@ -65,7 +83,7 @@ function drawClock() {
     var bh = h / rows;
 
     ctx.clearRect(0, 0, width, height);
-    drawBlocks(hour, x, y, bw, bh, cols, rows, "white", "blue", "#AAAAFF");
+    drawBlocks(hour, x, y, bw, bh, cols, rows, hourcolor, backgroundcolor);
     
     x = 0;
     y = height / 3;
@@ -73,15 +91,14 @@ function drawClock() {
     rows = 5;
     bw = w / cols;
     bh = h / rows;
-    drawBlocks(minute, x, y, bw, bh, cols, rows, "white", "red", "#FFAAAA");    
+    drawBlocks(minute, x, y, bw, bh, cols, rows, minutecolor, backgroundcolor);    
 
     x = 0;
     y = 2 * y; // now, y == 2/3 * height
-    drawBlocks(second, x, y, bw, bh, cols, rows, "white", "green", "#AAFFAA");    
+    drawBlocks(second, x, y, bw, bh, cols, rows, secondcolor, backgroundcolor);    
 }
-init_blockclock("canvas", 800, 600);
-
+init_blockclock("canvas");
 </script>
 
-</body>
+  </body>
 </html>
