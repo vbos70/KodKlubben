@@ -1,9 +1,9 @@
 import sys
 from mcpi.minecraft import Minecraft
 from mcpi import block
-from mcblocks import mc_blockmap
+from mcblocks import mc_blocks
 
-def build(filename, names):
+def build(filename, names, mc_blockmap=mc_blocks):
     with open(filename, 'r') as mcbfile:
         linenum = 0
         dz = 0
@@ -14,7 +14,7 @@ def build(filename, names):
                 if words[1] == '=':
                     names[words[0]] = words[2]
                     if words[0] == 'y':
-                        dz = 0                        
+                        dz = 0
                 else:
                     print('%s: Error on line %d' % (filename,linenum))
             else:
@@ -32,7 +32,7 @@ def build(filename, names):
                                     mc_blockmap[b].id)
                         dx += 1
                     dz += 1
-        
+
 
 # Connect to Minecraft
 mc = Minecraft.create()
@@ -44,4 +44,3 @@ x,y,z = mc.player.getTilePos()
 for filename in sys.argv[1:]:
     print('building:', filename)
     build(filename, { 'x0' : x+1, 'y0' : y, 'z0' : z})
-
