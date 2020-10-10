@@ -1,5 +1,6 @@
-Club_1
-=======
+==================================
+Club_1: Setting up the RaspberryPi
+==================================
 
 1. Connect everything
 
