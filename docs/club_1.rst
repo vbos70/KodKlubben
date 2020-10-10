@@ -25,6 +25,6 @@ Club_1
 
    7. connect USB charger to power socket (in wall or extension chord)
 
-For more help, see `rpiorg setting up:`
+For more help, see `rpiorg setting up`_.
 
 .. _rpiorg setting up: https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up
