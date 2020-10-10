@@ -1,6 +1,6 @@
 # KodKlubben
 
-Kod för Ingås kodare.
+See [[Code Club]](https://kodklubben.readthedocs.io/sv/latest/).
 
 På [[Kodklubben
 Dokumentation]](https://kodklubben.readthedocs.io/sv/latest/) finns
