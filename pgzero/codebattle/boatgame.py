@@ -1,7 +1,7 @@
 from boatbattle import *
-from pgzero import *
+#from pgzero import *
 import animation
-import pygame
+#import pygame
 
 
 
