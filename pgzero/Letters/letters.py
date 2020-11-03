@@ -1,17 +1,28 @@
+import sys
+import re
+import random
+
 WIDTH = 600
 HEIGHT = 500
 
 class LetterGame: pass
 
 lg = LetterGame()
-lg.words = [
-    "Kodklubben!",
-    "kodare",
-    "hacka",
-    "dator",
-    "game"
-]
-lg.index = 0
+
+try:
+    wordsfile = "/usr/share/dict/words"
+    filter_re = re.compile(r"^[A-Za-z][A-Za-z0-9]+$")
+    lg.words = [ w for w in [ l.strip() for l in open(wordsfile, 'r').readlines()] if filter_re.match(w) ]
+                           
+except Exception as e:
+    lg.words = [
+        "Kodklubben!",
+        "kodare",
+        "hacka",
+        "dator",
+        "game"
+    ]
+lg.current_word = "letters"
 lg.total_time = 0.0
 lg.time_step = 0.10
 lg.game_started = False
@@ -24,12 +35,10 @@ lg.score_pos = (WIDTH / 2, HEIGHT * 3 / 4)
 
 
 def get_word():
-    return lg.words[lg.index]
+    return lg.current_word
 
 def next_word():
-    lg.index = lg.index + 1
-    if lg.index >= len(lg.words):
-        lg.index = 0
+    lg.current_word = random.choice(lg.words)
     return get_word()
 
 def increase_time():
